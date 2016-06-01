@@ -1,0 +1,28 @@
+name: demo_app
+description: A demo app of material2_dart
+version: 0.0.1
+environment:
+  sdk: '>=1.13.0 <2.0.0'
+dependencies:
+  angular2: 2.0.0-beta.17
+  browser: ^0.10.0
+  material2_dart:
+    path: ./../
+dev_dependencies:
+  dart_to_js_script_rewriter: ^1.0.1
+  test: '>=0.12.0 <0.13.0'
+  angular2_testing: any
+  quiver: '^0.21.4'
+  scissors: ^0.6.1
+
+transformers:
+- scissors:
+    verbose: true
+    pruneCss: false
+- angular2:
+    platform_directives:
+    - 'package:angular2/common.dart#COMMON_DIRECTIVES'
+    platform_pipes:
+    - 'package:angular2/common.dart#COMMON_PIPES'
+    entry_points: web/main.dart
+- dart_to_js_script_rewriter
