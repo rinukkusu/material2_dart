@@ -1,3 +1,4 @@
+import 'dart:html';
 import 'package:angular2/core.dart';
 import 'package:angular2/platform/browser.dart';
 import 'package:angular2_testing/angular2_testing.dart';
@@ -57,15 +58,54 @@ void main() {
   });
 
   group('button[md-button]', () {
-    ngTest('should handle a click on the button', () async {});
-    ngTest('should not increment if disabled', () async {});
-  }, skip: "TODO: how to simulate click event?");
+    ngTest('should handle a click on the button', () async {
+      ComponentFixture fixture = await builder.createAsync(TestApp);
+      var testComponent = fixture.debugElement.componentInstance;
+      var buttonDebugelement = fixture.debugElement.query(By.css('button'));
+      Element e = buttonDebugelement.nativeElement;
+      e.click();
+      expect(testComponent.clickCount, equals(1));
+    });
+    ngTest('should not increment if disabled', () async {
+      ComponentFixture fixture = await builder.createAsync(TestApp);
+      TestApp testComponent = fixture.debugElement.componentInstance;
+      var buttonDebugelement = fixture.debugElement.query(By.css('button'));
+
+      testComponent.isDisabled = true;
+      fixture.detectChanges();
+      Element e = buttonDebugelement.nativeElement;
+      e.click();
+      expect(testComponent.clickCount, equals(0));
+    });
+  });
 
   group('a[md-button]', () {
-    ngTest('should not redirect if disabled', () async {},
-        skip: "TODO: how to simulate click event?");
-    ngTest('should remove tabindex if disabled', () async {},
-        skip: "TODO: how to simulate click event?");
+    ngTest('should not redirect if disabled', () async {
+      ComponentFixture fixture = await builder.createAsync(TestApp);
+      TestApp testComponent = fixture.debugElement.componentInstance;
+      var buttonDebugelement = fixture.debugElement.query(By.css('a'));
+
+      testComponent.isDisabled = true;
+      fixture.detectChanges();
+
+      Element e = buttonDebugelement.nativeElement;
+      e.click();
+      // will error if page reloads.
+    },
+        skip:
+            'FIXME: Can not confirm the error when testComponent.isDisabled is set to false.');
+
+    ngTest('should remove tabindex if disabled', () async {
+      ComponentFixture fixture = await builder.createAsync(TestApp);
+      TestApp testComponent = fixture.debugElement.componentInstance;
+      var buttonDebugelement = fixture.debugElement.query(By.css('a'));
+      Element e = buttonDebugelement.nativeElement;
+      expect(e.attributes['tabIndex'], isNull);
+
+      testComponent.isDisabled = true;
+      fixture.detectChanges();
+      expect(e.attributes['tabIndex'], equals('-1'));
+    });
     ngTest('should add aria-disabled attribute if disabled', () async {
       ComponentFixture fixture = await builder.createAsync(TestApp);
       var testComponent = fixture.debugElement.componentInstance;
