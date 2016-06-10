@@ -1,1 +1,12 @@
-<button md-button>Button</button>
+<md-sidenav-layout class="demo-root" fullscreen>
+  <md-sidenav #start [opened]="true">
+    <a [routerLink]="['Button']">Button</a>
+    <button md-button (click)="start.close()">CLOSE</button>
+  </md-sidenav>
+  <div>
+
+    <div dir="ltr" class="demo-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</md-sidenav-layout>

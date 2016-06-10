@@ -164,28 +164,28 @@ class MdSidenav {
   }
 
   @HostBinding('class.md-sidenav-closing')
-  bool get _isClosing => !_opened && _transition;
+  bool get isClosing => !_opened && _transition;
 
   @HostBinding('class.md-sidenav-opening')
-  bool get _isOpening => _opened && _transition;
+  bool get isOpening => _opened && _transition;
 
   @HostBinding('class.md-sidenav-closed')
-  bool get _isClosed => !_opened && !_transition;
+  bool get isClosed => !_opened && !_transition;
 
   @HostBinding('class.md-sidenav-opened')
-  bool get _isOpened => _opened && !_transition;
+  bool get isOpened => _opened && !_transition;
 
   @HostBinding('class.md-sidenav-end')
-  bool get _isEnd => align == 'end';
+  bool get isEnd => align == 'end';
 
   @HostBinding('class.md-sidenav-side')
-  bool get _modeSide => mode == 'side';
+  bool get modeSide => mode == 'side';
 
   @HostBinding('class.md-sidenav-over')
-  bool get _modeOver => mode == 'over';
+  bool get modeOver => mode == 'over';
 
   @HostBinding('class.md-sidenav-push')
-  bool get _modePush => mode == 'push';
+  bool get modePush => mode == 'push';
 
   /**
    * This is public because we need it from MdSidenavLayout, but it's undocumented and should
@@ -221,10 +221,16 @@ class MdSidenav {
 // changes its state.
     directives: const [MdSidenav],
     templateUrl: 'sidenav.html',
-    styleUrls: const ['sidenav.css', 'sidenav-transitions.css'])
+    styleUrls: const ['sidenav.scss.css', 'sidenav-transitions.scss.css'])
 class MdSidenavLayout implements AfterContentInit {
   @ContentChildren(MdSidenav)
-  QueryList<MdSidenav> _sidenavs;
+  QueryList<MdSidenav> sidenavs;
+
+//  set sidenavs(QueryList<MdSidenav> value) {
+//    _sidenavs = value;
+//  }
+
+//  QueryList<MdSidenav> _sidenavs;
 
   /** The sidenav at the start/end alignment, independent of direction. */
   MdSidenav _start;
@@ -254,8 +260,8 @@ class MdSidenavLayout implements AfterContentInit {
   /** TODO: internal */
   ngAfterContentInit() {
     // On changes, assert on consistency.
-    _sidenavs.changes.listen((_) => _validateDrawers());
-    _sidenavs.forEach((MdSidenav sidenav) => _watchSidenavToggle(sidenav));
+    sidenavs.changes.listen((_) => _validateDrawers());
+    sidenavs.forEach((MdSidenav sidenav) => _watchSidenavToggle(sidenav));
     _validateDrawers();
   }
 
@@ -283,7 +289,7 @@ class MdSidenavLayout implements AfterContentInit {
     _end = null;
 
     // Ensure that we have at most one start and one end sidenav.
-    _sidenavs.forEach((MdSidenav sidenav) {
+    sidenavs.forEach((MdSidenav sidenav) {
       if (sidenav.align == 'end') {
         if (_end != null) throw new MdDuplicatedSidenavError('end');
         _end = sidenav;
