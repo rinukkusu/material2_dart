@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.4+1
+
+- Experimentally enable strong-mode.
+
 ## 0.0.4
 
 - Add list.
