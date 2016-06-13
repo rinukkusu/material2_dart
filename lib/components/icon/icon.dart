@@ -9,7 +9,8 @@ export 'icon_registry.dart';
 
 /** Exception thrown when an invalid icon name is passed to an md-icon component. */
 class MdIconInvalidNameError extends MdError {
-  MdIconInvalidNameError(String iconName) : super('Invalid icon name: "$name"');
+  MdIconInvalidNameError(String iconName)
+      : super('Invalid icon name: "$iconName"');
 }
 
 /**

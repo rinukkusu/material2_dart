@@ -7,7 +7,7 @@ import 'package:angular2/router.dart';
 import 'package:material2_dart/components/button/button.dart';
 import 'package:material2_dart/components/sidenav/sidenav.dart';
 
-import '../button/button_demo.dart';
+//import '../button/button_demo.dart';
 
 @Component(
     selector: 'home',
@@ -24,8 +24,8 @@ class Home {}
     providers: const [ROUTER_PROVIDERS],
     directives: const [ROUTER_DIRECTIVES, MdButton, MD_SIDENAV_DIRECTIVES])
 @RouteConfig(const [
-  const Route(path: '/', name: 'Home', component: Home, useAsDefault: true),
-  const Route(path: '/button', name: 'Button', component: ButtonDemo)
+  const Route(path: '/', name: 'Home', component: Home, useAsDefault: true)
+//  const Route(path: '/button', name: 'Button', component: ButtonDemo)
 ])
 class DemoApp {
   Router router;
