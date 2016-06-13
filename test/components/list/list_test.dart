@@ -12,7 +12,11 @@ void main() {
   initAngularTests();
 
   group('MdList', () {
-    setUpProviders(() => [TestComponentBuilder]);
+    setUpProviders(() {
+      return const [
+        const Provider(TestComponentBuilder, useClass: TestComponentBuilder)
+      ];
+    });
 
     ngSetUp((TestComponentBuilder tcb) {
       builder = tcb;

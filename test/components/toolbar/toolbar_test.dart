@@ -10,7 +10,11 @@ void main() {
 
   initAngularTests();
 
-  setUpProviders(() => [TestComponentBuilder]);
+  setUpProviders(() {
+    return const [
+      const Provider(TestComponentBuilder, useClass: TestComponentBuilder)
+    ];
+  });
 
   ngSetUp((TestComponentBuilder tcb) {
     builder = tcb;
