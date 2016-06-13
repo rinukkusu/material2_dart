@@ -168,8 +168,8 @@ class MdIconRegistry {
       return _getSvgFromConfig(_svgIconConfigs[key]);
     }
     // See if we have any icon sets registered for the namespace.
-    final iconSetConfigs = _iconSetConfigs[namespace];
-    if (iconSetConfigs) {
+    final List<SvgIconConfig> iconSetConfigs = _iconSetConfigs[namespace];
+    if (iconSetConfigs != null && iconSetConfigs.isNotEmpty) {
       return _getSvgFromIconSetConfigs(name, iconSetConfigs);
     }
     throw new MdIconNameNotFoundError(key);
@@ -210,10 +210,11 @@ class MdIconRegistry {
     // Not found in any cached icon sets. If there are icon sets with URLs that we haven't
     // fetched, fetch them now and look for iconName in the results.
     final List<Stream<SvgElement>> iconSetFetchRequests = iconSetConfigs
-        .where((iconSetConfig) => iconSetConfig.svgElement != null)
-        .map((iconSetConfig) {
+        .where(
+            (SvgIconConfig iconSetConfig) => iconSetConfig.svgElement != null)
+        .map((SvgIconConfig iconSetConfig) {
       // TODO: Perhaps there is some bugs.
-      var svgIconSet;
+      Stream<SvgElement> svgIconSet;
       try {
         svgIconSet = _loadSvgIconSetFromConfig(iconSetConfig);
       } catch (error, strace) {
@@ -250,7 +251,7 @@ class MdIconRegistry {
     // Iterate backwards, so icon sets added later have precedence.
     for (int i = iconSetConfigs.length - 1; i >= 0; i--) {
       final config = iconSetConfigs[i];
-      if (config.svgElement) {
+      if (config.svgElement != null) {
         final foundIcon =
             _extractSvgIconFromSet(config.svgElement, iconName, config);
         if (foundIcon != null) {
@@ -297,8 +298,8 @@ class MdIconRegistry {
    */
   SvgElement _extractSvgIconFromSet(
       SvgElement iconSet, String iconName, SvgIconConfig config) {
-    final iconNode = iconSet.querySelector('#$iconName');
-    if (!iconNode) {
+    final Element iconNode = iconSet.querySelector('#$iconName');
+    if (iconNode == null) {
       return null;
     }
     // If the icon node is itself an <svg> node, clone and return it directly. If not, set it as

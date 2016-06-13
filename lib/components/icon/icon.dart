@@ -107,9 +107,8 @@ class MdIcon implements OnChanges, OnInit, AfterViewChecked {
   }
 
   /** TODO: internal */
-//  { [propertyName: string]: SimpleChange }
-  ngOnChanges(changes) {
-    final changedInputs = changes.keys;
+  ngOnChanges(Map<String, SimpleChange> changes) {
+    final changedInputs = (changes.keys).toList(growable: false);
     // Only update the inline SVG icon if the inputs changed, to avoid unnecessary DOM operations.
     if (changedInputs.indexOf('svgIcon') != -1 ||
         changedInputs.indexOf('svgSrc') != -1) {
