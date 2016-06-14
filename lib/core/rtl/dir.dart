@@ -15,7 +15,6 @@ class Dir {
   // Because Dart doesn't have Union Types.
   final List<String> _layoutDirections = const ['ltr', 'rtl'];
 
-  @Input('dir')
   String _dir = 'ltr';
 
   @Output()
@@ -24,6 +23,7 @@ class Dir {
   @HostBinding('attr.dir')
   String get dir => _dir;
 
+  @Input('dir')
   void set dir(String v) {
     if (!_layoutDirections.contains(v)) {
       throw new StateError('Invalid dir value.');
