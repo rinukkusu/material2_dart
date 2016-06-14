@@ -39,7 +39,7 @@ TODO(kara): update link to demo site when it exists
 */
 @Component(
     selector: 'md-card-header',
-    templateUrl: 'card-header.html',
+    templateUrl: 'card_header.html',
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush)
 class MdCardHeader {}
@@ -56,7 +56,7 @@ TODO(kara): update link to demo site when it exists
 
 @Component(
     selector: 'md-card-title-group',
-    templateUrl: 'card-title-group.html',
+    templateUrl: 'card_title_group.html',
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush)
 class MdCardTitleGroup {}
