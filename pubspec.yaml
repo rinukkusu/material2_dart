@@ -3,27 +3,21 @@ description: Experimental angular/material2 Dart version.
 version: 0.0.5
 author: ntaoo <ntaoo.g@gmail.com>
 homepage: https://github.com/ntaoo/material2_dart
-
 environment:
   sdk: '>=1.0.0 <2.0.0'
-
 dependencies:
   angular2: ">=2.0.0-beta.17 <3.0.0"
   http: ">=0.11.3+7 <0.12.0"
   stack_trace: ">=1.6.5 <2.0.0"
   stream_transformers: ">=0.3.0+3 <0.4.0"
   quiver: ">=0.21.4 <0.22.0"
-
 dev_dependencies:
   browser: <0.10.0
   test: '>=0.12.0 <0.13.0'
   angular2_testing: any
-  scissors: <0.6.1
-
+  sass: '^0.4.2'
 transformers:
-- scissors:
-    verbose: true
-    pruneCss: false
+- sass
 - angular2
 - test/pub_serve:
     $include: test/**_test{.*,}.dart

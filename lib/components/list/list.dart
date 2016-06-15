@@ -4,7 +4,7 @@ import 'package:angular2/core.dart';
     selector: 'md-list, md-nav-list',
     host: const {'role': 'list'},
     template: '<ng-content></ng-content>',
-    styleUrls: const ['list.scss.css'],
+    styleUrls: const ['list.css'],
     encapsulation: ViewEncapsulation.None)
 class MdList {}
 
