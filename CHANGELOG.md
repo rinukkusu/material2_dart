@@ -1,3 +1,9 @@
+## 0.0.6
+
+- Fix md-card didn't work.
+- Improve demo app code with sidenav, list, toolbar, button, icon. And add complete button demo (still have some problems).
+- Instead of `scissors` package which requires `sassc`, adopt `sass` package for easier setup.
+
 ## 0.0.5
 
 - Add card.
