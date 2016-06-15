@@ -28,6 +28,7 @@ class Dir {
   @HostBinding('attr.dir')
   String get attrDir => _dir;
 
+  @Input()
   void set dir(String v) {
     _validateLayoutDirection(v);
     var old = _dir;
