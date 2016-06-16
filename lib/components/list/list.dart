@@ -1,4 +1,5 @@
 import 'package:angular2/core.dart';
+import 'package:angular2/core/line/line.dart';
 
 @Component(
     selector: 'md-list, md-nav-list',
@@ -7,10 +8,6 @@ import 'package:angular2/core.dart';
     styleUrls: const ['list.css'],
     encapsulation: ViewEncapsulation.None)
 class MdList {}
-
-/* Need directive for a ContentChildren query in list-item */
-@Directive(selector: '[md-line]')
-class MdLine {}
 
 /* Need directive for a ContentChild query in list-item */
 @Directive(selector: '[md-list-avatar]')
@@ -26,24 +23,22 @@ class MdListAvatar {}
     templateUrl: 'list_item.html',
     encapsulation: ViewEncapsulation.None)
 class MdListItem implements AfterContentInit {
-  @ContentChildren(MdLine)
-  QueryList<MdLine> lines;
-
   /** @internal */
   bool hasFocus = false;
 
+  MdLineSetter _lineSetter;
+  @ContentChildren(MdLine)
+  QueryList<MdLine> lines;
+
   /** TODO: internal */
   ngAfterContentInit() {
-    _setLineClass(lines.length);
-
-    lines.changes.listen((_) {
-      _setLineClass(lines.length);
-    });
+    _lineSetter = new MdLineSetter(_lines, _renderer, _elementRef);
   }
 
   @ContentChild(MdListAvatar)
   set hasAvatar(MdListAvatar avatar) {
-    _setClass('md-list-avatar', avatar != null);
+    _renderer.setElementClass(
+        _elementRef.nativeElement, 'md-list-avatar', avatar != null);
   }
 
   Renderer _renderer;
@@ -59,22 +54,6 @@ class MdListItem implements AfterContentInit {
   /** @internal */
   void handleBlur() {
     hasFocus = false;
-  }
-
-  void _setLineClass(int count) {
-    _resetClasses();
-    if (count == 2 || count == 3) {
-      _setClass('md-$count-line', true);
-    }
-  }
-
-  void _resetClasses() {
-    _setClass('md-2-line', false);
-    _setClass('md-3-line', false);
-  }
-
-  void _setClass(String className, bool bool) {
-    _renderer.setElementClass(_elementRef.nativeElement, className, bool);
   }
 }
 
