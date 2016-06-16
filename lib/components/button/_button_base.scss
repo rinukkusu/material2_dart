@@ -1,8 +1,8 @@
-@import "./../../core/style/variables";
-@import "./../../core/style/elevation";
+@import '../../core/style/variables';
+@import '../../core/style/elevation';
 // TODO(jelbourn): This goes away.
-@import "./../../core/style/default-theme";
-@import "button-theme";
+@import '../../core/style/default_theme';
+@import 'button_theme';
 
 // Flat and raised button standards
 $md-button-padding: 0 16px !default;
@@ -61,6 +61,10 @@ $md-mini-fab-padding: 8px !default;
   &[disabled] {
     cursor: default;
   }
+
+  &.md-button-focus {
+    @include md-button-focus();
+  }
 }
 
 // Applies styles to buttons with backgrounds: raised, fab, and mini-fab
@@ -83,11 +87,6 @@ $md-mini-fab-padding: 8px !default;
     @include md-elevation(8);
   }
 
-  &.md-button-focus {
-    background-color: md-color($md-foreground, base, 0.12);
-    @include md-button-theme('background-color', 600);
-  }
-
   &[disabled] {
     box-shadow: none;
   }
@@ -107,9 +106,5 @@ $md-mini-fab-padding: 8px !default;
 
   i, md-icon {
     padding: $padding 0;
-  }
-
-  &.md-button-focus {
-    background-color: md-color($md-accent, 600);
   }
 }
