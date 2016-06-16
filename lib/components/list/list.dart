@@ -1,5 +1,5 @@
 import 'package:angular2/core.dart';
-import 'package:angular2/core/line/line.dart';
+import 'package:material2_dart/core/line/line.dart';
 
 @Component(
     selector: 'md-list, md-nav-list',
@@ -32,7 +32,7 @@ class MdListItem implements AfterContentInit {
 
   /** TODO: internal */
   ngAfterContentInit() {
-    _lineSetter = new MdLineSetter(_lines, _renderer, _elementRef);
+    _lineSetter = new MdLineSetter(lines, _renderer, _elementRef);
   }
 
   @ContentChild(MdListAvatar)
