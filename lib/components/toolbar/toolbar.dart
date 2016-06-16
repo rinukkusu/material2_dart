@@ -4,7 +4,8 @@ import 'package:angular2/core.dart';
     selector: 'md-toolbar',
     templateUrl: 'toolbar.html',
     styleUrls: const ['toolbar.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush)
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None)
 class MdToolbar {
   @Input()
   String get color => _color;

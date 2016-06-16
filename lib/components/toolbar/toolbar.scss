@@ -1,6 +1,6 @@
 @import "../../core/style/variables";
 @import "../../core/style/mixins";
-@import "../../core/style/default-theme"; //TODO: remove that soon.
+@import "../../core/style/default_theme"; //TODO: remove that soon.
 
 $md-toolbar-min-height: 64px !default;
 $md-toolbar-font-size: 20px !default;
@@ -11,7 +11,7 @@ $md-toolbar-padding: 16px !default;
   color: md-color($palette, default-contrast);
 }
 
-:host {
+md-toolbar {
   display: flex;
   box-sizing: border-box;
 

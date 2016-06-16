@@ -74,6 +74,11 @@ class MdButton {
   void removeKeyboardFocus() {
     isKeyboardFocused = false;
   }
+
+  /** TODO(hansl): e2e test this function. */
+  focus() {
+    _elementRef.nativeElement.focus();
+  }
 }
 
 @Component(

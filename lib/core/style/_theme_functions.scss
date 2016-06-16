@@ -14,7 +14,6 @@
   @return map-get(map-get($contrast-color-map, $color-map), $hue);
 }
 
-
 // Creates a map of hues to colors for a theme.
 // $color-map
 // $primary
@@ -22,20 +21,19 @@
 // $darker
 @function md-palette($color-map, $primary, $lighter, $darker, $contrast-color-map) {
   $result: map_merge($color-map, (
-    default: map-get($color-map, $primary),
-    lighter: map-get($color-map, $lighter),
-    darker: map-get($color-map, $darker),
-
-    default-contrast: md-contrast($color-map, $primary, $contrast-color-map),
-    lighter-contrast: md-contrast($color-map, $lighter, $contrast-color-map),
-    darker-contrast: md-contrast($color-map, $darker, $contrast-color-map)
+          default: map-get($color-map, $primary),
+          lighter: map-get($color-map, $lighter),
+          darker: map-get($color-map, $darker),
+          default-contrast: md-contrast($color-map, $primary, $contrast-color-map),
+          lighter-contrast: md-contrast($color-map, $lighter, $contrast-color-map),
+          darker-contrast: md-contrast($color-map, $darker, $contrast-color-map)
   ));
 
   // For each hue in the palette, add a "-contrast" color to the map.
   @each $hue, $color in $color-map {
     $result: map_merge($result, (
-      "#{$hue}-contrast": md-contrast($color-map, $hue, $contrast-color-map)
-    ))
+            '#{$hue}-contrast': md-contrast($color-map, $hue, $contrast-color-map)
+    ));
   }
 
   @return $result;
@@ -50,7 +48,7 @@
   // If hueKey is a number between zero and one, then it actually contains an
   // opacity value, so recall this function with the default hue and that given opacity.
   @if type-of($hue-key) == number and $hue-key >= 0 and $hue-key <= 1 {
-    @return md-color($color-map, default, $hue-key)
+    @return md-color($color-map, default, $hue-key);
   }
 
   $color: map-get($color-map, $hue-key);
