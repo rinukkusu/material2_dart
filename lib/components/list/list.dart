@@ -1,5 +1,6 @@
 import 'package:angular2/core.dart';
 import 'package:material2_dart/core/line/line.dart';
+export 'package:material2_dart/core/line/line.dart';
 
 @Component(
     selector: 'md-list, md-nav-list',

@@ -1,7 +1,7 @@
 @import "../../core/style/default_theme";
-@import "./../../core/style/mixins";
-@import "./../../core/style/variables";
-@import "./../../core/style/elevation";
+@import "../../core/style/mixins";
+@import "../../core/style/variables";
+@import "../../core/style/elevation";
 
 // We use invert() here to have the darken the background color expected to be used. If the
 // background is light, we use a dark backdrop. If the background is dark, we use a light backdrop.
