@@ -11,6 +11,7 @@ import 'package:material2_dart/components/icon/icon_registry.dart';
 import 'package:material2_dart/components/list/list.dart';
 import 'package:material2_dart/components/toolbar/toolbar.dart';
 
+import '../card/card_demo.dart';
 import '../button/button_demo.dart';
 
 @Component(
@@ -42,7 +43,8 @@ class Home {}
     ])
 @RouteConfig(const [
   const Route(path: '/', name: 'Home', component: Home, useAsDefault: true),
-  const Route(path: '/button', name: 'Button', component: ButtonDemo)
+  const Route(path: '/button', name: 'Button', component: ButtonDemo),
+  const Route(path: '/card', name: 'Card', component: CardDemo)
 ])
 class DemoApp {
   Router router;
