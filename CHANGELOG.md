@@ -1,3 +1,9 @@
+## 0.0.8
+
+- Port list demo.
+- Port toolbar demo with bug fixes.
+- Port sidenav demo with its bug fixes.
+
 ## 0.0.7
 
 - Update existing code to original angular/material2's 497a3c1 (6/15/2016).

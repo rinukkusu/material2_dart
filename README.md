@@ -13,10 +13,10 @@
 * Button
 * Card
 * Icon
-* List (The demo comming soon)
-* SideNav (The demo comming soon)
+* List
+* SideNav
 * Tabs  (The demo comming soon)
-* Toolbar  (The demo comming soon)
+* Toolbar
 
 ## Purpose
 
