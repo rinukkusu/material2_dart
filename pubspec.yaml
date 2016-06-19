@@ -18,6 +18,10 @@ dev_dependencies:
   sass: '^0.4.2'
 transformers:
 - sass
-- angular2
+- angular2:
+    platform_directives:
+    - 'package:angular2/common.dart#CORE_DIRECTIVES'
+    - 'package:angular2/common.dart#FORM_DIRECTIVES'
+    entry_points: web/main.dart
 - test/pub_serve:
     $include: test/**_test{.*,}.dart

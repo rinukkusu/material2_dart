@@ -171,7 +171,7 @@ class MdIcon implements OnChanges, OnInit, AfterViewChecked {
         : !isBlank(alt)
             ? alt
             : !isBlank(fontIcon) ? fontIcon : _splitIconName(svgIcon).last;
-    if (label != null) {
+    if (!isBlank(label)) {
       return label;
     }
     // The "content" of an SVG icon is not a useful label.

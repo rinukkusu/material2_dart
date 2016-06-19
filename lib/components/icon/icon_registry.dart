@@ -209,9 +209,9 @@ class MdIconRegistry {
     }
     // Not found in any cached icon sets. If there are icon sets with URLs that we haven't
     // fetched, fetch them now and look for iconName in the results.
-    final List<Stream<SvgElement>> iconSetFetchRequests = iconSetConfigs
+    final Iterable<Stream<SvgElement>> iconSetFetchRequests = iconSetConfigs
         .where(
-            (SvgIconConfig iconSetConfig) => iconSetConfig.svgElement != null)
+            (SvgIconConfig iconSetConfig) => iconSetConfig.svgElement == null)
         .map((SvgIconConfig iconSetConfig) {
       // TODO: Perhaps there is some bugs.
       Stream<SvgElement> svgIconSet;
@@ -219,8 +219,7 @@ class MdIconRegistry {
         svgIconSet = _loadSvgIconSetFromConfig(iconSetConfig);
       } catch (error, strace) {
         print('Loading icon set URL: ${iconSetConfig.url} failed: $error');
-        // TODO: Stream.empty() instead?
-//        return new Stream.empty();
+        // TODO: new Stream.empty() instead?
         return new Stream.fromIterable([null]);
       }
       return svgIconSet.transform(new DoAction((SvgElement svg) {
@@ -234,9 +233,7 @@ class MdIconRegistry {
         .wait(iconSetFetchRequests.map((Stream v) => v.last))
         .then((_) {
       final foundIcon = _extractIconWithNameFromAnySet(name, iconSetConfigs);
-      if (foundIcon == null) {
-        throw new MdIconNameNotFoundError(name);
-      }
+      if (foundIcon == null) throw new MdIconNameNotFoundError(name);
       return foundIcon;
     }).asStream();
   }
@@ -322,9 +319,8 @@ class MdIconRegistry {
    * Creates a DOM element from the given SVG string.
    */
   SvgElement _svgElementFromString(String str) {
-    final div = new DivElement();
-    // TODO: Needs nodeValidator?
-    div.innerHtml = str;
+    final div = new DivElement()
+      ..setInnerHtml(str, validator: new NodeValidatorBuilder()..allowSvg());
     final SvgElement svg = div.querySelector('svg');
     if (svg == null) {
       throw new MdIconSvgTagNotFoundError();
@@ -359,11 +355,13 @@ class MdIconRegistry {
     if (_inProgressUrlFetches.containsKey(url)) {
       return _inProgressUrlFetches[url];
     }
-
-    // TODO: Confirm to have been implemented RxJS `finally` and `share` equivalent action.
+    // Dart version's note.
+    // There might be more appropriate architecture to avoid broadcastStream
+    // But I guess it's most convenient solution not to get far off original RxJS's `share`.
     final Stream<String> request = _client
         .get(url)
         .asStream()
+        .asBroadcastStream()
         .map((http.Response response) => response.body)
         .transform(new DoAction((_) {
       if (_inProgressUrlFetches.containsKey(url)) {
