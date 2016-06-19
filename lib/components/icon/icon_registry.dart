@@ -322,9 +322,8 @@ class MdIconRegistry {
    * Creates a DOM element from the given SVG string.
    */
   SvgElement _svgElementFromString(String str) {
-    final div = new DivElement();
-    // TODO: Needs nodeValidator?
-    div.innerHtml = str;
+    final div = new DivElement()
+      ..setInnerHtml(str, validator: new NodeValidatorBuilder()..allowSvg());
     final SvgElement svg = div.querySelector('svg');
     if (svg == null) {
       throw new MdIconSvgTagNotFoundError();
