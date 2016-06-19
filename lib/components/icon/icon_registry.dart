@@ -359,11 +359,13 @@ class MdIconRegistry {
     if (_inProgressUrlFetches.containsKey(url)) {
       return _inProgressUrlFetches[url];
     }
-
-    // TODO: Confirm to have been implemented RxJS `finally` and `share` equivalent action.
+    // Dart version's note.
+    // There might be more appropriate architecture to avoid broadcastStream
+    // But I guess it's most convenient solution not to get far off original RxJS's `share`.
     final Stream<String> request = _client
         .get(url)
         .asStream()
+        .asBroadcastStream()
         .map((http.Response response) => response.body)
         .transform(new DoAction((_) {
       if (_inProgressUrlFetches.containsKey(url)) {
