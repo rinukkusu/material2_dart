@@ -209,9 +209,9 @@ class MdIconRegistry {
     }
     // Not found in any cached icon sets. If there are icon sets with URLs that we haven't
     // fetched, fetch them now and look for iconName in the results.
-    final List<Stream<SvgElement>> iconSetFetchRequests = iconSetConfigs
+    final Iterable<Stream<SvgElement>> iconSetFetchRequests = iconSetConfigs
         .where(
-            (SvgIconConfig iconSetConfig) => iconSetConfig.svgElement != null)
+            (SvgIconConfig iconSetConfig) => iconSetConfig.svgElement == null)
         .map((SvgIconConfig iconSetConfig) {
       // TODO: Perhaps there is some bugs.
       Stream<SvgElement> svgIconSet;
@@ -219,8 +219,7 @@ class MdIconRegistry {
         svgIconSet = _loadSvgIconSetFromConfig(iconSetConfig);
       } catch (error, strace) {
         print('Loading icon set URL: ${iconSetConfig.url} failed: $error');
-        // TODO: Stream.empty() instead?
-//        return new Stream.empty();
+        // TODO: new Stream.empty() instead?
         return new Stream.fromIterable([null]);
       }
       return svgIconSet.transform(new DoAction((SvgElement svg) {
@@ -234,9 +233,7 @@ class MdIconRegistry {
         .wait(iconSetFetchRequests.map((Stream v) => v.last))
         .then((_) {
       final foundIcon = _extractIconWithNameFromAnySet(name, iconSetConfigs);
-      if (foundIcon == null) {
-        throw new MdIconNameNotFoundError(name);
-      }
+      if (foundIcon == null) throw new MdIconNameNotFoundError(name);
       return foundIcon;
     }).asStream();
   }
