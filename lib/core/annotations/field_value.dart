@@ -1,31 +1,6 @@
-/**
- * Annotation Factory that allows HTML style boolean attributes. For example,
- * a field declared like this:
-
- * @Directive({ selector: 'component' }) class MyComponent {
- *   @Input() @BooleanFieldValueFactory() myField: boolean;
- * }
- *
- * You could set it up this way:
- *   <component myField>
- * or:
- *   <component myField="">
- */
-booleanFieldValueFactory() {
-  Function booleanFieldValueMetadata = (dynamic target, String key) {
-    var defaultValue = target[key];
-    var localKey = '__md_private_symbol_$key';
-    target[localKey] = defaultValue;
-
-    // Prob need reflectable.
-//    Object.defineProperty(target, key, {
-//      get() { return (<any>this)[localKey]; },
-//      set(value: boolean) {
-//        (<any>this)[localKey] = value != null && `${value}` !== 'false';
-//      }
-//    });
-  };
-  return booleanFieldValueMetadata;
+/// It's enough quite for the alpha phase.
+/// FIXME: How to implement @BooleanFieldValue() with ng2 custom annotation or reflectable package?
+bool booleanFieldValue(String input) {
+  if (input == null || input == 'false') return false;
+  return true;
 }
-
-//export { booleanFieldValueFactory as BooleanFieldValue };
