@@ -193,7 +193,7 @@ class MdSidenav {
    * @internal
    */
   get width {
-    if (elementRef.nativeElement) {
+    if (elementRef.nativeElement != null) {
       return elementRef.nativeElement.offsetWidth;
     }
     return 0;

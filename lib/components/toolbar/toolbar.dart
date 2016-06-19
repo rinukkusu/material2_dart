@@ -7,9 +7,9 @@ import 'package:angular2/core.dart';
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None)
 class MdToolbar {
-  @Input()
   String get color => _color;
 
+  @Input()
   void set color(String value) {
     _updateColor(value);
   }
