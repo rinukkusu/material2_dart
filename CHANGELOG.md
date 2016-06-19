@@ -1,3 +1,10 @@
+## 0.0.7
+
+- Update existing code to original angular/material2's 497a3c1 (6/15/2016).
+- Port card demo.
+- Port icon demo with bug fixes.
+- Port tabs.
+
 ## 0.0.6
 
 - Fix md-card didn't work.

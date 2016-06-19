@@ -1,6 +1,22 @@
 # material2_dart
 
-Porting angular/material2 to the Dart version.
+[angular/material2](https://github.com/angular/material2) for Dart.
+
+## Porting Status
+
+### Current target.
+
+497a3c1 (commit sha1 6/15/2016)
+
+### Ported components.
+
+* Button
+* Card
+* Icon
+* List (The demo comming soon)
+* SideNav (The demo comming soon)
+* Tabs  (The demo comming soon)
+* Toolbar  (The demo comming soon)
 
 ## Purpose
 
@@ -9,8 +25,6 @@ Porting angular/material2 to the Dart version.
 * To clarify the API compatibility between the TypeScript version and the Dart version.
 
 I have been maintaining the same API and internal structure as much as I can for easy side by side comparison between the Dart version and the TypeScript version.
-
-**I don't recommend to use this library for serious apps** because the original TypeScript version has still been in alpha phase, and this is nothing more than a porting work that may contain another bugs.
 
 ## Angular2 Testing.
 
