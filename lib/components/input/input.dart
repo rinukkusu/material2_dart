@@ -5,7 +5,7 @@ import "package:angular2/common.dart";
 import "package:material2_dart/core/annotations/field_value.dart";
 import "package:material2_dart/core/errors/error.dart";
 
-final noop = () {};
+final noop = ([_]) {};
 
 // Dart note: Dart does not have the forward ref problem.
 const MD_INPUT_CONTROL_VALUE_ACCESSOR =
@@ -45,9 +45,14 @@ class MdPlaceholder {}
 })
 class MdHint {
   // Whether to align the hint label at the start or end of the line.
+  // start | end
   @Input()
-  dynamic /* | */ align = "start";
+  String align = "start";
 }
+
+typedef dynamic OnChangeCallback(dynamic _);
+
+typedef dynamic OnTouchedCallback();
 
 /**
  * Component that represents a text input. It encapsulates the <input> HTMLElement and
@@ -64,10 +69,10 @@ class MdInput implements ControlValueAccessor, AfterContentInit, OnChanges {
   dynamic _value = "";
 
   /** Callback registered via registerOnTouched (ControlValueAccessor) */
-  dynamic /* () => void */ _onTouchedCallback = noop;
+  OnTouchedCallback _onTouchedCallback = noop;
 
   /** Callback registered via registerOnChange (ControlValueAccessor) */
-  dynamic /* (_: any) => void */ _onChangeCallback = noop;
+  OnChangeCallback _onChangeCallback = noop;
 
   /**
    * Aria related inputs.
@@ -171,7 +176,16 @@ class MdInput implements ControlValueAccessor, AfterContentInit, OnChanges {
   String max;
 
   @Input()
-  num maxLength;
+  set maxLength(dynamic v) {
+    if (v is String) {
+      _maxLength = int.parse(v);
+    } else {
+      _maxLength = v;
+    }
+  }
+
+  int get maxLength => _maxLength;
+  int _maxLength;
 
   @Input()
   String min;
@@ -320,6 +334,7 @@ class MdInput implements ControlValueAccessor, AfterContentInit, OnChanges {
    * on our internal input it won't work locally.
    * @private
    */
+  // FIXME(ntaoo): At current version of the input demo, Typing String value to the input field which `type` attribute is "number" causes parse error. I will check _VALUE_ACCESSOR again and fix this method in a future version.
   dynamic _convertValueForInputType(dynamic v) {
     switch (type) {
       case "number":
