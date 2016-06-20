@@ -12,5 +12,9 @@ void main() {
       expect(booleanFieldValue(''), isTrue);
       expect(booleanFieldValue('false'), isFalse);
     });
+    test('should work for bool value', () {
+      expect(booleanFieldValue(true), isTrue);
+      expect(booleanFieldValue(false), isFalse);
+    });
   });
 }
