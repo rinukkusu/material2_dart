@@ -1,6 +1,7 @@
 import 'dart:html';
 import 'dart:async';
 import 'package:angular2/core.dart';
+import 'package:angular2/common.dart';
 import 'package:angular2/testing.dart';
 import 'package:angular2/platform/browser.dart';
 import 'package:angular2_testing/angular2_testing.dart';
@@ -229,7 +230,8 @@ class SimpleTabsTestApp {
       </md-tab>
    </md-tab-group>
   ''',
-    directives: const [MD_TABS_DIRECTIVES])
+    directives: const [MD_TABS_DIRECTIVES],
+    pipes: const [AsyncPipe])
 class AsyncTabsTestApp {
   List<Map> _tabs = [
     {'label': 'one', 'content': 'one'},

@@ -6,6 +6,11 @@ import "tab_content.dart";
 import "tab_label_wrapper.dart";
 import "ink_bar.dart";
 
+export "tab_label.dart";
+export "tab_content.dart";
+export "tab_label_wrapper.dart";
+export "ink_bar.dart";
+
 /** Used to generate unique ID's for each tab component */
 var nextId = 0;
 
