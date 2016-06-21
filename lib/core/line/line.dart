@@ -12,9 +12,9 @@ class MdLine {}
 class MdLineSetter {
   QueryList<MdLine> _lines;
   Renderer _renderer;
-  ElementRef _element;
+  ElementRef _elementRef;
 
-  MdLineSetter(this._lines, this._renderer, this._element) {
+  MdLineSetter(this._lines, this._renderer, this._elementRef) {
     _setLineClass(_lines.length);
     _lines.changes.listen((_) {
       _setLineClass(_lines.length);
@@ -34,6 +34,6 @@ class MdLineSetter {
   }
 
   void _setClass(String className, bool bool) {
-    _renderer.setElementClass(_element.nativeElement, className, bool);
+    _renderer.setElementClass(_elementRef.nativeElement, className, bool);
   }
 }
