@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:angular2/core.dart';
 import 'package:material2_dart/core/rtl/dir.dart';
 import 'package:material2_dart/core/errors/error.dart';
+import 'package:material2_dart/core/annotations/field_value.dart';
 
 /** Exception thrown when two MdSidenav are matching the same side. */
 class MdDuplicatedSidenavError extends MdError {
@@ -11,8 +12,8 @@ class MdDuplicatedSidenavError extends MdError {
 }
 
 // Because Dart doesn't have union types.
-void valueConstraint(dynamic value, List<dynamic> list) {
-  if (!list.contains(value)) throw new StateError('Invalid value: $value');
+void validateArgument(dynamic value, List<dynamic> list) {
+  if (!list.contains(value)) throw new ArgumentError('Invalid value: $value');
 }
 
 /**
@@ -35,7 +36,7 @@ class MdSidenav {
 
   @Input()
   void set align(String value) {
-    valueConstraint(value, ['start', 'end']);
+    validateArgument(value, ['start', 'end']);
     _align = value;
   }
 
@@ -46,7 +47,7 @@ class MdSidenav {
 
   @Input()
   void set mode(String value) {
-    valueConstraint(value, ['over', 'push', 'side']);
+    validateArgument(value, ['over', 'push', 'side']);
     _mode = value;
   }
 
@@ -56,13 +57,9 @@ class MdSidenav {
   bool get opened => _opened;
 
   @Input()
-  void set opened(dynamic value) {
-    valueConstraint(value, ['true', 'false', true, false, null]);
-    if (value == null) {
-      value = false;
-    } else if (value is String) {
-      value = value == 'true';
-    }
+  void set opened(dynamic v) {
+    validateArgument(v, ['true', 'false', true, false, null]);
+    bool value = booleanFieldValue(v);
     toggle(value);
   }
 
