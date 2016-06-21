@@ -1,6 +1,6 @@
 name: material2_dart
 description: Experimental angular/material2 for Dart.
-version: 0.0.8
+version: 0.0.9
 author: ntaoo <ntaoo.g@gmail.com>
 homepage: https://github.com/ntaoo/material2_dart
 environment:

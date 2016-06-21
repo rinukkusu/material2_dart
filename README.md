@@ -12,10 +12,12 @@
 
 * Button
 * Card
+* Checkbox (Without enough test code.)
 * Icon
+* Input (Without enough test code.)
 * List
 * SideNav
-* Tabs  (The demo comming soon)
+* Tabs (`async tabs` is broken. See [issues/30](https://github.com/ntaoo/material2_dart/issues/30))
 * Toolbar
 
 ## Purpose
