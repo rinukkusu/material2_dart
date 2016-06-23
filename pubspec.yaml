@@ -11,13 +11,13 @@ dependencies:
   stack_trace: ">=1.6.5 <2.0.0"
   stream_transformers: ">=0.3.0+3 <0.4.0"
   quiver: ">=0.21.4 <0.22.0"
-  sass: '^0.4.2'
+  scissors: "<0.7.0"
 dev_dependencies:
   browser: <0.10.0
   test: '>=0.12.0 <0.13.0'
   angular2_testing: any
 transformers:
-- sass
+- scissors
 - angular2:
     platform_directives:
     - 'package:angular2/common.dart#CORE_DIRECTIVES'

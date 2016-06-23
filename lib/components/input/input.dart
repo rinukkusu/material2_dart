@@ -61,7 +61,7 @@ typedef dynamic OnTouchedCallback();
 @Component(
     selector: "md-input",
     templateUrl: "input.html",
-    styleUrls: const ["input.css"],
+    styleUrls: const ["input.scss.css"],
     providers: const [MD_INPUT_CONTROL_VALUE_ACCESSOR],
     host: const {"(click)": "focus()"})
 class MdInput implements ControlValueAccessor, AfterContentInit, OnChanges {

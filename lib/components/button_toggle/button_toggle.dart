@@ -131,7 +131,7 @@ class MdButtonToggleGroupMultiple {
 @Component(
     selector: "md-button-toggle",
     templateUrl: "button_toggle.html",
-    styleUrls: const ["button_toggle.css"],
+    styleUrls: const ["button_toggle.scss.css"],
     encapsulation: ViewEncapsulation.None)
 class MdButtonToggle implements OnInit {
   MdUniqueSelectionDispatcher buttonToggleDispatcher;

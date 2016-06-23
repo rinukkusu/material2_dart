@@ -26,7 +26,7 @@ var nextId = 0;
       "(mousedown)": "setMousedown()"
     },
     templateUrl: "slide_toggle.html",
-    styleUrls: const ["slide_toggle.css"],
+    styleUrls: const ["slide_toggle.scss.css"],
     providers: const [MD_SLIDE_TOGGLE_VALUE_ACCESSOR],
     changeDetection: ChangeDetectionStrategy.OnPush)
 class MdSlideToggle implements ControlValueAccessor {

@@ -49,7 +49,7 @@ class MdIconInvalidNameError extends MdError {
 @Component(
     template: '<ng-content></ng-content>',
     selector: 'md-icon',
-    styleUrls: const ['icon.css'],
+    styleUrls: const ['icon.scss.css'],
     host: const {'role': 'img',},
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush)

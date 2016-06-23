@@ -8,7 +8,7 @@ import "package:material2_dart/components/input/input.dart";
 @Component(
     selector: "tab-group-demo",
     templateUrl: "tab_group_demo.html",
-    styleUrls: const ["tab_group_demo.css"],
+    styleUrls: const ["tab_group_demo.scss.css"],
     directives: const [MD_TABS_DIRECTIVES, MdToolbar, MdInput],
     pipes: const [AsyncPipe],
     encapsulation: ViewEncapsulation.None)

@@ -218,7 +218,7 @@ class MdSidenav {
 // changes its state.
     directives: const [MdSidenav],
     templateUrl: 'sidenav.html',
-    styleUrls: const ['sidenav.css', 'sidenav_transitions.css'])
+    styleUrls: const ['sidenav.scss.css', 'sidenav_transitions.scss.css'])
 class MdSidenavLayout implements AfterContentInit {
   @ContentChildren(MdSidenav)
   QueryList<MdSidenav> sidenavs;

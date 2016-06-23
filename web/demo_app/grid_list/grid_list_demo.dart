@@ -8,7 +8,7 @@ import "package:material2_dart/components/icon/icon.dart";
     selector: "grid-list-demo",
     templateUrl: "grid_list_demo.html",
     styleUrls: const [
-      "grid_list_demo.css"
+      "grid_list_demo.scss.css"
     ],
     directives: const [
       MD_GRID_LIST_DIRECTIVES,

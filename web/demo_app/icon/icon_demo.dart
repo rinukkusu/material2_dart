@@ -4,7 +4,7 @@ import "package:material2_dart/components/icon/icon.dart";
 @Component(
     selector: "md-icon-demo",
     templateUrl: "icon_demo.html",
-    styleUrls: const ["icon_demo.css"],
+    styleUrls: const ["icon_demo.scss.css"],
     directives: const [MdIcon],
     viewProviders: const [MdIconRegistry],
     encapsulation: ViewEncapsulation.None)
