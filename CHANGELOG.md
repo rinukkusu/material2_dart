@@ -1,3 +1,10 @@
+## 0.0.11
+
+- Move from `sass` to `scissors` again in order to fix many build errors.
+- Move demo_app from weird web/ directory to example/ directory to follow the package convention.
+- Confirm this package does not introduce any build errors now.
+- Add prerequisites and improve usage on README.
+
 ## 0.0.10
 
 - Port slide toggle and its demo. (Without test code.)
