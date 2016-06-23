@@ -1,34 +1,87 @@
-# material2_dart
+# Material Design for Angular 2
 
-[angular/material2](https://github.com/angular/material2) for Dart.
+It is [angular/material2](https://github.com/angular/material2) for Dart, an individual porting project.
 
-## Porting Status
+## Why
 
-### Current target.
+The [angular/material2](https://github.com/angular/material2) is one of the prospective standard material design UI library for angular2 TypeScript / JavaScript users. Bringing it into native Dart package will be useful.
 
-497a3c1 (commit sha1 6/15/2016)
+Another high-quality angular2 Dart material design UI library is expected to be published soon (coming July?) as stated in the angular/material2 issue tracker. I believe most Dart people will choose it, and it is absolutely fine with me.
 
-### Ported components.
+I have been maintaining the same API and internal structure as much as I can for easy side by side comparison between the Dart version and the TypeScript version. (And for easy updating.) It would clarify the API compatibility, and hopefully, it would be a good code example for TypeScript / JavaScript users who are interested in angular2 Dart version.
 
-* Button
-* Card
-* Checkbox (Without enough test code.)
-* Icon
-* Input (Without enough test code.)
-* List
-* SideNav
-* Tabs (`async tabs` is broken. See [issues/30](https://github.com/ntaoo/material2_dart/issues/30))
-* Toolbar
+## Project Status
 
-## Purpose
+This package is very much a work in progress.
 
-* To provide another UI library option for demo apps.
-* To understand how to compose UI components with angular2.
-* To clarify the API compatibility between the TypeScript version and the Dart version.
+Please note that the original [angular/material2](https://github.com/angular/material2) is in alpha phase, and this package may contain additional bugs.
 
-I have been maintaining the same API and internal structure as much as I can for easy side by side comparison between the Dart version and the TypeScript version.
 
-## Angular2 Testing.
+### Current porting target.
+
+497a3c1(commit SHA1)  6/15/2016
+
+### Components
+
+* [Button](https://github.com/ntaoo/material2_dart/tree/master/lib/components/button)
+* [Button Toggle](https://github.com/ntaoo/material2_dart/tree/master/lib/components/button_toggle) (This is not working. I will investigate it after the next ng2 Dart update.)
+* [Card](https://github.com/ntaoo/material2_dart/tree/master/lib/components/card)
+* [Checkbox](https://github.com/ntaoo/material2_dart/tree/master/lib/components/checkbox)(Without enough test code)
+* [Grid List](https://github.com/ntaoo/material2_dart/tree/master/lib/components/grid_list)(Without enough test code)
+* [Icon](https://github.com/ntaoo/material2_dart/tree/master/lib/components/icon)
+* [Input](https://github.com/ntaoo/material2_dart/tree/master/lib/components/input)(Without enough test code)
+* [List](https://github.com/ntaoo/material2_dart/tree/master/lib/components/list)
+* [Progress Bar](https://github.com/ntaoo/material2_dart/tree/master/lib/components/progress_bar)(Not yet started)
+* [Progress Circle](https://github.com/ntaoo/material2_dart/tree/master/lib/components/progress_circle)(Not yet started)
+* [Radio](https://github.com/ntaoo/material2_dart/tree/master/lib/components/radio)(Without enough test code)
+* [Sidenav](https://github.com/ntaoo/material2_dart/tree/master/lib/components/sidenav)
+* [Slide Toggle](https://github.com/ntaoo/material2_dart/tree/master/lib/components/slide_toggle)(Without enough test code)
+* [Tabs](https://github.com/ntaoo/material2_dart/tree/master/lib/components/tabs) (The `async tabs` is broken. See [issues/30](https://github.com/ntaoo/material2_dart/issues/30))
+* [Toolbar](https://github.com/ntaoo/material2_dart/tree/master/lib/components/tabs)
+
+
+## Usage
+
+Please see the [Demo App](https://github.com/ntaoo/material2_dart/tree/master/web/) which includes all of the components and core functions usages.
+
+### How to see the Demo App on a browser.
+
+[Assuming you have already installed Dart]((https://www.dartlang.org/downloads/)),
+
+1. Clone this repository.
+
+        git clone https://github.com/ntaoo/material2_dart.git
+
+2. Go to the project root.
+
+        cd material2_dart
+
+3. Run `pub get` to get all the dependent packages.
+
+        pub get
+
+4. Run `pub serve` to start up a development server.
+
+        pub serve
+
+5. Go to `http://localhost:8080` on a browser. (I recommend Dartium because perhaps there are still browser-specific bugs on this package.)
+
+
+## Contributing
+
+Your contribution is welcome. Please note that this project is nothing more than a porting work of [angular/material2](https://github.com/angular/material2).
+
+Many tests have not been ported, so it is much appreciated if you help to port them.
+
+### Features and bugs
+
+Basically, I would not add any original features on it. If you need new features, please consider contributing [angular/material2](https://github.com/angular/material2).
+
+If you find this Dart version's specific bugs, please file them at the [issue tracker][tracker].
+
+[tracker]: https://github.com/ntaoo/material2_dart/issues
+
+### Testing Angular2.
 
     // Run test server.
     pub serve
