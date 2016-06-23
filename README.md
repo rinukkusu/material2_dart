@@ -40,9 +40,26 @@ Please note that the original [angular/material2](https://github.com/angular/mat
 * [Toolbar](https://github.com/ntaoo/material2_dart/tree/master/lib/components/tabs)
 
 
+## Prerequisites
+
+This package depends on [scissors package](https://github.com/google/dart-scissors) which requires to install `sassc` for scss compilation. (Ruby sass is not supported.)
+
+If you have not set up scissors, please set up `scissors` with the [guide](https://github.com/google/dart-scissors#prerequisites).
+
 ## Usage
 
-Please see the [Demo App](https://github.com/ntaoo/material2_dart/tree/master/web/) which includes all of the components and core functions usages.
+1. Add this to your package's pubspec.yaml file. [(The example)](https://github.com/ntaoo/material2_dart/blob/master/example/pubspec.yaml)
+
+        dependencies:
+          material2_dart: any
+
+2. Run `pub get`.
+
+3. Import component files and add directives on a component metadata. [(The example)](https://github.com/ntaoo/material2_dart/tree/master/example/lib/button)
+
+## Example
+
+Please see the [Demo App](https://github.com/ntaoo/material2_dart/tree/master/example/) which includes all of the components and core functions usages.
 
 ### How to see the Demo App on a browser.
 
