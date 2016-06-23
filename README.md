@@ -46,7 +46,7 @@ Please see the [Demo App](https://github.com/ntaoo/material2_dart/tree/master/we
 
 ### How to see the Demo App on a browser.
 
-[Assuming you have already installed Dart]((https://www.dartlang.org/downloads/)),
+[Assuming you have already installed Dart](https://www.dartlang.org/downloads/),
 
 1. Clone this repository.
 
