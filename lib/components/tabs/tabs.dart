@@ -36,7 +36,7 @@ class MdTab {
 @Component(
     selector: "md-tab-group",
     templateUrl: "tab_group.html",
-    styleUrls: const ["tab_group.css"],
+    styleUrls: const ["tab_group.scss.css"],
     directives: const [PortalHostDirective, MdTabLabelWrapper, MdInkBar])
 class MdTabGroup implements AfterViewChecked {
   NgZone _zone;

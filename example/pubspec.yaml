@@ -1,0 +1,20 @@
+name: material2_dart_example
+version: 0.0.1
+author: ntaoo <ntaoo.g@gmail.com>
+homepage: https://github.com/ntaoo/material2_dart
+environment:
+  sdk: '>=1.0.0 <2.0.0'
+dependencies:
+  angular2: ">=2.0.0-beta.17 <3.0.0"
+  material2_dart:
+    path: ../
+dev_dependencies:
+  browser: <0.10.0
+  scissors: <0.7.0
+transformers:
+- scissors
+- angular2:
+    platform_directives:
+    - 'package:angular2/common.dart#CORE_DIRECTIVES'
+    - 'package:angular2/common.dart#FORM_DIRECTIVES'
+    entry_points: web/main.dart

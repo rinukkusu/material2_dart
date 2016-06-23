@@ -200,7 +200,7 @@ class MdRadioGroup implements AfterContentInit, ControlValueAccessor {
 @Component(
     selector: "md-radio-button",
     templateUrl: "radio.html",
-    styleUrls: const ["radio.css"],
+    styleUrls: const ["radio.scss.css"],
     encapsulation: ViewEncapsulation.None,
     host: const {"(click)": "onClick(\$event)"})
 class MdRadioButton implements OnInit {

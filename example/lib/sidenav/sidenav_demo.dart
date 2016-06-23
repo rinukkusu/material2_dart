@@ -5,6 +5,6 @@ import "package:material2_dart/components/sidenav/sidenav.dart";
 @Component(
     selector: "sidenav-demo",
     templateUrl: "sidenav_demo.html",
-    styleUrls: const ["sidenav_demo.css"],
+    styleUrls: const ["sidenav_demo.scss.css"],
     directives: const [MD_SIDENAV_DIRECTIVES, MdButton])
 class SidenavDemo {}

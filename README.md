@@ -52,9 +52,9 @@ Please see the [Demo App](https://github.com/ntaoo/material2_dart/tree/master/we
 
         git clone https://github.com/ntaoo/material2_dart.git
 
-2. Go to the project root.
+2. Go to the example directory.
 
-        cd material2_dart
+        cd material2_dart/example
 
 3. Run `pub get` to get all the dependent packages.
 
@@ -83,8 +83,10 @@ If you find this Dart version's specific bugs, please file them at the [issue tr
 
 ### Testing Angular2.
 
-    // Run test server.
+#### Run test server on the project root.
+
     pub serve
 
-    // Run tests on dartium.
-    pub run test --pub-serve=8081 -p dartium
+#### Run tests on dartium.
+
+    pub run test --pub-serve=8080 -p dartium

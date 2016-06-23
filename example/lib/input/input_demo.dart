@@ -13,7 +13,7 @@ var max = 5;
     selector: "input-demo",
     templateUrl: "input_demo.html",
     styleUrls: const [
-      "input_demo.css"
+      "input_demo.scss.css"
     ],
     directives: const [
       MdCard,

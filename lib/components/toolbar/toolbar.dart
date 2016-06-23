@@ -3,7 +3,7 @@ import 'package:angular2/core.dart';
 @Component(
     selector: 'md-toolbar',
     templateUrl: 'toolbar.html',
-    styleUrls: const ['toolbar.css'],
+    styleUrls: const ['toolbar.scss.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None)
 class MdToolbar {

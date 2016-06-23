@@ -6,7 +6,7 @@ import "grid_list_measure.dart";
     selector: "md-grid-tile",
     host: const {"role": "listitem"},
     templateUrl: "grid_tile.html",
-    styleUrls: const ["grid_list.css"],
+    styleUrls: const ["grid_list.scss.css"],
     encapsulation: ViewEncapsulation.None)
 class MdGridTile {
   Renderer _renderer;

@@ -17,7 +17,7 @@ import 'package:angular2/core.dart';
       '(blur)': 'removeKeyboardFocus()',
     },
     templateUrl: 'button.html',
-    styleUrls: const ['button.css'],
+    styleUrls: const ['button.scss.css'],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush)
 class MdButton {
@@ -93,7 +93,7 @@ class MdButton {
       '(click)': 'haltDisabledEvents(\$event)',
     },
     templateUrl: 'button.html',
-    styleUrls: const ['button.css'],
+    styleUrls: const ['button.scss.css'],
     encapsulation: ViewEncapsulation.None)
 class MdAnchor extends MdButton {
   bool _disabled = false;

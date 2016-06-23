@@ -19,7 +19,7 @@ it also provides a number of preset styles for common card sections, including:
 @Component(
     selector: 'md-card',
     templateUrl: 'card.html',
-    styleUrls: const ['card.css'],
+    styleUrls: const ['card.scss.css'],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush)
 class MdCard {}

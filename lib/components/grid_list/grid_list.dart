@@ -18,7 +18,7 @@ const String MD_FIT_MODE = "fit";
 @Component(
     selector: "md-grid-list",
     templateUrl: "grid_list.html",
-    styleUrls: const ["grid_list.css"],
+    styleUrls: const ["grid_list.scss.css"],
     encapsulation: ViewEncapsulation.None)
 class MdGridList implements OnInit, AfterContentChecked {
   Renderer _renderer;

@@ -38,7 +38,7 @@ class Home {}
     selector: 'demo-app',
     templateUrl: 'demo_app.html',
     styleUrls: const [
-      'demo_app.css'
+      'demo_app.scss.css'
     ],
     providers: const [
       ROUTER_PROVIDERS,

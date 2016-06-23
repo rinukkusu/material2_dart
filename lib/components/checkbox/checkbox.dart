@@ -43,7 +43,7 @@ class MdCheckboxChange {
 @Component(
     selector: "md-checkbox",
     templateUrl: "checkbox.html",
-    styleUrls: const ["checkbox.css"],
+    styleUrls: const ["checkbox.scss.css"],
     host: const {
       "[class.md-checkbox-indeterminate]": "indeterminate",
       "[class.md-checkbox-checked]": "checked",

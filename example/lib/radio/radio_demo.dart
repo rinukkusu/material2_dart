@@ -6,7 +6,7 @@ import "package:material2_dart/core/coordination/unique_selection_dispatcher.dar
 @Component(
     selector: "radio-demo",
     templateUrl: "radio_demo.html",
-    styleUrls: const ["radio_demo.css"],
+    styleUrls: const ["radio_demo.scss.css"],
     providers: const [MdUniqueSelectionDispatcher],
     directives: const [MdCheckbox, MdRadioButton, MdRadioGroup])
 class RadioDemo {

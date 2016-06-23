@@ -6,7 +6,7 @@ export 'package:material2_dart/core/line/line.dart';
     selector: 'md-list, md-nav-list',
     host: const {'role': 'list'},
     template: '<ng-content></ng-content>',
-    styleUrls: const ['list.css'],
+    styleUrls: const ['list.scss.css'],
     encapsulation: ViewEncapsulation.None)
 class MdList {}
 
