@@ -21,6 +21,7 @@ import '../input/input_demo.dart';
 import '../list/list_demo.dart';
 import '../radio/radio_demo.dart';
 import '../sidenav/sidenav_demo.dart';
+import '../slide_toggle/slide_toggle_demo.dart';
 import '../toolbar/toolbar_demo.dart';
 import '../tabs/tab_group_demo.dart';
 
@@ -63,6 +64,8 @@ class Home {}
   const Route(path: '/input', name: 'Input', component: InputDemo),
   const Route(path: '/list', name: 'List', component: ListDemo),
   const Route(path: '/radio', name: 'Radio', component: RadioDemo),
+  const Route(
+      path: '/slide-toggle', name: 'SlideToggle', component: SlideToggleDemo),
   const Route(path: '/sidenav', name: 'Sidenav', component: SidenavDemo),
   const Route(path: '/toolbar', name: 'Toolbar', component: ToolbarDemo),
   const Route(path: '/tabs', name: 'Tabs', component: TabsDemo)
