@@ -10,14 +10,14 @@ class MdLine {}
 
 /* Helper that takes a query list of lines and sets the correct class on the host */
 class MdLineSetter {
-  QueryList<MdLine> _lines;
+  QueryList<MdLine> lines;
   Renderer _renderer;
   ElementRef _elementRef;
 
-  MdLineSetter(this._lines, this._renderer, this._elementRef) {
-    _setLineClass(_lines.length);
-    _lines.changes.listen((_) {
-      _setLineClass(_lines.length);
+  MdLineSetter(this.lines, this._renderer, this._elementRef) {
+    _setLineClass(lines.length);
+    lines.changes.listen((_) {
+      _setLineClass(lines.length);
     });
   }
 

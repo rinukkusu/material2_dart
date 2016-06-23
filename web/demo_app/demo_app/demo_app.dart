@@ -16,6 +16,7 @@ import '../button/button_demo.dart';
 //import '../button_toggle/button_toggle_demo.dart';
 import '../card/card_demo.dart';
 import '../checkbox/checkbox_demo.dart';
+import '../grid_list/grid_list_demo.dart';
 import '../icon/icon_demo.dart';
 import '../input/input_demo.dart';
 import '../list/list_demo.dart';
@@ -60,6 +61,7 @@ class Home {}
 //      path: '/button-toggle', name: 'ButtonToggle', component: ButtonToggleDemo),
   const Route(path: '/card', name: 'Card', component: CardDemo),
   const Route(path: '/checkbox', name: 'Checkbox', component: CheckboxDemo),
+  const Route(path: '/grid-list', name: 'GridList', component: GridListDemo),
   const Route(path: '/icon', name: 'Icon', component: IconDemo),
   const Route(path: '/input', name: 'Input', component: InputDemo),
   const Route(path: '/list', name: 'List', component: ListDemo),
