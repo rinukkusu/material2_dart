@@ -1,7 +1,9 @@
-import 'dart:html';
-import 'dart:async';
+//import 'dart:html';
+
+//import 'dart:async';
 import 'package:angular2/core.dart';
-import 'package:angular2/common.dart';
+
+//import 'package:angular2/common.dart';
 import 'package:angular2/testing.dart';
 import 'package:angular2/platform/browser.dart';
 import 'package:angular2_testing/angular2_testing.dart';
@@ -160,25 +162,25 @@ void main() {
         })();
       });
       group('async tabs', () {
-        ngSetUp(() async {
-          fixture = await builder.createAsync(AsyncTabsTestApp);
-        });
+        // FIXME: Waiting for ng2 updated to greater than rc2 and whenStable() is supported.
+//        ngSetUp(() async {
+//          fixture = await builder.createAsync(AsyncTabsTestApp);
+//        });
 
-        ngTest('should show tabs when they are available', () {
-          var labels = fixture.debugElement.queryAll(By.css('.md-tab-label'));
+//        ngTest('should show tabs when they are available', () {
+//          var labels = fixture.debugElement.queryAll(By.css('.md-tab-label'));
+//
+//          expect(labels.length, equals(0));
+//
+//          fixture.detectChanges();
 
-          expect(labels.length, equals(0));
-
-          fixture.detectChanges();
-
-          // FIXME: Waiting for ng2 updated to greater than rc2 and whenStable() is supported.
-          // https://github.com/angular/angular/issues/8617
+        // https://github.com/angular/angular/issues/8617
 //          fixture.whenStable().then(() {
 //          fixture.detectChanges();
 //          labels = fixture.debugElement.queryAll(By.css('.md-tab-label'));
 //          expect(labels.length, equals(2));
 //        });
-        });
+//       });
       });
     });
   });
@@ -220,27 +222,27 @@ class SimpleTabsTestApp {
   }
 }
 
-@Component(
-    selector: 'test-app',
-    template: '''
-    <md-tab-group class="tab-group">
-      <md-tab *ngFor="let tab of tabs | async">
-        <template md-tab-label>{{ tab.label }}</template>
-        <template md-tab-content>{{ tab.content }}</template>
-      </md-tab>
-   </md-tab-group>
-  ''',
-    directives: const [MD_TABS_DIRECTIVES],
-    pipes: const [AsyncPipe])
-class AsyncTabsTestApp {
-  List<Map> _tabs = [
-    {'label': 'one', 'content': 'one'},
-    {'label': 'two', 'content': 'two'}
-  ];
-
-  Stream<dynamic> tabs;
-
-  AsyncTabsTestApp() {
-    tabs = window.animationFrame.then((_) => _tabs).asStream();
-  }
-}
+//@Component(
+//    selector: 'test-app',
+//    template: '''
+//    <md-tab-group class="tab-group">
+//      <md-tab *ngFor="let tab of tabs | async">
+//        <template md-tab-label>{{ tab.label }}</template>
+//        <template md-tab-content>{{ tab.content }}</template>
+//      </md-tab>
+//   </md-tab-group>
+//  ''',
+//    directives: const [MD_TABS_DIRECTIVES],
+//    pipes: const [AsyncPipe])
+//class AsyncTabsTestApp {
+//  List<Map> _tabs = [
+//    {'label': 'one', 'content': 'one'},
+//    {'label': 'two', 'content': 'two'}
+//  ];
+//
+//  Stream<dynamic> tabs;
+//
+//  AsyncTabsTestApp() {
+//    tabs = window.animationFrame.then((_) => _tabs).asStream();
+//  }
+//}
