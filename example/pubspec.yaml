@@ -10,8 +10,8 @@ dependencies:
     path: ../
   dart_to_js_script_rewriter: ^0.1.0
 dev_dependencies:
-  browser: <0.10.0
-  scissors: <0.7.0
+  browser: ^0.10.0
+  scissors: ">=0.6.1 <0.7.0"
 transformers:
 - scissors
 - angular2:
