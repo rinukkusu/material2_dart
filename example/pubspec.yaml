@@ -8,6 +8,7 @@ dependencies:
   angular2: ">=2.0.0-beta.17 <3.0.0"
   material2_dart:
     path: ../
+  dart_to_js_script_rewriter: ^0.1.0
 dev_dependencies:
   browser: <0.10.0
   scissors: <0.7.0
@@ -18,3 +19,11 @@ transformers:
     - 'package:angular2/common.dart#CORE_DIRECTIVES'
     - 'package:angular2/common.dart#FORM_DIRECTIVES'
     entry_points: web/main.dart
+- dart_to_js_script_rewriter
+- $dart2js:
+    minify: true
+    commandLineOptions:
+    - --enable-experimental-mirrors
+    - --trust-type-annotations
+    - --trust-primitives
+    - --show-package-warnings

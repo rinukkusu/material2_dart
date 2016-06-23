@@ -18,6 +18,9 @@ dev_dependencies:
   angular2_testing: any
 transformers:
 - scissors
-- angular2
+- angular2:
+    platform_directives:
+    - 'package:angular2/common.dart#CORE_DIRECTIVES'
+    - 'package:angular2/common.dart#FORM_DIRECTIVES'
 - test/pub_serve:
     $include: test/**_test{.*,}.dart
