@@ -44,8 +44,7 @@ class TileCoordinator {
 
   TileCoordinator(int numColumns, List<MdGridTile> tiles)
       : tracker = new List.filled(numColumns, 0) {
-    positions =
-        tiles.map((tile) => _trackTile(tile)).toList() as List<TilePosition>;
+    positions = tiles.map((tile) => _trackTile(tile)).toList();
   }
 
   /** Calculates the row and col position of a tile. */

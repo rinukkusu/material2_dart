@@ -1,6 +1,5 @@
 import "package:angular2/core.dart";
-import "package:material2_dart/components/input/input.dart"
-    show MD_INPUT_DIRECTIVES;
+import "package:material2_dart/components/input/input.dart";
 import "package:material2_dart/components/button/button.dart";
 import "package:material2_dart/components/card/card.dart";
 import "package:material2_dart/components/checkbox/checkbox.dart";
