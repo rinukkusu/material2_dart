@@ -11,6 +11,7 @@ import 'package:material2_dart/components/icon/icon_registry.dart';
 import 'package:material2_dart/components/list/list.dart';
 import 'package:material2_dart/components/toolbar/toolbar.dart';
 
+import '../baseline/baseline_demo.dart';
 import '../button/button_demo.dart';
 
 //import '../button_toggle/button_toggle_demo.dart';
@@ -57,6 +58,7 @@ class Home {}
 @RouteConfig(const [
   const Route(path: '/', name: 'Home', component: Home, useAsDefault: true),
   const Route(path: '/button', name: 'Button', component: ButtonDemo),
+  const Route(path: '/baseline', name: 'Baseline', component: BaselineDemo),
 //  const Route(
 //      path: '/button-toggle', name: 'ButtonToggle', component: ButtonToggleDemo),
   const Route(path: '/card', name: 'Card', component: CardDemo),
