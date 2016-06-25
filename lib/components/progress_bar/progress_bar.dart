@@ -70,6 +70,7 @@ class MdProgressBar {
       var scale = bufferValue / 100;
       return {"transform": '''scaleX($scale)'''};
     }
+    return null;
   }
 }
 
