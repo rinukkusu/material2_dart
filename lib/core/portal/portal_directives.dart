@@ -79,4 +79,7 @@ class PortalHostDirective extends BasePortalHost {
   }
 }
 
-final PORTAL_DIRECTIVES = [TemplatePortalDirective, PortalHostDirective];
+const List PORTAL_DIRECTIVES = const [
+  TemplatePortalDirective,
+  PortalHostDirective
+];
