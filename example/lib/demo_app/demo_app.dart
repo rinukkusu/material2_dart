@@ -22,6 +22,7 @@ import '../icon/icon_demo.dart';
 import '../input/input_demo.dart';
 import '../list/list_demo.dart';
 import '../overlay/overlay_demo.dart';
+import '../portal/portal_demo.dart';
 import '../radio/radio_demo.dart';
 import '../sidenav/sidenav_demo.dart';
 import '../slide_toggle/slide_toggle_demo.dart';
@@ -69,6 +70,7 @@ class Home {}
   const Route(path: '/input', name: 'Input', component: InputDemo),
   const Route(path: '/list', name: 'List', component: ListDemo),
   const Route(path: '/overlay', name: 'Overlay', component: OverlayDemo),
+  const Route(path: '/portal', name: 'Portal', component: PortalDemo),
   const Route(path: '/radio', name: 'Radio', component: RadioDemo),
   const Route(
       path: '/slide-toggle', name: 'SlideToggle', component: SlideToggleDemo),
