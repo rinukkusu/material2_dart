@@ -13,7 +13,8 @@ dev_dependencies:
   browser: ^0.10.0
   scissors: ">=0.6.1 <0.7.0"
 transformers:
-- scissors
+- scissors:
+    pruneCss: false
 - angular2:
     platform_directives:
     - 'package:angular2/common.dart#CORE_DIRECTIVES'
