@@ -64,13 +64,13 @@ class ConnectedPositionStrategy implements PositionStrategy {
       if (_willOverlayFitWithinViewport(
           overlayPoint, overlayRect, viewportRect)) {
         this._setElementPosition(element, overlayPoint);
-        return new Future.value(null);
+        return new Future.value();
       }
     }
     // TODO(jelbourn): fallback behavior for when none of the preferred positions fit on-screen.
     // For now, just stick it in the first position and let it go off-screen.
     _setElementPosition(element, firstOverlayPoint);
-    return new Future.value(null);
+    return new Future.value();
   }
 
   withFallbackPosition(OriginConnectionPosition originPos,
