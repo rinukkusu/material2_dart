@@ -3,7 +3,9 @@
 // is governed by a BSD-style license that can be found in the LICENSE file.
 import 'package:angular2/core.dart';
 import 'package:angular2/router.dart';
+
 import 'package:material2_dart/core/rtl/dir.dart';
+import 'package:material2_dart/core/a11y/live_announcer.dart';
 import 'package:material2_dart/components/button/button.dart';
 import 'package:material2_dart/components/sidenav/sidenav.dart';
 import 'package:material2_dart/components/icon/icon.dart';
@@ -21,6 +23,7 @@ import '../grid_list/grid_list_demo.dart';
 import '../icon/icon_demo.dart';
 import '../input/input_demo.dart';
 import '../list/list_demo.dart';
+import '../live_announcer/live_announcer_demo.dart';
 import '../overlay/overlay_demo.dart';
 import '../portal/portal_demo.dart';
 import '../radio/radio_demo.dart';
@@ -45,6 +48,7 @@ class Home {}
     ],
     providers: const [
       ROUTER_PROVIDERS,
+      MdLiveAnnouncer,
       MdIconRegistry,
       Renderer
     ],
@@ -69,6 +73,10 @@ class Home {}
   const Route(path: '/icon', name: 'Icon', component: IconDemo),
   const Route(path: '/input', name: 'Input', component: InputDemo),
   const Route(path: '/list', name: 'List', component: ListDemo),
+  const Route(
+      path: '/live-announcer',
+      name: 'LiveAnnouncer',
+      component: LiveAnnouncerDemo),
   const Route(path: '/overlay', name: 'Overlay', component: OverlayDemo),
   const Route(path: '/portal', name: 'Portal', component: PortalDemo),
   const Route(path: '/radio', name: 'Radio', component: RadioDemo),
