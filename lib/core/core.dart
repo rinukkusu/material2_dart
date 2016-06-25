@@ -8,4 +8,4 @@ export "overlay/overlay_state.dart";
 export "overlay/overlay_directives.dart";
 
 //export "gestures/MdGestureConfig.dart";
-//export "a11y/live-announcer.dart";
+export "a11y/live_announcer.dart";

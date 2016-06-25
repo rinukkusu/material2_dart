@@ -167,9 +167,10 @@ $md-buffer-bubbles-warn-url: url(
 }
 
 // Reverse the apparent directionality of progress vars for rtl.
-:host-context([dir='rtl']) {
-  transform: rotateY(180deg);
-}
+// FIXME(ntaoo): next line (:host-context([dir='rtl']) {) causes an error on scissor(sassc).
+//:host-context([dir='rtl']) {
+//  transform: rotateY(180deg);
+//}
 
 /** The values used for animations in md-progress-bar, both timing and transformation, can be considered magic values.
     They are sourced from the Material Design example spec and duplicate the values of the original designers
