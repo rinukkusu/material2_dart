@@ -12,14 +12,17 @@ I have been maintaining the same API and internal structure as much as I can for
 
 ## Project Status
 
+#### Current porting target.
+
+497a3c1(commit SHA1) 6/15/2016: **DONE**.
+
+#### Notes
+
 This package is very much a work in progress.
 
 Please note that the original [angular/material2](https://github.com/angular/material2) is in alpha phase, and this package may contain additional bugs.
 
-
-### Current porting target.
-
-497a3c1(commit SHA1) 6/15/2016: **DONE**.
+**I would change the package name on the next update of Angular2 Dart and the next release of angular/material2. (At leaset one month later.)**
 
 ### Components
 
