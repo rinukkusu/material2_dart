@@ -2,6 +2,8 @@
 
 It is [angular/material2](https://github.com/angular/material2) for Dart.
 
+[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg?maxAge=2592000)](https://gitter.im/ntaoo/material2_dart)
+
 ## Why
 
 The [angular/material2](https://github.com/angular/material2) is one of the prospective standard material design UI library for angular2 TypeScript / JavaScript users. Bringing it into native Dart package will be useful.
