@@ -17,7 +17,6 @@ class Dir {
   // Because Dart doesn't have Union Types.
   final List<String> _layoutDirections = const [ltr, rtl];
 
-  @Input()
   String get dir => _dir;
 
   String _dir = ltr;
