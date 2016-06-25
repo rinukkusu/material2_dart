@@ -27,6 +27,7 @@ import '../live_announcer/live_announcer_demo.dart';
 import '../overlay/overlay_demo.dart';
 import '../portal/portal_demo.dart';
 import '../progress_bar/progress_bar_demo.dart';
+import '../progress_circle/progress_circle_demo.dart';
 import '../radio/radio_demo.dart';
 import '../sidenav/sidenav_demo.dart';
 import '../slide_toggle/slide_toggle_demo.dart';
@@ -82,6 +83,10 @@ class Home {}
   const Route(path: '/portal', name: 'Portal', component: PortalDemo),
   const Route(
       path: '/progress-bar', name: 'ProgressBar', component: ProgressBarDemo),
+  const Route(
+      path: '/progress-circle',
+      name: 'ProgressCircle',
+      component: ProgressCircleDemo),
   const Route(path: '/radio', name: 'Radio', component: RadioDemo),
   const Route(
       path: '/slide-toggle', name: 'SlideToggle', component: SlideToggleDemo),
