@@ -1,6 +1,6 @@
 # Material Design for Angular 2
 
-It is [angular/material2](https://github.com/angular/material2) for Dart, an individual porting project.
+It is [angular/material2](https://github.com/angular/material2) for Dart.
 
 ## Why
 
@@ -19,7 +19,7 @@ Please note that the original [angular/material2](https://github.com/angular/mat
 
 ### Current porting target.
 
-497a3c1(commit SHA1)  6/15/2016
+497a3c1(commit SHA1) 6/15/2016: **DONE**.
 
 ### Components
 
