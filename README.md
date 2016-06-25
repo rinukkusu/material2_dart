@@ -23,6 +23,8 @@ Please note that the original [angular/material2](https://github.com/angular/mat
 
 ### Components
 
+All porting works have done for the current target.
+
 * [Button](https://github.com/ntaoo/material2_dart/tree/master/lib/components/button)
 * [Button Toggle](https://github.com/ntaoo/material2_dart/tree/master/lib/components/button_toggle) (This is not working. I will investigate it after the next ng2 Dart update.)
 * [Card](https://github.com/ntaoo/material2_dart/tree/master/lib/components/card)
@@ -31,14 +33,19 @@ Please note that the original [angular/material2](https://github.com/angular/mat
 * [Icon](https://github.com/ntaoo/material2_dart/tree/master/lib/components/icon)
 * [Input](https://github.com/ntaoo/material2_dart/tree/master/lib/components/input)(Without enough test code)
 * [List](https://github.com/ntaoo/material2_dart/tree/master/lib/components/list)
-* [Progress Bar](https://github.com/ntaoo/material2_dart/tree/master/lib/components/progress_bar)(Not yet started)
-* [Progress Circle](https://github.com/ntaoo/material2_dart/tree/master/lib/components/progress_circle)(Not yet started)
+* [Progress Bar](https://github.com/ntaoo/material2_dart/tree/master/lib/components/progress_bar)(Without enough test code)
+* [Progress Circle](https://github.com/ntaoo/material2_dart/tree/master/lib/components/progress_circle)(Without enough test code)
 * [Radio](https://github.com/ntaoo/material2_dart/tree/master/lib/components/radio)(Without enough test code)
 * [Sidenav](https://github.com/ntaoo/material2_dart/tree/master/lib/components/sidenav)
 * [Slide Toggle](https://github.com/ntaoo/material2_dart/tree/master/lib/components/slide_toggle)(Without enough test code)
 * [Tabs](https://github.com/ntaoo/material2_dart/tree/master/lib/components/tabs) (The `async tabs` is broken. See [issues/30](https://github.com/ntaoo/material2_dart/issues/30))
 * [Toolbar](https://github.com/ntaoo/material2_dart/tree/master/lib/components/tabs)
 
+### Core
+
+All porting works have done for the current target.
+
+Gestures are not ported. It looks like Angular2 Dart does not support gestures as of beta-17. I will investigate it after next Angular2 Dart release.
 
 ## Prerequisites
 
