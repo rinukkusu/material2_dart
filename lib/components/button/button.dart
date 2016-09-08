@@ -109,10 +109,10 @@ class MdAnchor extends MdButton {
   String get isAriaDisabled => _disabled ? 'true' : 'false';
 
   @HostBinding('attr.disabled')
-  @Input('disabled')
   bool get disabled => _disabled;
 
   // The presence of *any* disabled value makes the component disabled, *except* for false.
+  @Input('disabled')
   void set disabled(bool value) {
     _disabled = value != null && value != false;
   }
