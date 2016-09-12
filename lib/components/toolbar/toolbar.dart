@@ -10,7 +10,7 @@ class MdToolbar {
   String get color => _color;
 
   @Input()
-  void set color(String value) {
+  set color(String value) {
     _updateColor(value);
   }
 
@@ -20,17 +20,17 @@ class MdToolbar {
 
   MdToolbar(this._elementRef, this._renderer);
 
-  _updateColor(String newColor) {
+  void _updateColor(String newColor) {
     _setElementColor(_color, false);
     _setElementColor(newColor, true);
     _color = newColor;
   }
 
-  _setElementColor(String color, bool isAdd) {
+  void _setElementColor(String color, bool isAdd) {
     if (color != null && color.isNotEmpty) {
       _renderer.setElementClass(_elementRef.nativeElement, 'md-$color', isAdd);
     }
   }
 }
 
-const MD_TOOLBAR_DIRECTIVES = const [MdToolbar];
+const List MD_TOOLBAR_DIRECTIVES = const [MdToolbar];

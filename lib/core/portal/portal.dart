@@ -34,11 +34,9 @@ abstract class Portal<T> {
   /** Whether this portal is attached to a host. */
   bool get isAttached => _attachedHost != null;
 
-  /**
-   * Sets the PortalHost reference without performing `attach()`. This is used directly by
-   * the PortalHost when it is performing an `attach()` or `detatch()`.
-   */
-  setAttachedHost(PortalHost host) {
+  /// Sets the PortalHost reference without performing `attach()`. This is used directly by
+  /// the PortalHost when it is performing an `attach()` or `detatch()`.
+  void setAttachedHost(PortalHost host) {
     _attachedHost = host;
   }
 }
@@ -59,8 +57,6 @@ class ComponentPortal extends Portal<ComponentRef> {
 
   ComponentPortal(Type component, [ViewContainerRef viewContainerRef = null])
       : super() {
-    /* super call moved to initializer */
-    ;
     this.component = component;
     this.viewContainerRef = viewContainerRef;
   }
@@ -88,12 +84,14 @@ class TemplatePortal extends Portal<Map<String, dynamic>> {
 
   ElementRef get origin => templateRef.elementRef;
 
+  @override
   Future<Map<String, dynamic>> attach(PortalHost host,
       [Map<String, dynamic> locals]) {
     locals = locals == null ? new Map<String, dynamic>() : locals;
     return super.attach(host);
   }
 
+  @override
   Future detach() {
     locals = new Map<String, dynamic>();
     return super.detach();
@@ -127,11 +125,11 @@ abstract class BasePortalHost implements PortalHost {
   /** Whether this host has already been permanently disposed. */
   bool _isDisposed = false;
 
-  /** Whether this host has an attached portal. */
-  hasAttached() {
-    return _attachedPortal != null;
-  }
+  /// Whether this host has an attached portal.
+  @override
+  bool hasAttached() => _attachedPortal != null;
 
+  @override
   Future<dynamic> attach(Portal<dynamic> portal) {
     if (portal == null) {
       throw new MdNullPortalError();
@@ -156,6 +154,7 @@ abstract class BasePortalHost implements PortalHost {
 
   Future<Map<String, dynamic>> attachTemplatePortal(TemplatePortal portal);
 
+  @override
   Future detach() {
     _attachedPortal.setAttachedHost(null);
     _attachedPortal = null;
@@ -163,9 +162,10 @@ abstract class BasePortalHost implements PortalHost {
       _disposeFn();
       _disposeFn = null;
     }
-    return new Future.value();
+    return new Future<Null>.value();
   }
 
+  @override
   void dispose() {
     if (hasAttached()) detach();
     _isDisposed = true;

@@ -10,7 +10,7 @@ import "package:material2_dart/components/progress_circle/progress_circle.dart";
 class ProgressCircleDemo {
   num progressValue = 40;
 
-  step(num val) {
+  void step(num val) {
     progressValue += val;
   }
 }

@@ -4,16 +4,16 @@ import 'dart:math' as math;
 import "package:angular2/core.dart";
 // TODO(josephperrott): Benchpress tests.
 
-/** A single degree in radians. */
-const DEGREE_IN_RADIANS = math.PI / 180;
-/** Duration of the indeterminate animation. */
-const DURATION_INDETERMINATE = 667;
-/** Duration of the indeterminate animation. */
-const DURATION_DETERMINATE = 225;
-/** Start animation value of the indeterminate animation */
-var startIndeterminate = 3;
-/** End animation value of the indeterminate animation */
-var endIndeterminate = 80;
+/// A single degree in radians.
+const num degreeInRadiants = math.PI / 180;
+//// Duration of the indeterminate animation.
+const int durationIndeterminate = 667;
+/// Duration of the indeterminate animation.
+const int durationDeterminate = 225;
+/// Start animation value of the indeterminate animation
+num startIndeterminate = 3;
+/// End animation value of the indeterminate animation
+num endIndeterminate = 80;
 
 enum ProgressCircleMode { determinate, indeterminate }
 
@@ -58,7 +58,7 @@ class MdProgressCircle implements OnDestroy {
   Timer get interdeterminateInterval => _interdeterminateInterval;
 
   /** @internal */
-  void set interdeterminateInterval(Timer interval) {
+  set interdeterminateInterval(Timer interval) {
     _interdeterminateInterval?.cancel();
     _interdeterminateInterval = interval;
   }
@@ -75,8 +75,9 @@ class MdProgressCircle implements OnDestroy {
     _changeDetectorRef.markForCheck();
   }
 
-  /** Clean up any animations that were running. */
-  ngOnDestroy() {
+  // Clean up any animations that were running.
+  @override
+  void ngOnDestroy() {
     _cleanupIndeterminateAnimation();
   }
 
@@ -101,7 +102,7 @@ class MdProgressCircle implements OnDestroy {
     if (v != null && v != 0 && mode == "determinate") {
       var newValue = clamp(v);
       _animateCircle(
-          (value ?? 0), newValue, linearEase, DURATION_DETERMINATE, 0);
+          (value ?? 0), newValue, linearEase, durationDeterminate, 0);
       _value = newValue;
     }
   }
@@ -144,7 +145,7 @@ class MdProgressCircle implements OnDestroy {
    * @param duration The length of time to show the animation, in milliseconds.
    * @param rotation The starting angle of the circle fill, with 0° represented at the top center of the circle.
    */
-  _animateCircle(num animateFrom, num animateTo, EasingFn ease, num duration,
+  void _animateCircle(num animateFrom, num animateTo, EasingFn ease, num duration,
       num rotation) {
     num id = ++_lastAnimationId;
     num startTime = now();
@@ -153,7 +154,7 @@ class MdProgressCircle implements OnDestroy {
     if (animateTo == animateFrom) {
       currentPath = getSvgArc(animateTo, rotation);
     } else {
-      window.animationFrame.then((num number) {
+      window.animationFrame.then/*<num>*/((num number) {
         _animation(number, id, startTime, animateFrom, changeInValue, duration,
             rotation, ease);
       });
@@ -169,21 +170,19 @@ class MdProgressCircle implements OnDestroy {
     // Prevent overlapping animations by checking if a new animation has been called for and
     // if the animation has lasted long than the animation duration.
     if (id == _lastAnimationId && elapsedTime < duration) {
-      window.animationFrame.then((num number) {
+      window.animationFrame.then/*<num>*/((num number) {
         _animation(number, id, startTime, animateFrom, changeInValue, duration,
             rotation, ease);
       });
     }
   }
 
-  /**
-   * Starts the indeterminate animation interval, if it is not already running.
-   */
-  _startIndeterminateAnimation() {
-    var rotationStartPoint = 0;
-    var start = startIndeterminate;
-    var end = endIndeterminate;
-    var duration = DURATION_INDETERMINATE;
+  ///Starts the indeterminate animation interval, if it is not already running.
+  void _startIndeterminateAnimation() {
+    num rotationStartPoint = 0;
+    num start = startIndeterminate;
+    num end = endIndeterminate;
+    num duration = durationIndeterminate;
     var animate = () {
       _animateCircle(start, end, materialEase, duration, rotationStartPoint);
       // Prevent rotation from reaching Number.MAX_SAFE_INTEGER.
@@ -194,7 +193,7 @@ class MdProgressCircle implements OnDestroy {
     };
     if (interdeterminateInterval == null) {
       interdeterminateInterval = new Timer.periodic(
-          new Duration(milliseconds: duration + 50), (_) => animate);
+          new Duration(milliseconds: duration.toInt() + 50), (_) => animate);
       animate();
     }
   }
@@ -247,7 +246,7 @@ num now() {
  * Converts Polar coordinates to Cartesian.
  */
 String polarToCartesian(num radius, num pathRadius, num angleInDegrees) {
-  var angleInRadians = (angleInDegrees - 90) * DEGREE_IN_RADIANS;
+  var angleInRadians = (angleInDegrees - 90) * degreeInRadiants;
   return (radius + (pathRadius * math.cos(angleInRadians))).toString() +
       "," +
       (radius + (pathRadius * math.sin(angleInRadians))).toString();
@@ -301,7 +300,7 @@ String getSvgArc(num currentValue, num rotation) {
   } else {
     largeArcFlag = endAngle <= 180 ? 0 : 1;
   }
-  return 'M${start}A${pathRadius},${pathRadius} 0 ${largeArcFlag},${arcSweep} ${end}';
+  return 'M${start}A$pathRadius,$pathRadius 0 $largeArcFlag,$arcSweep $end';
 }
 
-const MD_PROGRESS_CIRCLE_DIRECTIVES = const [MdProgressCircle, MdSpinner];
+const List MD_PROGRESS_CIRCLE_DIRECTIVES = const [MdProgressCircle, MdSpinner];

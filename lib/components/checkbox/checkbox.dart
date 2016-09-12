@@ -2,15 +2,14 @@ import 'dart:html';
 import "package:angular2/core.dart";
 import "package:angular2/common.dart";
 
-/**
- * Monotonically increasing integer used to auto-generate unique ids for checkbox components.
- */
-var nextId = 0;
+/// Monotonically increasing integer used to auto-generate unique ids for checkbox components.
+int nextId = 0;
+
 /**
  * Provider Expression that allows md-checkbox to register as a ControlValueAccessor. This allows it
  * to support [(ngModel)] and ngControl.
  */
-const MD_CHECKBOX_CONTROL_VALUE_ACCESSOR =
+const Provider MD_CHECKBOX_CONTROL_VALUE_ACCESSOR =
     const Provider(NG_VALUE_ACCESSOR, useExisting: MdCheckbox, multi: true);
 /**
  * Represents the different states that require custom transitions between them.
@@ -114,7 +113,8 @@ class MdCheckbox implements AfterContentInit, ControlValueAccessor {
   TransitionCheckState _currentCheckState = TransitionCheckState.Init;
   bool _checked = false;
   bool _indeterminate = false;
-  Function _controlValueAccessorChangeFn = (value) {};
+  // TODO: Its argument type can be narrower.
+  Function _controlValueAccessorChangeFn = (dynamic value) {};
   bool hasFocus = false;
 
   MdCheckbox(this._renderer, this._elementRef);
@@ -138,21 +138,20 @@ class MdCheckbox implements AfterContentInit, ControlValueAccessor {
     }
   }
 
-  /** TODO: internal */
-  ngAfterContentInit() {
+  // TODO: internal
+  @override
+  void ngAfterContentInit() {
     _isInitialized = true;
   }
 
-  /**
-   * Whether the checkbox is indeterminate. This is also known as "mixed" mode and can be used to
-   * represent a checkbox with three states, e.g. a checkbox that represents a nested list of
-   * checkable items. Note that whenever `checked` is set, indeterminate is immediately set to
-   * false. This differs from the web platform in that indeterminate state on native
-   * checkboxes is only remove when the user manually checks the checkbox (rather than setting the
-   * `checked` property programmatically). However, we feel that this behavior is more accommodating
-   * to the way consumers would envision using this component.
-   */
-  get indeterminate => _indeterminate;
+  /// Whether the checkbox is indeterminate. This is also known as "mixed" mode and can be used to
+  /// represent a checkbox with three states, e.g. a checkbox that represents a nested list of
+  /// checkable items. Note that whenever `checked` is set, indeterminate is immediately set to
+  /// false. This differs from the web platform in that indeterminate state on native
+  /// checkboxes is only remove when the user manually checks the checkbox (rather than setting the
+  /// `checked` property programmatically). However, we feel that this behavior is more accommodating
+  /// to the way consumers would envision using this component.
+  bool get indeterminate => _indeterminate;
 
   @Input()
   set indeterminate(bool indeterminate) {
@@ -166,10 +165,9 @@ class MdCheckbox implements AfterContentInit, ControlValueAccessor {
     }
   }
 
-  /**
-   * Implemented as part of ControlValueAccessor.
-   * TODO: internal
-   */
+  /// Implemented as part of ControlValueAccessor.
+  /// TODO: internal
+  @override
   void writeValue(dynamic value) {
     // FIXME(ntaoo): I'm assuming the value is either bool or String or null, that may be wrong.
     if (value == null) {
@@ -181,20 +179,18 @@ class MdCheckbox implements AfterContentInit, ControlValueAccessor {
     }
   }
 
-  /**
-   * Implemented as part of ControlValueAccessor.
-   * TODO: internal
-   */
-  registerOnChange(dynamic fn) {
-    _controlValueAccessorChangeFn = fn;
+  /// Implemented as part of ControlValueAccessor.
+  /// TODO: internal
+  @override
+  void registerOnChange(dynamic fn) {
+    _controlValueAccessorChangeFn = fn as Function;
   }
 
-  /**
-   * Implemented as part of ControlValueAccessor.
-   * TODO: internal
-   */
-  registerOnTouched(dynamic fn) {
-    onTouched = fn;
+  /// Implemented as part of ControlValueAccessor.
+  /// TODO: internal
+  @override
+  void registerOnTouched(dynamic fn) {
+    onTouched = fn as Function;
   }
 
   void _transitionCheckState(TransitionCheckState newState) {
@@ -249,13 +245,10 @@ class MdCheckbox implements AfterContentInit, ControlValueAccessor {
     checked = !checked;
   }
 
-  /**
-   * Event handler for checkbox input element.
-   * Toggles checked state if element is not disabled.
-   *
-   * @internal
-   */
-  onInteractionEvent(Event event) {
+  /// Event handler for checkbox input element.
+  /// Toggles checked state if element is not disabled.
+  /// @internal
+  void onInteractionEvent(Event event) {
     // We always have to stop propagation on the change event.
 
     // Otherwise the change event, from the input element, will bubble up and
@@ -267,20 +260,14 @@ class MdCheckbox implements AfterContentInit, ControlValueAccessor {
     }
   }
 
-  /** @internal */
-  onInputClick(Event event) {
+  ///@internal
+  void onInputClick(Event event) {
     // We have to stop propagation for click events on the visual hidden input element.
-
     // By default, when a user clicks on a label element, a generated click event will be
-
     // dispatched on the associated input element. Since we are using a label element as our
-
     // root container, the click event on the `checkbox` will be executed twice.
-
     // The real click event will bubble up, and the generated click event also tries to bubble up.
-
     // This will lead to multiple click events.
-
     // Preventing bubbling for the second event will solve that issue.
     event.stopPropagation();
   }
@@ -318,4 +305,4 @@ class MdCheckbox implements AfterContentInit, ControlValueAccessor {
   }
 }
 
-const MD_CHECKBOX_DIRECTIVES = const [MdCheckbox];
+const List MD_CHECKBOX_DIRECTIVES = const [MdCheckbox];

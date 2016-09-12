@@ -14,18 +14,22 @@ class OverlayRef implements PortalHost {
 
   OverlayRef(this._portalHost, this._pane, this._state);
 
+  @override
   Future<dynamic> attach(Portal<dynamic> portal) {
-    return _portalHost.attach(portal).then((_) {
+    return _portalHost.attach(portal).then/*<dynamic>*/((dynamic _) {
       _updatePosition();
     });
   }
 
+  @override
   Future<dynamic> detach() => _portalHost.detach();
 
+  @override
   void dispose() {
     _portalHost.dispose();
   }
 
+  @override
   bool hasAttached() => _portalHost.hasAttached();
 
   /** Gets the current state config of the overlay. */

@@ -5,16 +5,20 @@ import "package:angular2/common.dart";
 import "package:material2_dart/core/annotations/field_value.dart";
 import "package:material2_dart/core/errors/error.dart";
 
-final noop = ([_]) {};
+final Function noop = ([dynamic _]) {};
 
 // Dart note: Dart does not have the forward ref problem.
-const MD_INPUT_CONTROL_VALUE_ACCESSOR =
+const Provider MD_INPUT_CONTROL_VALUE_ACCESSOR =
     const Provider(NG_VALUE_ACCESSOR, useExisting: MdInput, multi: true);
 
 // Invalid input type. Using one of these will throw an MdInputUnsupportedTypeError.
-const MD_INPUT_INVALID_INPUT_TYPE = const ["file", "radio", "checkbox"];
+const List<String> MD_INPUT_INVALID_INPUT_TYPE = const [
+  "file",
+  "radio",
+  "checkbox"
+];
 
-var nextUniqueId = 0;
+int nextUniqueId = 0;
 
 class MdInputPlaceholderConflictError extends MdError {
   MdInputPlaceholderConflictError()
@@ -66,17 +70,16 @@ typedef dynamic OnTouchedCallback();
     host: const {"(click)": "focus()"})
 class MdInput implements ControlValueAccessor, AfterContentInit, OnChanges {
   bool _focused = false;
-  dynamic _value = "";
+  String _value = "";
 
-  /** Callback registered via registerOnTouched (ControlValueAccessor) */
-  OnTouchedCallback _onTouchedCallback = noop;
+  // Callback registered via registerOnTouched (ControlValueAccessor)
+  OnTouchedCallback _onTouchedCallback = noop as OnTouchedCallback;
 
-  /** Callback registered via registerOnChange (ControlValueAccessor) */
-  OnChangeCallback _onChangeCallback = noop;
+  // Callback registered via registerOnChange (ControlValueAccessor)
+  OnChangeCallback _onChangeCallback = noop as OnChangeCallback;
 
-  /**
-   * Aria related inputs.
-   */
+  // Aria related inputs.
+
   @Input("aria-label")
   String ariaLabel;
 
@@ -119,9 +122,9 @@ class MdInput implements ControlValueAccessor, AfterContentInit, OnChanges {
   /** Readonly properties. */
   bool get focused => _focused;
 
-  bool get empty => _value == null || identical(_value, "");
+  bool get empty => _value == null || _value.isEmpty;
 
-  int get characterCount => empty ? 0 : ("" + _value).length;
+  int get characterCount => empty ? 0 : _value.length;
 
   String get inputId => '$id-input';
 
@@ -177,11 +180,9 @@ class MdInput implements ControlValueAccessor, AfterContentInit, OnChanges {
 
   @Input()
   set maxLength(dynamic v) {
-    if (v is String) {
-      _maxLength = int.parse(v);
-    } else {
-      _maxLength = v;
-    }
+    if (v is String) _maxLength = int.parse(v);
+    if (v is int) v;
+    throw new ArgumentError();
   }
 
   int get maxLength => _maxLength;
@@ -247,7 +248,7 @@ class MdInput implements ControlValueAccessor, AfterContentInit, OnChanges {
   set value(dynamic v) {
     v = _convertValueForInputType(v);
     if (!identical(v, _value)) {
-      _value = v;
+      _value = v as String;
       _onChangeCallback(v);
     }
   }
@@ -290,32 +291,30 @@ class MdInput implements ControlValueAccessor, AfterContentInit, OnChanges {
   /** @internal */
   bool hasPlaceholder() => !isBlank(placeholder) || placeholderChild != null;
 
-  /**
-   * Implemented as part of ControlValueAccessor.
-   * TODO: internal
-   */
+  /// Implemented as part of ControlValueAccessor.
+  /// TODO: internal
+  @override
   void writeValue(dynamic value) {
-    _value = value;
+    _value = value as String;
   }
 
-  /**
-   * Implemented as part of ControlValueAccessor.
-   * TODO: internal
-   */
+  /// Implemented as part of ControlValueAccessor.
+  /// TODO: internal
+  @override
   void registerOnChange(dynamic fn) {
-    _onChangeCallback = fn;
+    _onChangeCallback = fn as OnChangeCallback;
   }
 
-  /**
-   * Implemented as part of ControlValueAccessor.
-   * TODO: internal
-   */
+  /// Implemented as part of ControlValueAccessor.
+  /// TODO: internal
+  @override
   void registerOnTouched(dynamic fn) {
-    _onTouchedCallback = fn;
+    _onTouchedCallback = fn as OnTouchedCallback;
   }
 
-  /** TODO: internal */
-  ngAfterContentInit() {
+  // TODO: internal
+  @override
+  void ngAfterContentInit() {
     _validateConstraints();
     // Trigger validation when the hint children change.
     hintChildren.changes.listen((_) {
@@ -323,8 +322,9 @@ class MdInput implements ControlValueAccessor, AfterContentInit, OnChanges {
     });
   }
 
-  /** TODO: internal */
-  ngOnChanges(Map<String, SimpleChange> changes) {
+  // TODO: internal
+  @override
+  void ngOnChanges(Map<String, SimpleChange> changes) {
     _validateConstraints();
   }
 
@@ -338,22 +338,19 @@ class MdInput implements ControlValueAccessor, AfterContentInit, OnChanges {
   dynamic _convertValueForInputType(dynamic v) {
     switch (type) {
       case "number":
-        return num.parse(v);
+        return num.parse(v as String);
       default:
         return v;
     }
   }
 
-  /**
-   * Ensure that all constraints defined by the API are validated, or throw errors otherwise.
-   * Constraints for now:
-   *   - placeholder attribute and <md-placeholder> are mutually exclusive.
-   *   - type attribute is not one of the forbidden types (see constant at the top).
-   *   - Maximum one of each `<md-hint>` alignment specified, with the attribute being
-   *     considered as align="start".
-   * @private
-   */
-  _validateConstraints() {
+  /// Ensure that all constraints defined by the API are validated, or throw errors otherwise.
+  /// Constraints for now:
+  ///   - placeholder attribute and <md-placeholder> are mutually exclusive.
+  ///   - type attribute is not one of the forbidden types (see constant at the top).
+  ///   - Maximum one of each `<md-hint>` alignment specified, with the attribute being
+  ///     considered as align="start".
+  void _validateConstraints() {
     if (placeholder != "" && placeholder != null && placeholderChild != null) {
       throw new MdInputPlaceholderConflictError();
     }
@@ -381,4 +378,4 @@ class MdInput implements ControlValueAccessor, AfterContentInit, OnChanges {
   }
 }
 
-const MD_INPUT_DIRECTIVES = const [MdPlaceholder, MdInput, MdHint];
+const List MD_INPUT_DIRECTIVES = const [MdPlaceholder, MdInput, MdHint];

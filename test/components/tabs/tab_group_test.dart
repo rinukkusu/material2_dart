@@ -1,6 +1,7 @@
 //import 'dart:html';
 
 //import 'dart:async';
+import 'dart:html';
 import 'package:angular2/core.dart';
 
 //import 'package:angular2/common.dart';
@@ -30,21 +31,22 @@ void main() {
      * Checks that the `selectedIndex` has been updated; checks that the label and body have the
      * `md-active` class
      */
-    checkSelectedIndex(int index) {
+    void checkSelectedIndex(int index) {
       fixture.detectChanges();
 
-      MdTabGroup tabComponent =
-          fixture.debugElement.query(By.css('md-tab-group')).componentInstance;
+      MdTabGroup tabComponent = fixture.debugElement
+          .query(By.css('md-tab-group'))
+          .componentInstance as MdTabGroup;
       expect(tabComponent.selectedIndex, equals(index));
 
-      var tabLabelElement = fixture.debugElement
+      Element tabLabelElement = fixture.debugElement
           .query(By.css('.md-tab-label:nth-of-type(${index + 1})'))
-          .nativeElement;
+          .nativeElement as Element;
       expect(tabLabelElement.classes.contains('md-active'), isTrue);
 
-      var tabContentElement = fixture.debugElement
+      Element tabContentElement = fixture.debugElement
           .query(By.css('#${tabLabelElement.id}'))
-          .nativeElement;
+          .nativeElement as Element;
       expect(tabContentElement.classes.contains('md-active'), isTrue);
     }
 
@@ -62,7 +64,7 @@ void main() {
       });
 
       ngTest('should change selected index on click', () {
-        var component = fixture.debugElement.componentInstance;
+        SimpleTabsTestApp component = fixture.debugElement.componentInstance as SimpleTabsTestApp;
         component.selectedIndex = 0;
         checkSelectedIndex(0);
 
@@ -83,10 +85,10 @@ void main() {
           'should cycle through tab focus with focusNextTab/focusPreviousTab functions',
           () {
         fakeAsync(() async {
-          var testComponent = fixture.componentInstance;
+          dynamic testComponent = fixture.componentInstance;
           var tabComponent = fixture.debugElement
               .query(By.css('md-tab-group'))
-              .componentInstance;
+              .componentInstance as MdTabGroup;
 //          spyOn(testComponent, 'handleFocus').and.callThrough();
           fixture.detectChanges();
 
@@ -143,10 +145,10 @@ void main() {
 
       ngTest('should change tabs based on selectedIndex', () {
         fakeAsync(() {
-          var component = fixture.componentInstance;
+          dynamic component = fixture.componentInstance;
           var tabComponent = fixture.debugElement
               .query(By.css('md-tab-group'))
-              .componentInstance;
+              .componentInstance as MdTabGroup;
 
 //          spyOn(component, 'handleSelection').and.callThrough();
 
@@ -213,11 +215,11 @@ class SimpleTabsTestApp {
   dynamic focusEvent;
   dynamic selectEvent;
 
-  handleFocus(dynamic event) {
+  void handleFocus(dynamic event) {
     focusEvent = event;
   }
 
-  handleSelection(dynamic event) {
+  void handleSelection(dynamic event) {
     selectEvent = event;
   }
 }

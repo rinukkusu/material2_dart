@@ -11,7 +11,7 @@ export "package:material2_dart/core/coordination/unique_selection_dispatcher.dar
  * Provider Expression that allows md-radio-group to register as a ControlValueAccessor. This
  * allows it to support [(ngModel)] and ngControl.
  */
-const MD_RADIO_GROUP_CONTROL_VALUE_ACCESSOR =
+const Provider MD_RADIO_GROUP_CONTROL_VALUE_ACCESSOR =
     const Provider(NG_VALUE_ACCESSOR, useExisting: MdRadioGroup, multi: true);
 
 // TODO(mtlin):
@@ -41,7 +41,7 @@ class MdRadioGroup implements AfterContentInit, ControlValueAccessor {
    * radio button, this value persists to be applied in case a new radio button is added with a
    * matching value.
    */
-  dynamic _value = null;
+  dynamic _value;
 
   /** The HTML name attribute applied to radio buttons in this group. */
   String _name = 'md-radio-group-${_uniqueIdCounter++}';
@@ -50,7 +50,7 @@ class MdRadioGroup implements AfterContentInit, ControlValueAccessor {
   bool _disabled = false;
 
   /** The currently selected radio button. Should match value. */
-  MdRadioButton _selected = null;
+  MdRadioButton _selected;
 
   /** Whether the `value` has been set to its initial value. */
   bool _isInitialized = false;
@@ -67,7 +67,7 @@ class MdRadioGroup implements AfterContentInit, ControlValueAccessor {
 
   /** Child radio buttons. */
   @ContentChildren(MdRadioButton)
-  QueryList<MdRadioButton> radios = null;
+  QueryList<MdRadioButton> radios;
 
   String get name => _name;
 
@@ -104,7 +104,7 @@ class MdRadioGroup implements AfterContentInit, ControlValueAccessor {
     }
   }
 
-  get selected => _selected;
+  MdRadioButton get selected => _selected;
 
   @Input()
   set selected(MdRadioButton selected) {
@@ -115,24 +115,21 @@ class MdRadioGroup implements AfterContentInit, ControlValueAccessor {
     }
   }
 
-  /**
-   * Initialize properties once content children are available.
-   * This allows us to propagate relevant attributes to associated buttons.
-   * TODO: internal
-   */
-  ngAfterContentInit() {
+  /// Initialize properties once content children are available.
+  /// This allows us to propagate relevant attributes to associated buttons.
+  /// TODO: internal
+  @override
+  void ngAfterContentInit() {
     // Mark this component as initialized in AfterContentInit because the initial value can
     // possibly be set by NgModel on MdRadioGroup, and it is possible that the OnInit of the
     // NgModel occurs *after* the OnInit of the MdRadioGroup.
     _isInitialized = true;
   }
 
-  /**
-   * Mark this group as being "touched" (for ngModel). Meant to be called by the contained
-   * radio buttons upon their blur.
-   * @internal
-   */
-  touch() {
+  /// Mark this group as being "touched" (for ngModel). Meant to be called by the contained
+  /// radio buttons upon their blur.
+  /// @internal
+  void touch() {
     if (onTouched != null) onTouched();
   }
 
@@ -175,7 +172,8 @@ class MdRadioGroup implements AfterContentInit, ControlValueAccessor {
    * Implemented as part of ControlValueAccessor.
    * TODO: internal
    */
-  writeValue(dynamic value) {
+  @override
+  void writeValue(dynamic value) {
     value = value;
   }
 
@@ -184,7 +182,8 @@ class MdRadioGroup implements AfterContentInit, ControlValueAccessor {
    * TODO: internal
    */
   // void fn(dynamic value)
-  registerOnChange(dynamic fn) {
+  @override
+  void registerOnChange(dynamic fn) {
     _controlValueAccessorChangeFn = fn;
   }
 
@@ -192,7 +191,8 @@ class MdRadioGroup implements AfterContentInit, ControlValueAccessor {
    * Implemented as part of ControlValueAccessor.
    * TODO: internal
    */
-  registerOnTouched(dynamic fn) {
+  @override
+  void registerOnTouched(dynamic fn) {
     onTouched = fn;
   }
 }
@@ -310,7 +310,8 @@ class MdRadioButton implements OnInit {
   }
 
   /** TODO: internal */
-  ngOnInit() {
+  @override
+  void ngOnInit() {
     if (radioGroup != null) {
       // If the radio is inside a radio group, determine if it should be checked
       checked = identical(radioGroup.value, _value);
@@ -319,7 +320,7 @@ class MdRadioButton implements OnInit {
     }
   }
 
-  /** Dispatch change event with current value. */
+  // Dispatch change event with current value.
   void _emitChangeEvent() {
     var event = new MdRadioChange();
     event.source = this;
@@ -327,8 +328,8 @@ class MdRadioButton implements OnInit {
     change.emit(event);
   }
 
-  /** @internal */
-  onClick(Event event) {
+  // @internal
+  void onClick(Event event) {
     if (disabled) {
       event.preventDefault();
       event.stopPropagation();
@@ -336,7 +337,6 @@ class MdRadioButton implements OnInit {
     }
     if (radioGroup != null) {
       // Propagate the change one-way via the group, which will in turn mark this
-
       // button as checked.
       radioGroup.selected = this;
       radioGroup.touch();
@@ -345,33 +345,27 @@ class MdRadioButton implements OnInit {
     }
   }
 
-  /**
-   * We use a hidden native input field to handle changes to focus state via keyboard navigation,
-   * with visual rendering done separately. The native element is kept in sync with the overall
-   * state of the component.
-   * @internal
-   */
-  onInputFocus() {
+  /// We use a hidden native input field to handle changes to focus state via keyboard navigation,
+  ///  with visual rendering done separately. The native element is kept in sync with the overall
+  ///  state of the component.
+  ///  @internal
+  void onInputFocus() {
     isFocused = true;
   }
 
-  /** @internal */
-  onInputBlur() {
+  // @internal
+  void onInputBlur() {
     isFocused = false;
     if (radioGroup != null) {
       radioGroup.touch();
     }
   }
 
-  /**
-   * Checks the radio due to an interaction with the underlying native <input type="radio">
-   * @internal
-   */
-  onInputChange(Event event) {
+  /// Checks the radio due to an interaction with the underlying native <input type="radio">
+  /// @internal
+  void onInputChange(Event event) {
     // We always have to stop propagation on the change event.
-
     // Otherwise the change event, from the input element, will bubble up and
-
     // emit its event object to the `change` output.
     event.stopPropagation();
     checked = true;
@@ -381,4 +375,4 @@ class MdRadioButton implements OnInit {
   }
 }
 
-const MD_RADIO_DIRECTIVES = const [MdRadioGroup, MdRadioButton];
+const List MD_RADIO_DIRECTIVES = const [MdRadioGroup, MdRadioButton];

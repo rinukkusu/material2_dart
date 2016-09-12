@@ -53,18 +53,20 @@ class ConnectedOverlayDirective implements OnInit, OnDestroy {
 
   OverlayRef get overlayRef => _overlayRef;
 
-  /** TODO: internal */
-  ngOnInit() {
+  // TODO: internal
+  @override
+  void ngOnInit() {
     _createOverlay();
   }
 
-  /** TODO: internal */
-  ngOnDestroy() {
+  // TODO: internal
+  @override
+  void ngOnDestroy() {
     _destroyOverlay();
   }
 
   /** Creates an overlay and attaches this directive's template to it. */
-  Future _createOverlay() async {
+  Future<Null> _createOverlay() async {
     if (positions == null || positions.length != 0) {
       positions = defaultPositionList;
     }
@@ -77,7 +79,7 @@ class ConnectedOverlayDirective implements OnInit, OnDestroy {
             positions[0].overlayX, positions[0].overlayY));
     OverlayRef ref = await _overlay.create(overlayConfig);
     _overlayRef = ref;
-    _overlayRef.attach(_templatePortal);
+    await _overlayRef.attach(_templatePortal);
   }
 
   /** Destroys the overlay created by this directive. */
@@ -86,4 +88,4 @@ class ConnectedOverlayDirective implements OnInit, OnDestroy {
   }
 }
 
-const OVERLAY_DIRECTIVES = const [ConnectedOverlayDirective, OverlayOrigin];
+const List OVERLAY_DIRECTIVES = const [ConnectedOverlayDirective, OverlayOrigin];

@@ -8,5 +8,6 @@ class MdError extends Error {
 
   MdError(this.message);
 
+  @override
   String toString() => message;
 }

@@ -100,12 +100,11 @@ class TileCoordinator {
     }
   }
 
-  /**
-   * Finds the end index (exclusive) of a gap given the index from which to start looking.
-   * The gap ends when a non-zero value is found.
-   */
-  num _findGapEndIndex(num gapStartIndex) {
-    for (int i = gapStartIndex + 1; i < tracker.length; i++) {
+
+   /// Finds the end index (exclusive) of a gap given the index from which to start looking.
+   /// The gap ends when a non-zero value is found.
+  int _findGapEndIndex(num gapStartIndex) {
+    for (int i = gapStartIndex.toInt() + 1; i < tracker.length; i++) {
       if (tracker[i] != 0) return i;
     }
     // The gap ends with the end of the row.
@@ -115,7 +114,7 @@ class TileCoordinator {
   /** Update the tile tracker to account for the given tile in the given space. */
   void _markTilePosition(num start, MdGridTile tile) {
     for (int i = 0; i < tile.colspan; i++) {
-      tracker[start + i] = tile.rowspan;
+      tracker[start.toInt() + i] = tile.rowspan;
     }
   }
 }

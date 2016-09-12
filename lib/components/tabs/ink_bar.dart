@@ -10,12 +10,12 @@ class MdInkBar {
   Renderer _renderer;
   ElementRef _elementRef;
 
-  MdInkBar(this._renderer, this._elementRef) {}
+  MdInkBar(this._renderer, this._elementRef);
 
   /**
    * Calculates the styles from the provided element in order to align the ink-bar to that element.
    */
-  alignToElement(Element element) {
+  void alignToElement(Element element) {
     _renderer.setElementStyle(
         _elementRef.nativeElement, "left", _getLeftPosition(element));
     _renderer.setElementStyle(

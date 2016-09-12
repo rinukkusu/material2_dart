@@ -75,8 +75,8 @@ class MdProgressBar {
 }
 
 /** Clamps a value to be between two numbers, by default 0 and 100. */
-num clamp(num v, [min = 0, max = 100]) {
+num clamp(num v, [int min = 0, int max = 100]) {
   return math.max(min, math.min(max, v));
 }
 
-const MD_PROGRESS_BAR_DIRECTIVES = const [MdProgressBar];
+const List MD_PROGRESS_BAR_DIRECTIVES = const [MdProgressBar];

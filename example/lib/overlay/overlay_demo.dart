@@ -21,7 +21,7 @@ class OverlayDemo {
 
   OverlayDemo(this.overlay, this.viewContainerRef);
 
-  Future openRotiniPanel() async {
+  Future<Null> openRotiniPanel() async {
     OverlayState config = new OverlayState();
     config.positionStrategy = overlay
         .position()
@@ -30,10 +30,10 @@ class OverlayDemo {
         .top('${nextPosition}px');
     nextPosition += 30;
     OverlayRef ref = await overlay.create(config);
-    ref.attach(new ComponentPortal(RotiniPanel, viewContainerRef));
+    await ref.attach(new ComponentPortal(RotiniPanel, viewContainerRef));
   }
 
-  Future openFusilliPanel() async {
+  Future<Null> openFusilliPanel() async {
     var config = new OverlayState();
     config.positionStrategy = overlay
         .position()
@@ -42,10 +42,10 @@ class OverlayDemo {
         .top('${nextPosition}px');
     nextPosition += 30;
     OverlayRef ref = await overlay.create(config);
-    ref.attach(templatePortals.first);
+    await ref.attach(templatePortals.first);
   }
 
-  Future openSpaghettiPanel() async {
+  Future<Null> openSpaghettiPanel() async {
     // TODO(jelbourn): separate overlay demo for connected positioning.
     var strategy = overlay.position().connectedTo(
         overlayOrigin.elementRef,
@@ -55,11 +55,11 @@ class OverlayDemo {
             HorizontalConnectionPos.start, VerticalConnectionPos.top));
     OverlayRef ref =
         await overlay.create(new OverlayState()..positionStrategy = strategy);
-    ref.attach(new ComponentPortal(SpagettiPanel, viewContainerRef));
+    await ref.attach(new ComponentPortal(SpagettiPanel, viewContainerRef));
   }
 }
 
-/** Simple component to load into an overlay */
+/// Simple component to load into an overlay
 @Component(
     selector: "rotini-panel",
     template: "<p class=\"demo-rotini\">Rotini {{value}}</p>")
@@ -67,7 +67,7 @@ class RotiniPanel {
   num value = 9000;
 }
 
-/** Simple component to load into an overlay */
+/// Simple component to load into an overlay
 @Component(
     selector: "spagetti-panel",
     template: "<div class=\"demo-spagetti\">Spagetti {{value}}</div>")

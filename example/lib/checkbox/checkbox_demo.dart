@@ -69,7 +69,7 @@ class CheckboxDemo {
   bool isDisabled = false;
   String alignment = "start";
 
-  printResult() {
+  String printResult() {
     if (isIndeterminate) {
       return "Maybe!";
     }

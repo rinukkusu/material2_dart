@@ -38,12 +38,12 @@ void main() {
       fixture.detectChanges();
       expect(listItemDiv.nativeElement.classes,
           isNot(contains('md-list-item-focus')));
-      MdListItem mdListItem = listItem.componentInstance;
+      MdListItem mdListItem = listItem.componentInstance as MdListItem;
       mdListItem.handleFocus();
       fixture.detectChanges();
       expect(listItemDiv.nativeElement.classes, contains('md-list-item-focus'));
 
-      MdListItem mdListItem2 = listItem.componentInstance;
+      MdListItem mdListItem2 = listItem.componentInstance as MdListItem;
       mdListItem2.handleBlur();
       fixture.detectChanges();
       expect(listItemDiv.nativeElement.classes,
@@ -168,7 +168,7 @@ void main() {
 
       fixture.debugElement.componentInstance.showThirdLine = true;
       fixture.detectChanges();
-      new Future.microtask(() {
+      await new Future<Null>.microtask(() {
         expect(listItem.nativeElement.className, equals('md-3-line'));
       });
     });

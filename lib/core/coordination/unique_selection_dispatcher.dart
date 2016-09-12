@@ -15,15 +15,15 @@ typedef void MdUniqueSelectionDispatcherListener(String id, String name);
 class MdUniqueSelectionDispatcher {
   List<MdUniqueSelectionDispatcherListener> _listeners = [];
 
-  /** Notify other items that selection for the given name has been set. */
+  // Notify other items that selection for the given name has been set.
   void notify(String id, String name) {
     for (var listener in _listeners) {
       listener(id, name);
     }
   }
 
-  /** Listen for future changes to item selection. */
-  listen(MdUniqueSelectionDispatcherListener listener) {
+  // Listen for future changes to item selection.
+  void listen(MdUniqueSelectionDispatcherListener listener) {
     _listeners.add(listener);
   }
 }

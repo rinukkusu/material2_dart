@@ -25,7 +25,7 @@ class MdIconInvalidNameError extends MdError {
  * - Specify the svgIcon input to load an SVG icon from a URL previously registered with the
  *   addSvgIcon, addSvgIconInNamespace, addSvgIconSet, or addSvgIconSetInNamespace methods of
  *   MdIconRegistry. If the svgIcon value contains a colon it is assumed to be in the format
- *   "[namespace]:[name]", if not the value will be the name of an icon in the default namespace.
+ *   "[namespace]:name", if not the value will be the name of an icon in the default namespace.
  *   Examples:
  *     <md-icon svgIcon="left-arrow"></md-icon>
  *     <md-icon svgIcon="animals:cat"></md-icon>
@@ -50,7 +50,9 @@ class MdIconInvalidNameError extends MdError {
     template: '<ng-content></ng-content>',
     selector: 'md-icon',
     styleUrls: const ['icon.scss.css'],
-    host: const {'role': 'img',},
+    host: const {
+      'role': 'img',
+    },
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush)
 class MdIcon implements OnChanges, OnInit, AfterViewChecked {
@@ -106,16 +108,17 @@ class MdIcon implements OnChanges, OnInit, AfterViewChecked {
     }
   }
 
-  /** TODO: internal */
-  ngOnChanges(Map<String, SimpleChange> changes) {
+  // TODO: internal
+  @override
+  void ngOnChanges(Map<String, SimpleChange> changes) {
     final changedInputs = (changes.keys).toList(growable: false);
     // Only update the inline SVG icon if the inputs changed, to avoid unnecessary DOM operations.
     if (changedInputs.indexOf('svgIcon') != -1 ||
         changedInputs.indexOf('svgSrc') != -1) {
       if (svgIcon != null) {
-        final List l = _splitIconName(svgIcon);
-        final namespace = l.first;
-        final iconName = l.last;
+        final List<String> l = _splitIconName(svgIcon);
+        final String namespace = l.first;
+        final String iconName = l.last;
         try {
           _mdIconRegistry.getNamedSvgIcon(iconName, namespace).listen((svg) {
             _setSvgElement(svg);
@@ -126,7 +129,7 @@ class MdIcon implements OnChanges, OnInit, AfterViewChecked {
       } else if (svgSrc != null) {
         _mdIconRegistry.getSvgIconFromUrl(svgSrc).listen((svg) {
           _setSvgElement(svg);
-        }).onError((error) {
+        }).onError((Error error) {
           print('Error retrieving icon: $error');
         });
       }
@@ -137,8 +140,9 @@ class MdIcon implements OnChanges, OnInit, AfterViewChecked {
     _updateAriaLabel();
   }
 
-  /** TODO: internal */
-  ngOnInit() {
+  // TODO: internal
+  @override
+  void ngOnInit() {
     // Update font classes because ngOnChanges won't be called if none of the inputs are present,
     // e.g. <md-icon>arrow</md-icon>. In this case we need to add a CSS class for the default font.
     if (_usingFontIcon) {
@@ -146,14 +150,15 @@ class MdIcon implements OnChanges, OnInit, AfterViewChecked {
     }
   }
 
-  /** TODO: internal */
-  ngAfterViewChecked() {
+  // TODO: internal
+  @override
+  void ngAfterViewChecked() {
     // Update aria label here because it may depend on the projected text content.
     // (e.g. <md-icon>home</md-icon> should use 'home').
     _updateAriaLabel();
   }
 
-  _updateAriaLabel() {
+  void _updateAriaLabel() {
     final ariaLabel = _getAriaLabel();
     if (ariaLabel != null && ariaLabel.isNotEmpty) {
       _renderer.setElementAttribute(
@@ -176,7 +181,7 @@ class MdIcon implements OnChanges, OnInit, AfterViewChecked {
     }
     // The "content" of an SVG icon is not a useful label.
     if (_usingFontIcon) {
-      final String text = _elementRef.nativeElement.text;
+      final String text = (_elementRef.nativeElement as Element).text;
       if (text != null) {
         return text;
       }
@@ -188,7 +193,7 @@ class MdIcon implements OnChanges, OnInit, AfterViewChecked {
   bool get _usingFontIcon => !(svgIcon != null || svgSrc != null);
 
   void _setSvgElement(SvgElement svg) {
-    final Element layoutElement = _elementRef.nativeElement;
+    final Element layoutElement = _elementRef.nativeElement as Element;
     // Remove existing child nodes and add the new SVG element.
     // We would use renderer.detachView(Array.from(layoutElement.childNodes)) here,
     // but it fails in IE11: https://github.com/angular/angular/issues/6327
@@ -196,10 +201,10 @@ class MdIcon implements OnChanges, OnInit, AfterViewChecked {
     _renderer.projectNodes(layoutElement, [svg]);
   }
 
-  _updateFontIconClasses() {
+  void _updateFontIconClasses() {
     if (!_usingFontIcon) return;
 
-    final elem = _elementRef.nativeElement;
+    final Element elem = _elementRef.nativeElement as Element;
     final String fontSetClass = fontSet != null
         ? _mdIconRegistry.classNameForFontAlias(fontSet)
         : _mdIconRegistry.defaultFontSetClass;
@@ -225,4 +230,4 @@ class MdIcon implements OnChanges, OnInit, AfterViewChecked {
   }
 }
 
-const MD_ICON_DIRECTIVES = const [MdIcon];
+const List MD_ICON_DIRECTIVES = const [MdIcon];

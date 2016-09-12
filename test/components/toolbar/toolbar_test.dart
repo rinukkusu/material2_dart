@@ -22,7 +22,7 @@ void main() {
 
   ngTest('should apply class based on color attribute', () async {
     ComponentFixture fixture = await builder.createAsync(TestApp);
-    var testComponent = fixture.debugElement.componentInstance;
+    dynamic testComponent = fixture.debugElement.componentInstance;
     var toolbarDebugElement = fixture.debugElement.query(By.css('md-toolbar'));
 
     testComponent.toolbarColor = 'primary';

@@ -28,10 +28,8 @@ class ViewportRuler {
         window.innerWidth, window.innerHeight);
   }
 
-  /**
-   * Gets the (top, left) scroll position of the viewport.
-   */
-  Map getViewportScrollPosition([Rectangle documentRect]) {
+   /// Gets the (top, left) scroll position of the viewport.
+  Map<String, num> getViewportScrollPosition([Rectangle documentRect]) {
     documentRect ??= document.documentElement.getBoundingClientRect();
     // The top-left-corner of the viewport is determined by the scroll position of the document
     // body, normally just (scrollLeft, scrollTop). However, Chrome and Firefox disagree about

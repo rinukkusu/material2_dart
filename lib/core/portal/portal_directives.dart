@@ -23,7 +23,7 @@ class TemplatePortalDirective extends TemplatePortal {
  * directly attached to it, enabling declarative use.
  *
  * Usage:
- * <template [portalHost]="greeting"></template>
+ * <template portalHost="greeting"></template>
  */
 @Directive(selector: "[portalHost]", inputs: const ["portal: portalHost"])
 class PortalHostDirective extends BasePortalHost {
@@ -41,7 +41,8 @@ class PortalHostDirective extends BasePortalHost {
     _replaceAttachedPortal(p);
   }
 
-  /** Attach the given ComponentPortal to this PortlHost using the ComponentResolver. */
+  /// Attach the given ComponentPortal to this PortlHost using the ComponentResolver.
+  @override
   Future<ComponentRef> attachComponentPortal(ComponentPortal portal) async {
     portal.setAttachedHost(this);
     // If the portal specifies an origin, use that as the logical location of the component
@@ -58,7 +59,8 @@ class PortalHostDirective extends BasePortalHost {
     return ref;
   }
 
-  /** Attach the given TemplatePortal to this PortlHost as an embedded View. */
+  /// Attach the given TemplatePortal to this PortlHost as an embedded View.
+  @override
   Future<Map<String, dynamic>> attachTemplatePortal(TemplatePortal portal) {
     portal.setAttachedHost(this);
     _viewContainerRef.createEmbeddedView(portal.templateRef);
@@ -69,8 +71,8 @@ class PortalHostDirective extends BasePortalHost {
 
   /** Detatches the currently attached Portal (if there is one) and attaches the given Portal. */
   void _replaceAttachedPortal(Portal<dynamic> p) {
-    var maybeDetach = hasAttached() ? detach() : new Future.value();
-    maybeDetach.then((_) {
+    var maybeDetach = hasAttached() ? detach() : new Future<Null>.value();
+    maybeDetach.then/*<Null>*/((Null _) {
       if (p != null) {
         attach(p);
         _portal = p;

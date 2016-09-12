@@ -7,7 +7,7 @@ class LiveAnnouncerDemo {
 
   LiveAnnouncerDemo(this.live);
 
-  announceText(String message) {
+  void announceText(String message) {
     live.announce(message);
   }
 }

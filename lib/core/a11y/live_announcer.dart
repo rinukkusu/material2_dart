@@ -2,7 +2,7 @@ import 'dart:html';
 import 'dart:async';
 import "package:angular2/core.dart";
 
-const LIVE_ANNOUNCER_ELEMENT_TOKEN =
+const OpaqueToken LIVE_ANNOUNCER_ELEMENT_TOKEN =
     const OpaqueToken("mdLiveAnnouncerElement");
 
 @Injectable()
@@ -29,7 +29,7 @@ class MdLiveAnnouncer {
     // - With Chrome and IE11 with NVDA or JAWS, a repeated (identical) message won't be read a
     //   second time without clearing and then using a non-zero delay.
     // (using JAWS 17 at time of this writing).
-    new Future.delayed(const Duration(milliseconds: 100), () {
+    new Future<Null>.delayed(const Duration(milliseconds: 100), () {
       _liveElement.text = message;
     });
   }

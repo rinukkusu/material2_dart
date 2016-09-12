@@ -11,7 +11,7 @@ export 'position/connected_position.dart';
 export 'overlay_container.dart';
 
 /** Token used to inject the DOM element that serves as the overlay container. */
-const OVERLAY_CONTAINER_TOKEN = const OpaqueToken("overlayContainer");
+const OpaqueToken OVERLAY_CONTAINER_TOKEN = const OpaqueToken("overlayContainer");
 /** Next overlay unique ID. */
 int nextUniqueId = 0;
 /** The default state for newly created overlays. */
@@ -74,7 +74,7 @@ class Overlay {
 }
 
 /** Providers for Overlay and its related injectables. */
-const OVERLAY_PROVIDERS = const [
+const List OVERLAY_PROVIDERS = const [
   ViewportRuler,
   OverlayPositionBuilder,
   Overlay

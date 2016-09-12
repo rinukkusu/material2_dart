@@ -90,10 +90,10 @@ class GlobalPositionStrategy implements PositionStrategy {
     return this;
   }
 
-  /**
-   * Apply the position to the element.
-   * TODO: internal
-   */
+
+   // Apply the position to the element.
+   // TODO: internal
+  @override
   Future apply(Element element) {
     element.style
       ..position = _cssPosition
@@ -107,7 +107,7 @@ class GlobalPositionStrategy implements PositionStrategy {
     String tranlateX = _reduceTranslateValues("translateX", _translateX);
     String translateY = _reduceTranslateValues("translateY", _translateY);
     applyCssTransform(element, '$tranlateX $translateY');
-    return new Future.value();
+    return new Future<Null>.value();
   }
 
   /** Reduce a list of translate values to a string that can be used in the transform property */

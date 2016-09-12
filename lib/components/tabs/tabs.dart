@@ -12,7 +12,7 @@ export "tab_label_wrapper.dart";
 export "ink_bar.dart";
 
 /** Used to generate unique ID's for each tab component */
-var nextId = 0;
+int nextId = 0;
 
 /** A simple change event emitted on focus or selection changes. */
 class MdTabChangeEvent {
@@ -85,6 +85,7 @@ class MdTabGroup implements AfterViewChecked {
    * Note: This must be run outside of the zone or it will create an infinite change detection loop
    * TODO: internal
    */
+  @override
   void ngAfterViewChecked() {
     _zone.runOutsideAngular(() {
       window.requestAnimationFrame((_) {
@@ -96,7 +97,7 @@ class MdTabGroup implements AfterViewChecked {
 
   /** Tells the ink-bar to align itself to the current label wrapper */
   void _updateInkBar() {
-    inkBar.toList()[0].alignToElement(_currentLabelWrapper);
+    inkBar.toList().first.alignToElement(_currentLabelWrapper);
   }
 
   /**
@@ -106,6 +107,7 @@ class MdTabGroup implements AfterViewChecked {
   Element get _currentLabelWrapper {
     return labelWrappers != null && labelWrappers.isNotEmpty
         ? labelWrappers.toList()[selectedIndex].elementRef.nativeElement
+            as Element
         : null;
   }
 
@@ -157,4 +159,9 @@ class MdTabGroup implements AfterViewChecked {
   }
 }
 
-const MD_TABS_DIRECTIVES = const [MdTabGroup, MdTabLabel, MdTabContent, MdTab];
+const List MD_TABS_DIRECTIVES = const [
+  MdTabGroup,
+  MdTabLabel,
+  MdTabContent,
+  MdTab
+];

@@ -112,7 +112,7 @@ class TileStyler {
    * This method will be implemented by each type of TileStyler.
    * @internal
    */
-  setRowStyles(
+  void setRowStyles(
       MdGridTile tile, int rowIndex, num percentWidth, num gutterWidth) {}
 
   /** Calculates the computed height and returns the correct style property to set.
@@ -131,21 +131,24 @@ class FixedTileStyler extends TileStyler {
 
   FixedTileStyler(this.fixedRowHeight) : super();
 
-  /** @internal */
-  init(String gutterSize, TileCoordinator tracker, num cols, String direction) {
+  // @internal
+  @override
+  void init(String gutterSize, TileCoordinator tracker, int cols, String direction) {
     super.init(gutterSize, tracker, cols, direction);
     fixedRowHeight = normalizeUnits(fixedRowHeight);
   }
 
-  /** @internal */
+  // @internal
+  @override
   void setRowStyles(
       MdGridTile tile, int rowIndex, num percentWidth, num gutterWidth) {
     tile.setStyle("top", getTilePosition(fixedRowHeight, rowIndex));
     tile.setStyle("height", calc(getTileSize(fixedRowHeight, tile.rowspan)));
   }
 
-  /** @internal */
-  getComputedHeight() {
+  // @internal
+  @override
+  List<String> getComputedHeight() {
     return [
       "height",
       calc('${getTileSpan(fixedRowHeight)} + ${getGutterSpan()}')
@@ -164,7 +167,8 @@ class RatioTileStyler extends TileStyler {
     _parseRatio(value);
   }
 
-  /** @internal */
+  // @internal
+  @override
   void setRowStyles(
       MdGridTile tile, int rowIndex, num percentWidth, num gutterWidth) {
     var percentHeightPerTile = percentWidth / rowHeightRatio;
@@ -177,7 +181,8 @@ class RatioTileStyler extends TileStyler {
         "paddingTop", calc(getTileSize(baseTileHeight, tile.rowspan)));
   }
 
-  /** @internal */
+  // @internal
+  @override
   List<String> getComputedHeight() {
     return [
       "paddingBottom",
@@ -199,7 +204,8 @@ class RatioTileStyler extends TileStyler {
  *  In other words, the row height will reflect the total height of the container divided
  *  by the number of rows.  Example <md-grid-list cols="3" rowHeight="fit"> */
 class FitTileStyler extends TileStyler {
-  /** @internal */
+  // @internal
+  @override
   void setRowStyles(
       MdGridTile tile, int rowIndex, num percentWidth, num gutterWidth) {
     // Percent of the available vertical space that one row takes up.

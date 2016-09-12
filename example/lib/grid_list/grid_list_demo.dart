@@ -41,7 +41,7 @@ class GridListDemo {
   String ratio = "4:1";
   String basicRowHeight = '100px';
 
-  addTileCols() {
+  void addTileCols() {
     tiles[2]['cols']++;
   }
 }

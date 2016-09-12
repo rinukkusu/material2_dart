@@ -6,7 +6,7 @@ import "package:material2_dart/components/checkbox/checkbox.dart";
 import "package:material2_dart/components/icon/icon.dart";
 import "package:material2_dart/components/toolbar/toolbar.dart";
 
-var max = 5;
+int max = 5;
 
 @Component(
     selector: "input-demo",
@@ -35,7 +35,7 @@ class InputDemo {
     {"value": 50}
   ];
 
-  addABunch(num n) {
+  void addABunch(num n) {
     for (var x = 0; x < n; x++) {
       items.add({'value': ++max});
     }

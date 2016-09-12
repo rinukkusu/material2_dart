@@ -31,11 +31,12 @@ void main() {
       var fixture = await builder.createAsync(MdInputBaseTestController);
       fixture.detectChanges();
       fakeAsync(() {
-        var instance = fixture.componentInstance;
-        var component =
+        dynamic instance = fixture.componentInstance;
+        dynamic component =
             fixture.debugElement.query(By.directive(MdInput)).componentInstance;
-        InputElement el =
-            fixture.debugElement.query(By.css('input')).nativeElement;
+        InputElement el = fixture.debugElement
+            .query(By.css('input'))
+            .nativeElement as InputElement;
 
         instance.model = 'hello';
         fixture.detectChanges();
@@ -56,10 +57,12 @@ void main() {
           .createAsync(MdInputBaseTestController);
       fixture.detectChanges();
       fakeAsync(() {
-        final Element componentElement =
-            fixture.debugElement.query(By.directive(MdInput)).nativeElement;
-        final InputElement inputElement =
-            fixture.debugElement.query(By.css('input')).nativeElement;
+        final Element componentElement = fixture.debugElement
+            .query(By.directive(MdInput))
+            .nativeElement as Element;
+        final InputElement inputElement = fixture.debugElement
+            .query(By.css('input'))
+            .nativeElement as InputElement;
         expect(componentElement.id, equals('test-id'));
         expect(inputElement.id.isNotEmpty, isTrue);
         expect(inputElement.id, isNot(equals(componentElement.id)));
@@ -67,9 +70,9 @@ void main() {
     });
     ngTest('counts characters', () async {
       var fixture = await builder.createAsync(MdInputBaseTestController);
-      var instance = fixture.componentInstance;
+      dynamic instance = fixture.componentInstance;
       fixture.detectChanges();
-      var inputInstance =
+      dynamic inputInstance =
           fixture.debugElement.query(By.directive(MdInput)).componentInstance;
       instance.model = 'hello';
       fixture.detectChanges();
@@ -77,10 +80,11 @@ void main() {
     });
     ngTest('copies aria attributes to the inner input', () async {
       var fixture = await builder.createAsync(MdInputAriaTestController);
-      var instance = fixture.componentInstance;
+      dynamic instance = fixture.componentInstance;
       fixture.detectChanges();
-      InputElement el =
-          fixture.debugElement.query(By.css('input')).nativeElement;
+      InputElement el = fixture.debugElement
+          .query(By.css('input'))
+          .nativeElement as InputElement;
       expect(el.attributes['aria-label'], equals('label'));
       instance.ariaLabel = 'label 2';
       fixture.detectChanges();
@@ -228,9 +232,9 @@ class MdInputAriaTestController {
 ''',
     directives: const [MdInput])
 class MdInputWithBlurAndFocusEvents {
-  onBlur(FocusEvent event) {}
+  void onBlur(FocusEvent event) {}
 
-  onFocus(FocusEvent event) {}
+  void onFocus(FocusEvent event) {}
 }
 
 @Component(

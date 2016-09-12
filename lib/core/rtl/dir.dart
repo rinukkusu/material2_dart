@@ -22,13 +22,13 @@ class Dir {
   String _dir = ltr;
 
   @Output()
-  EventEmitter dirChange = new EventEmitter();
+  EventEmitter dirChange = new EventEmitter<Null>();
 
   @HostBinding('attr.dir')
   String get attrDir => _dir;
 
   @Input()
-  void set dir(String v) {
+  set dir(String v) {
     _validateLayoutDirection(v);
     var old = _dir;
     _dir = v;
@@ -37,12 +37,12 @@ class Dir {
 
   String get value => dir;
 
-  void set value(String v) {
+  set value(String v) {
     _validateLayoutDirection(v);
     dir = v;
   }
 
-  _validateLayoutDirection(String v) {
+  void _validateLayoutDirection(String v) {
     if (!_layoutDirections.contains(v)) {
       throw new ArgumentError('Invalid dir value.');
     }

@@ -21,13 +21,13 @@ class MdGridTile {
   int get colspan => _colspan;
 
   @Input()
-  set rowspan(value) {
-    _rowspan = coerceToNumber(value);
+  set rowspan(dynamic value) {
+    _rowspan = coerceToNumber(value).toInt();
   }
 
   @Input()
-  set colspan(value) {
-    _colspan = coerceToNumber(value);
+  set colspan(dynamic value) {
+    _colspan = coerceToNumber(value).toInt();
   }
 
   /** Sets the style of the grid-tile element.  Needs to be set manually to avoid
@@ -54,9 +54,10 @@ class MdGridTileText implements AfterContentInit {
   @ContentChildren(MdLine)
   QueryList<MdLine> lines;
 
-  MdGridTileText(this._renderer, this._elementRef) {}
+  MdGridTileText(this._renderer, this._elementRef);
 
-  ngAfterContentInit() {
+  @override
+  void ngAfterContentInit() {
     _lineSetter = new MdLineSetter(lines, _renderer, _elementRef);
   }
 }

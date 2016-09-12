@@ -14,7 +14,7 @@ class MdSlideToggleChange {
 }
 
 // Increasing integer for generating unique ids for slide-toggle components.
-var nextId = 0;
+int nextId = 0;
 
 @Component(
     selector: "md-slide-toggle",
@@ -36,7 +36,7 @@ class MdSlideToggle implements ControlValueAccessor {
   Function onTouched = () {};
 
   // A unique id for the slide-toggle. By default the id is auto-generated.
-  String _uniqueId = 'md-slide-toggle-${++nextId}';
+  String _uniqueId = 'md-slide-toggle-$nextId';
   bool _checked = false;
   String _color;
   bool hasFocus = false;
@@ -53,7 +53,10 @@ class MdSlideToggle implements ControlValueAccessor {
   @Input()
   String name;
 
-  String get id => _uniqueId;
+  String get id {
+    nextId++;
+    return _uniqueId;
+  }
 
   @Input()
   set id(String v) {
@@ -76,7 +79,7 @@ class MdSlideToggle implements ControlValueAccessor {
   Stream<MdSlideToggleChange> get change => _change;
 
   // Returns the unique id for the visual hidden input.
-  String getInputId() => '${id ?? _uniqueId}-input';
+  String getInputId() => '$id-input';
 
   MdSlideToggle(this._elementRef, this._renderer);
 
@@ -86,7 +89,7 @@ class MdSlideToggle implements ControlValueAccessor {
    * which triggers a onChange event on click.
    * @internal
    */
-  onChangeEvent(Event event) {
+  void onChangeEvent(Event event) {
     // We always have to stop propagation on the change event.
     // Otherwise the change event, from the input element, will bubble up and
     // emit its event object to the component's `change` output.
@@ -95,7 +98,7 @@ class MdSlideToggle implements ControlValueAccessor {
   }
 
   /** @internal */
-  onInputClick(Event event) {
+  void onInputClick(Event event) {
     onTouched();
     // We have to stop propagation for click events on the visual hidden input element.
     // By default, when a user clicks on a label element, a generated click event will be
@@ -108,25 +111,25 @@ class MdSlideToggle implements ControlValueAccessor {
   }
 
   /** @internal */
-  setMousedown() {
+  void setMousedown() {
     // We only *show* the focus style when focus has come to the button via the keyboard.
     // The Material Design spec is silent on this topic, and without doing this, the
     // button continues to look :active after clicking.
     // @see http://marcysutton.com/button-focus-hell/
     _isMousedown = true;
-    new Future.delayed(
+    new Future<Null>.delayed(
         const Duration(milliseconds: 100), () => _isMousedown = false);
   }
 
   /** @internal */
-  onInputFocus() {
+  void onInputFocus() {
     // Only show the focus / ripple indicator when the focus was not triggered by a mouse
     // interaction on the component.
     if (!_isMousedown) hasFocus = true;
   }
 
   /** @internal */
-  onInputBlur() {
+  void onInputBlur() {
     hasFocus = false;
     onTouched();
   }
@@ -135,33 +138,32 @@ class MdSlideToggle implements ControlValueAccessor {
    * Implemented as part of ControlValueAccessor.
    * TODO: internal
    */
+  @override
   void writeValue(dynamic value) {
     checked = value;
   }
 
-  /**
-   * Implemented as part of ControlValueAccessor.
-   * TODO: internal
-   */
+  /// Implemented as part of ControlValueAccessor.
+  /// TODO: internal
+  @override
   void registerOnChange(dynamic fn) {
-    onChange = fn;
+    onChange = fn as Function;
   }
 
-  /**
-   * Implemented as part of ControlValueAccessor.
-   * TODO: internal
-   */
+  /// mplemented as part of ControlValueAccessor.
+  /// TODO: internal
+  @override
   void registerOnTouched(dynamic fn) {
-    onTouched = fn;
+    onTouched = fn as Function;
   }
 
-  get checked => _checked;
+  bool get checked => _checked;
 
   @Input()
   set checked(dynamic value) {
-    value = booleanFieldValue(value);
-    if (!identical(checked, value)) {
-      _checked = value;
+    bool v = booleanFieldValue(value);
+    if (!identical(checked, v)) {
+      _checked = v;
       onChange(_checked);
       _emitChangeEvent();
     }
@@ -174,24 +176,23 @@ class MdSlideToggle implements ControlValueAccessor {
     _updateColor(value);
   }
 
-  toggle() {
+  void toggle() {
     checked = !checked;
   }
 
-  _updateColor(String newColor) {
+  void _updateColor(String newColor) {
     _setElementColor(_color, false);
     _setElementColor(newColor, true);
     _color = newColor;
   }
 
-  _setElementColor(String color, bool isAdd) {
+  void _setElementColor(String color, bool isAdd) {
     if (color != null && color != "") {
-      _renderer.setElementClass(
-          _elementRef.nativeElement, 'md-${ color}', isAdd);
+      _renderer.setElementClass(_elementRef.nativeElement, 'md-$color', isAdd);
     }
   }
 
-  _emitChangeEvent() {
+  void _emitChangeEvent() {
     var event = new MdSlideToggleChange();
     event.source = this;
     event.checked = checked;
@@ -199,4 +200,4 @@ class MdSlideToggle implements ControlValueAccessor {
   }
 }
 
-const MD_SLIDE_TOGGLE_DIRECTIVES = const [MdSlideToggle];
+const List MD_SLIDE_TOGGLE_DIRECTIVES = const [MdSlideToggle];

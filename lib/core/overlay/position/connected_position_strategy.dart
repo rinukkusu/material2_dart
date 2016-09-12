@@ -33,7 +33,7 @@ class ConnectedPositionStrategy implements PositionStrategy {
   ConnectedPositionStrategy(ElementRef _connectedTo, this._originPos,
       this._overlayPos, this._viewportRuler)
       : this._connectedTo = _connectedTo,
-        _origin = _connectedTo.nativeElement {
+        _origin = _connectedTo.nativeElement as Element {
     withFallbackPosition(_originPos, _overlayPos);
   }
 
@@ -44,6 +44,7 @@ class ConnectedPositionStrategy implements PositionStrategy {
    * to the origin fits on-screen.
    * TODO: internal
    */
+  @override
   Future apply(Element element) {
     // We need the bounding rects for the origin and the overlay to determine how to position
     // the overlay relative to the origin.
@@ -51,7 +52,7 @@ class ConnectedPositionStrategy implements PositionStrategy {
     final overlayRect = element.getBoundingClientRect();
     // We use the viewport rect to determine whether a position would go off-screen.
     final viewportRect = _viewportRuler.getViewportRect();
-    Point firstOverlayPoint = null;
+    Point firstOverlayPoint;
     // We want to place the overlay in the first of the preferred positions such that the
     // overlay fits on-screen.
     for (var pos in _preferredPositions) {
@@ -64,16 +65,16 @@ class ConnectedPositionStrategy implements PositionStrategy {
       if (_willOverlayFitWithinViewport(
           overlayPoint, overlayRect, viewportRect)) {
         this._setElementPosition(element, overlayPoint);
-        return new Future.value();
+        return new Future<Null>.value();
       }
     }
     // TODO(jelbourn): fallback behavior for when none of the preferred positions fit on-screen.
     // For now, just stick it in the first position and let it go off-screen.
     _setElementPosition(element, firstOverlayPoint);
-    return new Future.value();
+    return new Future<Null>.value();
   }
 
-  withFallbackPosition(OriginConnectionPosition originPos,
+  ConnectedPositionStrategy withFallbackPosition(OriginConnectionPosition originPos,
       OverlayConnectionPosition overlayPos) {
     _preferredPositions.add(new ConnectionPositionPair(originPos, overlayPos));
     return this;
@@ -163,7 +164,7 @@ class ConnectedPositionStrategy implements PositionStrategy {
   /**
    * Physically positions the overlay element to the given coordinate.
    */
-  _setElementPosition(Element element, Point overlayPoint) {
+  void _setElementPosition(Element element, Point overlayPoint) {
     var scrollPos = _viewportRuler.getViewportScrollPosition();
     var x = overlayPoint.x + scrollPos['left'];
     var y = overlayPoint.y + scrollPos['top'];

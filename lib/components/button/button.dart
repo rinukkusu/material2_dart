@@ -36,7 +36,7 @@ class MdButton {
 
   String get color => _color;
 
-  void set color(String value) {
+  set color(String value) {
     _updateColor(value);
   }
 
@@ -75,8 +75,7 @@ class MdButton {
     isKeyboardFocused = false;
   }
 
-  /** TODO(hansl): e2e test this function. */
-  focus() {
+  void focus() {
     _elementRef.nativeElement.focus();
   }
 }
@@ -113,12 +112,12 @@ class MdAnchor extends MdButton {
 
   // The presence of *any* disabled value makes the component disabled, *except* for false.
   @Input('disabled')
-  void set disabled(bool value) {
+  set disabled(bool value) {
     _disabled = value != null && value != false;
   }
 
-  /** @internal */
-  haltDisabledEvents(Event event) {
+  /// @internal
+  void haltDisabledEvents(Event event) {
     // A disabled button shouldn't apply any actions
     if (_disabled) {
       event.preventDefault();
@@ -127,4 +126,4 @@ class MdAnchor extends MdButton {
   }
 }
 
-const MD_BUTTON_DIRECTIVES = const [MdButton, MdAnchor];
+const List MD_BUTTON_DIRECTIVES = const [MdButton, MdAnchor];

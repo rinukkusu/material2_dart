@@ -28,7 +28,7 @@ class MdIconSvgTagNotFoundError extends MdError {
  * @internal
  */
 class SvgIconConfig {
-  SvgElement svgElement = null;
+  SvgElement svgElement;
   String url;
 
   SvgIconConfig(this.url);
@@ -47,7 +47,7 @@ String iconKey(String namespace, String name) => '$namespace:$name';
 @Injectable()
 class MdIconRegistry {
   /**
-   * URLs and cached SVG elements for individual icons. Keys are of the format "[namespace]:[icon]".
+   * URLs and cached SVG elements for individual icons. Keys are of the format "[namespace]:icon".
    */
   Map<String, SvgIconConfig> _svgIconConfigs = <String, SvgIconConfig>{};
 
@@ -230,7 +230,8 @@ class MdIconRegistry {
     // cached SVG element (unless the request failed), and we can check again for the icon.
     // TODO: Confirm it is the equivalent process of RxJS `forkJoin`.
     return Future
-        .wait(iconSetFetchRequests.map((Stream v) => v.last))
+        .wait/*<SvgElement>*/(
+            iconSetFetchRequests.map((Stream<SvgElement> v) => v.last))
         .then((_) {
       final foundIcon = _extractIconWithNameFromAnySet(name, iconSetConfigs);
       if (foundIcon == null) throw new MdIconNameNotFoundError(name);
@@ -302,7 +303,7 @@ class MdIconRegistry {
     // If the icon node is itself an <svg> node, clone and return it directly. If not, set it as
     // the content of a new <svg> node.
     if (iconNode.tagName.toLowerCase() == 'svg') {
-      return _setSvgAttributes(iconNode.clone(true), config);
+      return _setSvgAttributes(iconNode.clone(true) as SvgElement, config);
     }
     // createElement('SVG') doesn't work as expected; the DOM ends up with
     // the correct nodes, but the SVG content doesn't render. Instead we
@@ -321,7 +322,7 @@ class MdIconRegistry {
   SvgElement _svgElementFromString(String str) {
     final div = new DivElement()
       ..setInnerHtml(str, validator: new NodeValidatorBuilder()..allowSvg());
-    final SvgElement svg = div.querySelector('svg');
+    final SvgElement svg = div.querySelector('svg') as SvgElement;
     if (svg == null) {
       throw new MdIconSvgTagNotFoundError();
     }
@@ -374,4 +375,4 @@ class MdIconRegistry {
 }
 
 /** Clones an SVGElement while preserving type information. */
-SvgElement cloneSvg(SvgElement svg) => svg.clone(true);
+SvgElement cloneSvg(SvgElement svg) => svg.clone(true) as SvgElement;

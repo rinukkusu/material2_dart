@@ -29,13 +29,13 @@ void validateArgument(dynamic value, List<dynamic> list) {
     host: const {'(transitionend)': r'onTransitionEnd($event)'},
     changeDetection: ChangeDetectionStrategy.OnPush)
 class MdSidenav {
-  /** Alignment of the sidenav (direction neutral); whether 'start' or 'end'. */
+  /// Alignment of the sidenav (direction neutral); whether 'start' or 'end'.
   String _align = 'start';
 
   String get align => _align;
 
   @Input()
-  void set align(String value) {
+  set align(String value) {
     validateArgument(value, ['start', 'end']);
     _align = value;
   }
@@ -46,7 +46,7 @@ class MdSidenav {
   String get mode => _mode;
 
   @Input()
-  void set mode(String value) {
+  set mode(String value) {
     validateArgument(value, ['over', 'push', 'side']);
     _mode = value;
   }
@@ -57,7 +57,7 @@ class MdSidenav {
   bool get opened => _opened;
 
   @Input()
-  void set opened(dynamic v) {
+  set opened(dynamic v) {
     validateArgument(v, ['true', 'false', true, false, null]);
     bool value = booleanFieldValue(v);
     toggle(value);
@@ -65,19 +65,19 @@ class MdSidenav {
 
   /** Event emitted when the sidenav is being opened. Use this to synchronize animations. */
   @Output('open-start')
-  EventEmitter onOpenStart = new EventEmitter();
+  EventEmitter onOpenStart = new EventEmitter<Null>();
 
   /** Event emitted when the sidenav is fully opened. */
   @Output('open')
-  EventEmitter onOpen = new EventEmitter();
+  EventEmitter onOpen = new EventEmitter<Null>();
 
   /** Event emitted when the sidenav is being closed. Use this to synchronize animations. */
   @Output('close-start')
-  EventEmitter onCloseStart = new EventEmitter();
+  EventEmitter onCloseStart = new EventEmitter<Null>();
 
   /** Event emitted when the sidenav is fully closed. */
   @Output('close')
-  EventEmitter onClose = new EventEmitter();
+  EventEmitter onClose = new EventEmitter<Null>();
 
   // This should be private but currently is public just for testing.
   ElementRef elementRef;
@@ -102,7 +102,7 @@ class MdSidenav {
     if (isOpen == null) isOpen = !opened;
     if (isOpen == opened) {
       if (!_transition) {
-        return new Future.value();
+        return new Future<Null>.value();
       } else {
         return isOpen ? _openFuture : _closeFuture;
       }
@@ -118,7 +118,7 @@ class MdSidenav {
 
     if (isOpen) {
       if (_openFuture == null) {
-        var completer = new Completer();
+        var completer = new Completer<dynamic>();
         _openFuture = completer.future;
         _openFutureError = completer.completeError;
         _openFutureSuccess = completer.complete;
@@ -126,7 +126,7 @@ class MdSidenav {
       return _openFuture;
     } else {
       if (_closeFuture == null) {
-        var completer = new Completer();
+        var completer = new Completer<dynamic>();
         _closeFuture = completer.future;
         _closeFutureError = completer.completeError;
         _closeFutureSuccess = completer.complete;
@@ -141,7 +141,7 @@ class MdSidenav {
    * Android so we use any.
    * @internal
    */
-  onTransitionEnd(TransitionEvent transitionEvent) {
+  void onTransitionEnd(TransitionEvent transitionEvent) {
     if (transitionEvent.target == elementRef.nativeElement &&
         // Simpler version to check for prefixes.
         transitionEvent.propertyName.endsWith('transform')) {
@@ -189,9 +189,9 @@ class MdSidenav {
    * not be used outside.
    * @internal
    */
-  get width {
+  num get width {
     if (elementRef.nativeElement != null) {
-      return elementRef.nativeElement.offsetWidth;
+      return elementRef.nativeElement.offsetWidth as num;
     }
     return 0;
   }
@@ -233,9 +233,9 @@ class MdSidenavLayout implements AfterContentInit {
   MdSidenav _start;
   MdSidenav _end;
 
-  get start => _start;
+  MdSidenav get start => _start;
 
-  get end => _end;
+  MdSidenav get end => _end;
 
   /**
    * The sidenav at the left/right. When direction changes, these will change as well.
@@ -251,11 +251,12 @@ class MdSidenavLayout implements AfterContentInit {
   Renderer _renderer;
 
   MdSidenavLayout(@Optional() this._dir, this._elementRef, this._renderer) {
-    if (_dir != null) _dir.dirChange.listen((_) => _validateDrawers());
+    if (_dir != null) _dir.dirChange.listen((Null _) => _validateDrawers());
   }
 
-  /** TODO: internal */
-  ngAfterContentInit() {
+  // TODO: internal
+  @override
+  void ngAfterContentInit() {
     // On changes, assert on consistency.
     sidenavs.changes.listen((_) => _validateDrawers());
     sidenavs.forEach((MdSidenav sidenav) => _watchSidenavToggle(sidenav));
@@ -270,8 +271,8 @@ class MdSidenavLayout implements AfterContentInit {
   */
   void _watchSidenavToggle(MdSidenav sidenav) {
     if (sidenav == null || sidenav.mode == 'side') return;
-    sidenav.onOpen.listen((_) => _setLayoutClass(sidenav, true));
-    sidenav.onClose.listen((_) => _setLayoutClass(sidenav, false));
+    sidenav.onOpen.listen((Null _) => _setLayoutClass(sidenav, true));
+    sidenav.onClose.listen((Null _) => _setLayoutClass(sidenav, false));
   }
 
   /* Toggles the 'md-sidenav-opened' class on the main 'md-sidenav-layout' element. */
@@ -309,7 +310,7 @@ class MdSidenavLayout implements AfterContentInit {
   }
 
   /** @internal */
-  closeModalSidenav() {
+  void closeModalSidenav() {
     if (_start != null && _start.mode != 'side') {
       _start.close();
     }
@@ -359,7 +360,7 @@ class MdSidenavLayout implements AfterContentInit {
   num get positionOffset => positionLeft - positionRight;
 
   /**
-   * This is using [ngStyle] rather than separate [style...] properties because [style.transform]
+   * This is using ngStyle rather than separate [style...] properties because style.transform
    * doesn't seem to work right now.
    * @internal
    */
@@ -372,4 +373,4 @@ class MdSidenavLayout implements AfterContentInit {
   }
 }
 
-const MD_SIDENAV_DIRECTIVES = const [MdSidenavLayout, MdSidenav];
+const List MD_SIDENAV_DIRECTIVES = const [MdSidenavLayout, MdSidenav];

@@ -24,15 +24,16 @@ class MdListAvatar {}
     templateUrl: 'list_item.html',
     encapsulation: ViewEncapsulation.None)
 class MdListItem implements AfterContentInit {
-  /** @internal */
+  // @internal
   bool hasFocus = false;
 
   MdLineSetter _lineSetter;
   @ContentChildren(MdLine)
   QueryList<MdLine> lines;
 
-  /** TODO: internal */
-  ngAfterContentInit() {
+  // TODO: internal
+  @override
+  void ngAfterContentInit() {
     _lineSetter = new MdLineSetter(lines, _renderer, _elementRef);
   }
 
@@ -58,4 +59,4 @@ class MdListItem implements AfterContentInit {
   }
 }
 
-const MD_LIST_DIRECTIVES = const [MdList, MdListItem, MdLine, MdListAvatar];
+const List MD_LIST_DIRECTIVES = const [MdList, MdListItem, MdLine, MdListAvatar];

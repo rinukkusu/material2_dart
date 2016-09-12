@@ -16,7 +16,8 @@ class DomPortalHost extends BasePortalHost {
 
   DomPortalHost(this._hostDomElement, this._componentResolver);
 
-  /** Attach the given ComponentPortal to DOM element using the ComponentResolver. */
+  /// Attach the given ComponentPortal to DOM element using the ComponentResolver.
+  @override
   Future<ComponentRef> attachComponentPortal(ComponentPortal portal) async {
     if (portal.viewContainerRef == null) {
       throw new MdComponentPortalAttachedToDomWithoutOriginError();
@@ -26,15 +27,16 @@ class DomPortalHost extends BasePortalHost {
     var ref = portal.viewContainerRef.createComponent(componentFactory,
         portal.viewContainerRef.length, portal.viewContainerRef.parentInjector);
     var hostView = (ref.hostView as EmbeddedViewRef);
-    _hostDomElement.append(hostView.rootNodes[0]);
+    _hostDomElement.append(hostView.rootNodes[0] as Node);
     setDisposeFn(() => ref.destroy());
     return ref;
   }
 
+  @override
   Future<Map<String, dynamic>> attachTemplatePortal(TemplatePortal portal) {
     var viewContainer = portal.viewContainerRef;
     var viewRef = viewContainer.createEmbeddedView(portal.templateRef);
-    viewRef.rootNodes.forEach((rootNode) => _hostDomElement.append(rootNode));
+    viewRef.rootNodes.forEach((Element rootNode) => _hostDomElement.append(rootNode));
     setDisposeFn((() {
       var index = viewContainer.indexOf(viewRef);
       if (index != -1) viewContainer.remove(index);
@@ -43,6 +45,7 @@ class DomPortalHost extends BasePortalHost {
     return new Future.value(new Map<String, dynamic>());
   }
 
+  @override
   void dispose() {
     super.dispose();
     if (_hostDomElement.parentNode != null) _hostDomElement.remove();

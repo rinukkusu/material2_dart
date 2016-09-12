@@ -52,7 +52,7 @@ class MdGridList implements OnInit, AfterContentChecked {
 
   @Input()
   set cols(dynamic value) {
-    _cols = coerceToNumber(value);
+    _cols = coerceToNumber(value).toInt();
   }
 
   String get gutterSize => _gutter;
@@ -69,23 +69,23 @@ class MdGridList implements OnInit, AfterContentChecked {
     _setTileStyler();
   }
 
-  /** TODO: internal */
-  ngOnInit() {
+  /// TODO: internal
+  @override
+  void ngOnInit() {
     _checkCols();
     _checkRowHeight();
   }
 
-  /**
-   * The layout calculation is fairly cheap if nothing changes, so there's little cost
-   * to run it frequently.
-   * TODO: internal
-   */
-  ngAfterContentChecked() {
+  /// The layout calculation is fairly cheap if nothing changes, so there's little cost
+  /// to run it frequently.
+  /// TODO: internal
+  @override
+  void ngAfterContentChecked() {
     _layoutTiles();
   }
 
-  /** Throw a friendly error if cols property is missing */
-  _checkCols() {
+  /// Throw a friendly error if cols property is missing.
+  void _checkCols() {
     if (cols == 0) {
       throw new MdGridListColsError();
     }
