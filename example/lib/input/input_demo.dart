@@ -26,7 +26,7 @@ class InputDemo {
   bool dividerColor = false;
   bool requiredField = false;
   bool floatingLabel = false;
-  String name;
+  String name = '';
   List<Map<String, int>> items = [
     {"value": 10},
     {"value": 20},

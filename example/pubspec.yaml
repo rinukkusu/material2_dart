@@ -3,15 +3,15 @@ version: 0.1.0
 author: ntaoo <ntaoo.g@gmail.com>
 homepage: https://github.com/ntaoo/material2_dart
 environment:
-  sdk: '>=1.0.0 <2.0.0'
+  sdk: '>=1.19.0 <2.0.0'
 dependencies:
-  angular2: ">=2.0.0-beta.17 <3.0.0"
+  angular2: 2.0.0-beta.21
   material2_dart:
     path: ../
   dart_to_js_script_rewriter: ^0.1.0
 dev_dependencies:
   browser: ^0.10.0
-  scissors: ">=0.6.1 <0.7.0"
+  scissors: 0.6.4
 transformers:
 - scissors:
     pruneCss: false
