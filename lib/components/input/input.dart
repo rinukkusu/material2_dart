@@ -68,7 +68,8 @@ typedef dynamic OnTouchedCallback();
     styleUrls: const ["input.scss.css"],
     providers: const [MD_INPUT_CONTROL_VALUE_ACCESSOR],
     host: const {"(click)": "focus()"})
-class MdInput implements ControlValueAccessor<dynamic>, AfterContentInit, OnChanges {
+class MdInput
+    implements ControlValueAccessor<dynamic>, AfterContentInit, OnChanges {
   bool _focused = false;
   String _value = "";
 
@@ -180,9 +181,13 @@ class MdInput implements ControlValueAccessor<dynamic>, AfterContentInit, OnChan
 
   @Input()
   set maxLength(dynamic v) {
-    if (v is String) _maxLength = int.parse(v);
-    if (v is int) v;
-    throw new ArgumentError();
+    if (v is String) {
+      _maxLength = int.parse(v);
+    } else if (v is int) {
+      _maxLength = v;
+    } else {
+      throw new ArgumentError(v);
+    }
   }
 
   int get maxLength => _maxLength;
@@ -295,7 +300,7 @@ class MdInput implements ControlValueAccessor<dynamic>, AfterContentInit, OnChan
   /// TODO: internal
   @override
   void writeValue(dynamic value) {
-    _value = value as String;
+    _value = value.toString();
   }
 
   /// Implemented as part of ControlValueAccessor.

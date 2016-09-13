@@ -237,7 +237,7 @@ void main() {
             completer.done();
           })();
         });
-      }, skip: 'should fix this test.');
+      });
 
       test('should attach and detach a template portal with a binding', () {
         return inject(
@@ -273,7 +273,7 @@ void main() {
             completer.done();
           })();
         });
-      }, skip: 'should fix this test.');
+      });
 
       test('should change the attached portal', () {
         return inject(

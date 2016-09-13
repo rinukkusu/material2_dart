@@ -117,8 +117,9 @@ class MdSlideToggle implements ControlValueAccessor<dynamic> {
     // button continues to look :active after clicking.
     // @see http://marcysutton.com/button-focus-hell/
     _isMousedown = true;
-    new Future<Null>.delayed(
-        const Duration(milliseconds: 100), () => _isMousedown = false);
+    new Future<Null>.delayed(const Duration(milliseconds: 100), () {
+      _isMousedown = false;
+    });
   }
 
   /** @internal */

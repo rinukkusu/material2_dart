@@ -36,7 +36,7 @@ class DomPortalHost extends BasePortalHost {
   Future<Map<String, dynamic>> attachTemplatePortal(TemplatePortal portal) {
     var viewContainer = portal.viewContainerRef;
     var viewRef = viewContainer.createEmbeddedView(portal.templateRef);
-    viewRef.rootNodes.forEach((Element rootNode) => _hostDomElement.append(rootNode));
+    viewRef.rootNodes.forEach((Node rootNode) => _hostDomElement.append(rootNode));
     setDisposeFn((() {
       var index = viewContainer.indexOf(viewRef);
       if (index != -1) viewContainer.remove(index);
