@@ -1,127 +1,139 @@
 import 'dart:html';
 import 'package:angular2/core.dart';
-import 'package:angular2/platform/browser.dart';
-import 'package:angular2_testing/angular2_testing.dart';
+import "package:angular2/testing_internal.dart";
 import 'package:material2_dart/components/button/button.dart';
 @TestOn('browser')
 import 'package:test/test.dart';
 
 void main() {
-  TestComponentBuilder builder;
+  test('should apply class based on color attribute', () {
+    return inject([TestComponentBuilder, AsyncTestCompleter],
+        (TestComponentBuilder tcb, AsyncTestCompleter completer) async {
+      ComponentFixture fixture = await tcb.createAsync(TestApp);
+      TestApp testComponent = fixture.debugElement.componentInstance;
+      var buttonDebugElement = fixture.debugElement.query(By.css('button'));
+      var aDebugElement = fixture.debugElement.query(By.css('a'));
 
-  initAngularTests();
+      testComponent.buttonColor = 'primary';
+      fixture.detectChanges();
 
-  setUpProviders(() {
-    return const [
-      const Provider(TestComponentBuilder, useClass: TestComponentBuilder)
-    ];
+      expect(buttonDebugElement.nativeElement.classes.contains('md-primary'),
+          isTrue);
+      expect(
+          aDebugElement.nativeElement.classes.contains('md-primary'), isTrue);
+      completer.done();
+    });
   });
 
-  ngSetUp((TestComponentBuilder tcb) {
-    builder = tcb;
-  });
+  test('should should not clear previous defined classes', () {
+    return inject([TestComponentBuilder, AsyncTestCompleter],
+        (TestComponentBuilder tcb, AsyncTestCompleter completer) async {
+      ComponentFixture fixture = await tcb.createAsync(TestApp);
+      TestApp testComponent = fixture.debugElement.componentInstance;
+      var buttonDebugElement = fixture.debugElement.query(By.css('button'));
 
-  ngTest('should apply class based on color attribute', () async {
-    ComponentFixture fixture = await builder.createAsync(TestApp);
-    dynamic testComponent = fixture.debugElement.componentInstance;
-    var buttonDebugElement = fixture.debugElement.query(By.css('button'));
-    var aDebugElement = fixture.debugElement.query(By.css('a'));
+      buttonDebugElement.nativeElement.classes.add('custom-class');
 
-    testComponent.buttonColor = 'primary';
-    fixture.detectChanges();
+      testComponent.buttonColor = 'primary';
+      fixture.detectChanges();
 
-    expect(buttonDebugElement.nativeElement.classes.contains('md-primary'),
-        isTrue);
-    expect(aDebugElement.nativeElement.classes.contains('md-primary'), isTrue);
-  });
+      expect(buttonDebugElement.nativeElement.classes.contains('md-primary'),
+          isTrue);
+      expect(buttonDebugElement.nativeElement.classes.contains('custom-class'),
+          isTrue);
 
-  ngTest('should should not clear previous defined classes', () async {
-    ComponentFixture fixture = await builder.createAsync(TestApp);
-    dynamic testComponent = fixture.debugElement.componentInstance;
-    var buttonDebugElement = fixture.debugElement.query(By.css('button'));
+      testComponent.buttonColor = 'accent';
+      fixture.detectChanges();
 
-    buttonDebugElement.nativeElement.classes.add('custom-class');
-
-    testComponent.buttonColor = 'primary';
-    fixture.detectChanges();
-
-    expect(buttonDebugElement.nativeElement.classes.contains('md-primary'),
-        isTrue);
-    expect(buttonDebugElement.nativeElement.classes.contains('custom-class'),
-        isTrue);
-
-    testComponent.buttonColor = 'accent';
-    fixture.detectChanges();
-
-    expect(buttonDebugElement.nativeElement.classes.contains('md-primary'),
-        isFalse);
-    expect(
-        buttonDebugElement.nativeElement.classes.contains('md-accent'), isTrue);
-    expect(buttonDebugElement.nativeElement.classes.contains('custom-class'),
-        isTrue);
+      expect(buttonDebugElement.nativeElement.classes.contains('md-primary'),
+          isFalse);
+      expect(buttonDebugElement.nativeElement.classes.contains('md-accent'),
+          isTrue);
+      expect(buttonDebugElement.nativeElement.classes.contains('custom-class'),
+          isTrue);
+      completer.done();
+    });
   });
 
   group('button[md-button]', () {
-    ngTest('should handle a click on the button', () async {
-      ComponentFixture fixture = await builder.createAsync(TestApp);
-      dynamic testComponent = fixture.debugElement.componentInstance;
-      var buttonDebugelement = fixture.debugElement.query(By.css('button'));
-      Element e = buttonDebugelement.nativeElement as Element;
-      e.click();
-      expect(testComponent.clickCount, equals(1));
+    test('should handle a click on the button', () {
+      return inject([TestComponentBuilder, AsyncTestCompleter],
+          (TestComponentBuilder tcb, AsyncTestCompleter completer) async {
+        ComponentFixture fixture = await tcb.createAsync(TestApp);
+        TestApp testComponent = fixture.debugElement.componentInstance;
+        var buttonDebugElement = fixture.debugElement.query(By.css('button'));
+        Element e = buttonDebugElement.nativeElement;
+        e.click();
+        expect(testComponent.clickCount, 1);
+        completer.done();
+      });
     });
-    ngTest('should not increment if disabled', () async {
-      ComponentFixture fixture = await builder.createAsync(TestApp);
-      TestApp testComponent = fixture.debugElement.componentInstance as TestApp;
-      var buttonDebugelement = fixture.debugElement.query(By.css('button'));
+    test('should not increment if disabled', () {
+      return inject([TestComponentBuilder, AsyncTestCompleter],
+          (TestComponentBuilder tcb, AsyncTestCompleter completer) async {
+        ComponentFixture fixture = await tcb.createAsync(TestApp);
+        TestApp testComponent = fixture.debugElement.componentInstance;
+        var buttonDebugElement = fixture.debugElement.query(By.css('button'));
 
-      testComponent.isDisabled = true;
-      fixture.detectChanges();
-      Element e = buttonDebugelement.nativeElement as Element;
-      e.click();
-      expect(testComponent.clickCount, equals(0));
+        testComponent.isDisabled = true;
+        fixture.detectChanges();
+        Element e = buttonDebugElement.nativeElement;
+        e.click();
+        expect(testComponent.clickCount, equals(0));
+        completer.done();
+      });
     });
   });
 
   group('a[md-button]', () {
-    ngTest('should not redirect if disabled', () async {
-      ComponentFixture fixture = await builder.createAsync(TestApp);
-      TestApp testComponent = fixture.debugElement.componentInstance as TestApp;
-      var buttonDebugelement = fixture.debugElement.query(By.css('a'));
+    test('should not redirect if disabled', () {
+      return inject([TestComponentBuilder, AsyncTestCompleter],
+          (TestComponentBuilder tcb, AsyncTestCompleter completer) async {
+        ComponentFixture fixture = await tcb.createAsync(TestApp);
+        TestApp testComponent = fixture.debugElement.componentInstance;
+        var buttonDebugElement = fixture.debugElement.query(By.css('a'));
 
-      testComponent.isDisabled = true;
-      fixture.detectChanges();
+        testComponent.isDisabled = true;
+        fixture.detectChanges();
 
-      Element e = buttonDebugelement.nativeElement as Element;
-      e.click();
-      // will error if page reloads.
-    },
-        skip:
-            'FIXME: Can not confirm the error when testComponent.isDisabled is set to false.');
-
-    ngTest('should remove tabindex if disabled', () async {
-      ComponentFixture fixture = await builder.createAsync(TestApp);
-      TestApp testComponent = fixture.debugElement.componentInstance as TestApp;
-      var buttonDebugelement = fixture.debugElement.query(By.css('a'));
-      Element e = buttonDebugelement.nativeElement as Element;
-      expect(e.attributes['tabIndex'], isNull);
-
-      testComponent.isDisabled = true;
-      fixture.detectChanges();
-      expect(e.attributes['tabIndex'], equals('-1'));
+        Element e = buttonDebugElement.nativeElement;
+        e.click();
+        // will error if page reloads.
+        completer.done();
+      });
     });
-    ngTest('should add aria-disabled attribute if disabled', () async {
-      ComponentFixture fixture = await builder.createAsync(TestApp);
-      dynamic testComponent = fixture.debugElement.componentInstance;
-      var buttonDebugElement = fixture.debugElement.query(By.css('a'));
-      fixture.detectChanges();
-      expect(buttonDebugElement.nativeElement.attributes['aria-disabled'],
-          equals('false'));
 
-      testComponent.isDisabled = true;
-      fixture.detectChanges();
-      expect(buttonDebugElement.nativeElement.attributes['aria-disabled'],
-          equals('true'));
+    test('should remove tabindex if disabled', () {
+      return inject([TestComponentBuilder, AsyncTestCompleter],
+          (TestComponentBuilder tcb, AsyncTestCompleter completer) async {
+        ComponentFixture fixture = await tcb.createAsync(TestApp);
+        TestApp testComponent = fixture.debugElement.componentInstance;
+        var buttonDebugElement = fixture.debugElement.query(By.css('a'));
+        Element e = buttonDebugElement.nativeElement;
+        expect(e.attributes['tabIndex'], isNull);
+
+        testComponent.isDisabled = true;
+        fixture.detectChanges();
+        expect(e.attributes['tabIndex'], '-1');
+        completer.done();
+      });
+    });
+
+    test('should add aria-disabled attribute if disabled', () {
+      return inject([TestComponentBuilder, AsyncTestCompleter],
+          (TestComponentBuilder tcb, AsyncTestCompleter completer) async {
+        ComponentFixture fixture = await tcb.createAsync(TestApp);
+        TestApp testComponent = fixture.debugElement.componentInstance;
+        var buttonDebugElement = fixture.debugElement.query(By.css('a'));
+        fixture.detectChanges();
+        expect(buttonDebugElement.nativeElement.attributes['aria-disabled'],
+            equals('false'));
+        testComponent.isDisabled = true;
+        fixture.detectChanges();
+        expect(buttonDebugElement.nativeElement.attributes['aria-disabled'],
+            equals('true'));
+        completer.done();
+      });
     });
   });
 }

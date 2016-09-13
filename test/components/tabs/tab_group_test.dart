@@ -1,175 +1,169 @@
-//import 'dart:html';
-
-//import 'dart:async';
 import 'dart:html';
 import 'package:angular2/core.dart';
-
-//import 'package:angular2/common.dart';
-import 'package:angular2/testing.dart';
-import 'package:angular2/platform/browser.dart';
-import 'package:angular2_testing/angular2_testing.dart';
+import "package:angular2/testing_internal.dart";
 import 'package:material2_dart/components/tabs/tabs.dart';
 @TestOn('browser')
 import 'package:test/test.dart';
 
 void main() {
-  TestComponentBuilder builder;
-
-  initAngularTests();
-
-  setUpProviders(() {
-    return const [
-      const Provider(TestComponentBuilder, useClass: TestComponentBuilder)
-    ];
-  });
   // FIXME: package:test doesn't support test double like spyOn. I may try to port spyOn from package:guiness to an individual package, or use some other mock package.
 
   group('MdTabGroup', () {
     ComponentFixture fixture;
 
-    /**
-     * Checks that the `selectedIndex` has been updated; checks that the label and body have the
-     * `md-active` class
-     */
+    // Checks that the `selectedIndex` has been updated; checks that the label and body have the
+    // `md-active` class
     void checkSelectedIndex(int index) {
       fixture.detectChanges();
 
-      MdTabGroup tabComponent = fixture.debugElement
-          .query(By.css('md-tab-group'))
-          .componentInstance as MdTabGroup;
-      expect(tabComponent.selectedIndex, equals(index));
+      MdTabGroup tabComponent =
+          fixture.debugElement.query(By.css('md-tab-group')).componentInstance;
+      expect(tabComponent.selectedIndex, index);
 
       Element tabLabelElement = fixture.debugElement
           .query(By.css('.md-tab-label:nth-of-type(${index + 1})'))
-          .nativeElement as Element;
-      expect(tabLabelElement.classes.contains('md-active'), isTrue);
+          .nativeElement;
+      expect(tabLabelElement.classes, contains('md-active'));
 
       Element tabContentElement = fixture.debugElement
           .query(By.css('#${tabLabelElement.id}'))
-          .nativeElement as Element;
-      expect(tabContentElement.classes.contains('md-active'), isTrue);
+          .nativeElement;
+      expect(tabContentElement.classes, contains('md-active'));
     }
 
-    ngSetUp((TestComponentBuilder tcb) {
-      builder = tcb;
-    });
-
     group('basic behavior', () {
-      ngSetUp(() async {
-        fixture = await builder.createAsync(SimpleTabsTestApp);
+      test('should default to the first tab', () {
+        return inject([TestComponentBuilder, AsyncTestCompleter],
+            (TestComponentBuilder tcb, AsyncTestCompleter completer) async {
+          fixture = await tcb.createAsync(SimpleTabsTestApp);
+          checkSelectedIndex(1);
+          completer.done();
+        });
       });
 
-      ngTest('should default to the first tab', () {
-        checkSelectedIndex(1);
+      test('should change selected index on click', () {
+        return inject([TestComponentBuilder, AsyncTestCompleter],
+            (TestComponentBuilder tcb, AsyncTestCompleter completer) async {
+          fixture = await tcb.createAsync(SimpleTabsTestApp);
+          SimpleTabsTestApp component = fixture.debugElement.componentInstance;
+          component.selectedIndex = 0;
+          checkSelectedIndex(0);
+
+          // select the second tab
+          var tabLabel = fixture.debugElement
+              .query(By.css('.md-tab-label:nth-of-type(2)'));
+          tabLabel.nativeElement.click();
+          checkSelectedIndex(1);
+
+          // select the third tab
+          tabLabel = fixture.debugElement
+              .query(By.css('.md-tab-label:nth-of-type(3)'));
+          tabLabel.nativeElement.click();
+          checkSelectedIndex(2);
+          completer.done();
+        });
       });
 
-      ngTest('should change selected index on click', () {
-        SimpleTabsTestApp component = fixture.debugElement.componentInstance as SimpleTabsTestApp;
-        component.selectedIndex = 0;
-        checkSelectedIndex(0);
-
-        // select the second tab
-        var tabLabel =
-            fixture.debugElement.query(By.css('.md-tab-label:nth-of-type(2)'));
-        tabLabel.nativeElement.click();
-        checkSelectedIndex(1);
-
-        // select the third tab
-        tabLabel =
-            fixture.debugElement.query(By.css('.md-tab-label:nth-of-type(3)'));
-        tabLabel.nativeElement.click();
-        checkSelectedIndex(2);
-      });
-
-      ngTest(
+      test(
           'should cycle through tab focus with focusNextTab/focusPreviousTab functions',
           () {
-        fakeAsync(() async {
-          dynamic testComponent = fixture.componentInstance;
-          var tabComponent = fixture.debugElement
-              .query(By.css('md-tab-group'))
-              .componentInstance as MdTabGroup;
+        return inject([TestComponentBuilder, AsyncTestCompleter],
+            (TestComponentBuilder tcb, AsyncTestCompleter completer) async {
+          fixture = await tcb.createAsync(SimpleTabsTestApp);
+          fakeAsync(() async {
+            SimpleTabsTestApp testComponent = fixture.componentInstance;
+            MdTabGroup tabComponent = fixture.debugElement
+                .query(By.css('md-tab-group'))
+                .componentInstance;
 //          spyOn(testComponent, 'handleFocus').and.callThrough();
-          fixture.detectChanges();
+            fixture.detectChanges();
 
-          tabComponent.focusIndex = 0;
-          fixture.detectChanges();
-          tick();
-          expect(tabComponent.focusIndex, equals(0));
+            tabComponent.focusIndex = 0;
+            fixture.detectChanges();
+            tick();
+            expect(tabComponent.focusIndex, 0);
 //          expect(testComponent.handleFocus).toHaveBeenCalledTimes(1);
-          expect(testComponent.focusEvent.index, equals(0));
+            expect(testComponent.focusEvent.index, 0);
 
-          tabComponent.focusNextTab();
-          fixture.detectChanges();
-          tick();
-          expect(tabComponent.focusIndex, equals(1));
+            tabComponent.focusNextTab();
+            fixture.detectChanges();
+            tick();
+            expect(tabComponent.focusIndex, 1);
 //          expect(testComponent.handleFocus).toHaveBeenCalledTimes(2);
-          expect(testComponent.focusEvent.index, equals(1));
+            expect(testComponent.focusEvent.index, 1);
 
-          tabComponent.focusNextTab();
-          fixture.detectChanges();
-          tick();
-          expect(tabComponent.focusIndex, equals(2));
+            tabComponent.focusNextTab();
+            fixture.detectChanges();
+            tick();
+            expect(tabComponent.focusIndex, 2);
 //          expect(testComponent.handleFocus).toHaveBeenCalledTimes(3);
-          expect(testComponent.focusEvent.index, equals(2));
+            expect(testComponent.focusEvent.index, 2);
 
-          tabComponent.focusNextTab();
-          fixture.detectChanges();
-          tick();
-          expect(tabComponent.focusIndex, equals(2)); // should stop at 2
+            tabComponent.focusNextTab();
+            fixture.detectChanges();
+            tick();
+            expect(tabComponent.focusIndex, 2); // should stop at 2
 //          expect(testComponent.handleFocus).toHaveBeenCalledTimes(3);
-          expect(testComponent.focusEvent.index, equals(2));
+            expect(testComponent.focusEvent.index, 2);
 
-          tabComponent.focusPreviousTab();
-          fixture.detectChanges();
-          tick();
-          expect(tabComponent.focusIndex, equals(1));
+            tabComponent.focusPreviousTab();
+            fixture.detectChanges();
+            tick();
+            expect(tabComponent.focusIndex, 1);
 //          expect(testComponent.handleFocus).toHaveBeenCalledTimes(4);
-          expect(testComponent.focusEvent.index, equals(1));
+            expect(testComponent.focusEvent.index, 1);
 
-          tabComponent.focusPreviousTab();
-          fixture.detectChanges();
-          tick();
-          expect(tabComponent.focusIndex, equals(0));
+            tabComponent.focusPreviousTab();
+            fixture.detectChanges();
+            tick();
+            expect(tabComponent.focusIndex, 0);
 //          expect(testComponent.handleFocus).toHaveBeenCalledTimes(5);
-          expect(testComponent.focusEvent.index, equals(0));
+            expect(testComponent.focusEvent.index, 0);
 
-          tabComponent.focusPreviousTab();
-          fixture.detectChanges();
-          tick();
-          expect(tabComponent.focusIndex, equals(0)); // should stop at 0
+            tabComponent.focusPreviousTab();
+            fixture.detectChanges();
+            tick();
+            expect(tabComponent.focusIndex, 0); // should stop at 0
 //          expect(testComponent.handleFocus).toHaveBeenCalledTimes(5);
-          expect(testComponent.focusEvent.index, equals(0));
-        })();
+            expect(testComponent.focusEvent.index, 0);
+          })();
+          completer.done();
+        });
       });
 
-      ngTest('should change tabs based on selectedIndex', () {
-        fakeAsync(() {
-          dynamic component = fixture.componentInstance;
-          var tabComponent = fixture.debugElement
-              .query(By.css('md-tab-group'))
-              .componentInstance as MdTabGroup;
+      test('should change tabs based on selectedIndex', () {
+        return inject([TestComponentBuilder, AsyncTestCompleter],
+            (TestComponentBuilder tcb, AsyncTestCompleter completer) async {
+          fixture = await tcb.createAsync(SimpleTabsTestApp);
+          fakeAsync(() {
+            SimpleTabsTestApp component = fixture.componentInstance;
+            MdTabGroup tabComponent = fixture.debugElement
+                .query(By.css('md-tab-group'))
+                .componentInstance;
 
 //          spyOn(component, 'handleSelection').and.callThrough();
 
-          checkSelectedIndex(1);
+            checkSelectedIndex(1);
 
-          tabComponent.selectedIndex = 2;
+            tabComponent.selectedIndex = 2;
 
-          checkSelectedIndex(2);
-          tick();
+            checkSelectedIndex(2);
+            tick();
 
 //          expect(component.handleSelection).toHaveBeenCalledTimes(1);
-          expect(component.selectEvent.index, equals(2));
-        })();
+            expect(component.selectEvent.index, 2);
+          })();
+          completer.done();
+        });
       });
+    });
       group('async tabs', () {
         // FIXME: Waiting for ng2 updated to greater than rc2 and whenStable() is supported.
 //        ngSetUp(() async {
 //          fixture = await builder.createAsync(AsyncTabsTestApp);
 //        });
 
-//        ngTest('should show tabs when they are available', () {
+//        test('should show tabs when they are available', () {
 //          var labels = fixture.debugElement.queryAll(By.css('.md-tab-label'));
 //
 //          expect(labels.length, equals(0));
@@ -184,7 +178,6 @@ void main() {
 //        });
 //       });
       });
-    });
   });
 }
 

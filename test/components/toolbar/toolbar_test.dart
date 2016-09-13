@@ -1,51 +1,38 @@
 import 'package:angular2/core.dart';
-import 'package:angular2/platform/browser.dart';
-import 'package:angular2_testing/angular2_testing.dart';
+import "package:angular2/testing_internal.dart";
 import 'package:material2_dart/components/toolbar/toolbar.dart';
 @TestOn('browser')
 import 'package:test/test.dart';
 
 void main() {
-  TestComponentBuilder builder;
+  test('should apply class based on color attribute', () {
+    return inject([TestComponentBuilder, AsyncTestCompleter],
+        (TestComponentBuilder tcb, AsyncTestCompleter completer) async {
+      ComponentFixture fixture = await tcb.createAsync(TestApp);
+      TestApp testComponent = fixture.debugElement.componentInstance;
+      var toolbarDebugElement =
+          fixture.debugElement.query(By.css('md-toolbar'));
 
-  initAngularTests();
+      testComponent.toolbarColor = 'primary';
+      fixture.detectChanges();
 
-  setUpProviders(() {
-    return const [
-      const Provider(TestComponentBuilder, useClass: TestComponentBuilder)
-    ];
-  });
+      expect(toolbarDebugElement.nativeElement.classes, contains('md-primary'));
 
-  ngSetUp((TestComponentBuilder tcb) {
-    builder = tcb;
-  });
+      testComponent.toolbarColor = 'accent';
+      fixture.detectChanges();
 
-  ngTest('should apply class based on color attribute', () async {
-    ComponentFixture fixture = await builder.createAsync(TestApp);
-    dynamic testComponent = fixture.debugElement.componentInstance;
-    var toolbarDebugElement = fixture.debugElement.query(By.css('md-toolbar'));
+      expect(toolbarDebugElement.nativeElement.classes,
+          isNot(contains('md-primary')));
+      expect(toolbarDebugElement.nativeElement.classes, contains('md-accent'));
 
-    testComponent.toolbarColor = 'primary';
-    fixture.detectChanges();
+      testComponent.toolbarColor = 'warn';
+      fixture.detectChanges();
 
-    expect(toolbarDebugElement.nativeElement.classes.contains('md-primary'),
-        isTrue);
-
-    testComponent.toolbarColor = 'accent';
-    fixture.detectChanges();
-
-    expect(toolbarDebugElement.nativeElement.classes.contains('md-primary'),
-        isFalse);
-    expect(toolbarDebugElement.nativeElement.classes.contains('md-accent'),
-        isTrue);
-
-    testComponent.toolbarColor = 'warn';
-    fixture.detectChanges();
-
-    expect(toolbarDebugElement.nativeElement.classes.contains('md-accent'),
-        isFalse);
-    expect(
-        toolbarDebugElement.nativeElement.classes.contains('md-warn'), isTrue);
+      expect(toolbarDebugElement.nativeElement.classes,
+          isNot(contains('md-accent')));
+      expect(toolbarDebugElement.nativeElement.classes, contains('md-warn'));
+      completer.done();
+    });
   });
 }
 

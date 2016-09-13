@@ -1,95 +1,98 @@
 import 'dart:html';
 import 'package:angular2/core.dart';
-import 'package:angular2/testing.dart';
-import 'package:angular2_testing/angular2_testing.dart';
-import 'package:angular2/platform/browser.dart';
+//import 'package:angular2/testing.dart';
+import "package:angular2/testing_internal.dart";
 import 'package:material2_dart/components/input/input.dart';
 @TestOn('browser')
 import 'package:test/test.dart';
 
 void main() {
-  initAngularTests();
-
-  setUpProviders(() {
-    return const [
-      const Provider(TestComponentBuilder, useClass: TestComponentBuilder)
-    ];
-  });
-
   group('MdInput', () {
-    TestComponentBuilder builder;
-    ngSetUp((TestComponentBuilder tcb) {
-      builder = tcb;
-    });
-    ngTest('creates a native <input> element', () async {
-      var fixture = await builder.createAsync(MdInputBaseTestController);
-      fixture.detectChanges();
-      expect(fixture.debugElement.query(By.css('input')), isNotNull);
+    test('creates a native <input> element', () {
+      return inject([TestComponentBuilder, AsyncTestCompleter],
+          (TestComponentBuilder tcb, AsyncTestCompleter completer) async {
+        var fixture = await tcb.createAsync(MdInputBaseTestController);
+        fixture.detectChanges();
+        expect(fixture.debugElement.query(By.css('input')), isNotNull);
+        completer.done();
+      });
     });
 
-    ngTest('support ngModel', () async {
-      var fixture = await builder.createAsync(MdInputBaseTestController);
-      fixture.detectChanges();
-      fakeAsync(() {
-        dynamic instance = fixture.componentInstance;
-        dynamic component =
+    test('support ngModel', () {
+      return inject([TestComponentBuilder, AsyncTestCompleter],
+          (TestComponentBuilder tcb, AsyncTestCompleter completer) async {
+        var fixture = await tcb.createAsync(MdInputBaseTestController);
+        fixture.detectChanges();
+        fakeAsync(() {
+          MdInputBaseTestController instance = fixture.componentInstance;
+          MdInput component = fixture.debugElement
+              .query(By.directive(MdInput))
+              .componentInstance;
+          InputElement el =
+              fixture.debugElement.query(By.css('input')).nativeElement;
+
+          instance.model = 'hello';
+          fixture.detectChanges();
+          tick();
+          expect(el.value, 'hello');
+          component.value = 'world';
+          fixture.detectChanges();
+          tick();
+          expect(el.value, 'world');
+        })();
+        completer.done();
+      });
+    });
+
+    test('should have a different ID for outer element and internal input', () {
+      return inject([TestComponentBuilder, AsyncTestCompleter],
+          (TestComponentBuilder tcb, AsyncTestCompleter completer) async {
+        var fixture = await tcb
+            .overrideTemplate(MdInputBaseTestController,
+                ' <md-input id="test-id"></md-input>')
+            .createAsync(MdInputBaseTestController);
+        fixture.detectChanges();
+        fakeAsync(() {
+          final Element componentElement =
+              fixture.debugElement.query(By.directive(MdInput)).nativeElement;
+          final InputElement inputElement =
+              fixture.debugElement.query(By.css('input')).nativeElement;
+          expect(componentElement.id, 'test-id');
+          expect(inputElement.id, isNotEmpty);
+          expect(inputElement.id, isNot(componentElement.id));
+        })();
+        completer.done();
+      });
+    });
+    test('counts characters', () {
+      return inject([TestComponentBuilder, AsyncTestCompleter],
+          (TestComponentBuilder tcb, AsyncTestCompleter completer) async {
+        var fixture = await tcb.createAsync(MdInputBaseTestController);
+        MdInputBaseTestController instance = fixture.componentInstance;
+        fixture.detectChanges();
+        MdInput inputInstance =
             fixture.debugElement.query(By.directive(MdInput)).componentInstance;
-        InputElement el = fixture.debugElement
-            .query(By.css('input'))
-            .nativeElement as InputElement;
-
         instance.model = 'hello';
         fixture.detectChanges();
-        tick();
-        expect(el.value, equals('hello'));
-        component.value = 'world';
+        expect(inputInstance.characterCount, 5);
+        completer.done();
+      });
+    });
+    test('copies aria attributes to the inner input', () {
+      return inject([TestComponentBuilder, AsyncTestCompleter],
+          (TestComponentBuilder tcb, AsyncTestCompleter completer) async {
+        var fixture = await tcb.createAsync(MdInputAriaTestController);
+        MdInputAriaTestController instance = fixture.componentInstance;
         fixture.detectChanges();
-        tick();
-        expect(el.value, equals('world'));
-      })();
-    });
-
-    ngTest('should have a different ID for outer element and internal input',
-        () async {
-      var fixture = await builder
-          .overrideTemplate(
-              MdInputBaseTestController, ' <md-input id="test-id"></md-input>')
-          .createAsync(MdInputBaseTestController);
-      fixture.detectChanges();
-      fakeAsync(() {
-        final Element componentElement = fixture.debugElement
-            .query(By.directive(MdInput))
-            .nativeElement as Element;
-        final InputElement inputElement = fixture.debugElement
-            .query(By.css('input'))
-            .nativeElement as InputElement;
-        expect(componentElement.id, equals('test-id'));
-        expect(inputElement.id.isNotEmpty, isTrue);
-        expect(inputElement.id, isNot(equals(componentElement.id)));
-      })();
-    });
-    ngTest('counts characters', () async {
-      var fixture = await builder.createAsync(MdInputBaseTestController);
-      dynamic instance = fixture.componentInstance;
-      fixture.detectChanges();
-      dynamic inputInstance =
-          fixture.debugElement.query(By.directive(MdInput)).componentInstance;
-      instance.model = 'hello';
-      fixture.detectChanges();
-      expect(inputInstance.characterCount, equals(5));
-    });
-    ngTest('copies aria attributes to the inner input', () async {
-      var fixture = await builder.createAsync(MdInputAriaTestController);
-      dynamic instance = fixture.componentInstance;
-      fixture.detectChanges();
-      InputElement el = fixture.debugElement
-          .query(By.css('input'))
-          .nativeElement as InputElement;
-      expect(el.attributes['aria-label'], equals('label'));
-      instance.ariaLabel = 'label 2';
-      fixture.detectChanges();
-      expect(el.getAttribute('aria-label'), equals('label 2'));
-      expect(el.getAttribute('aria-disabled'), isNotNull);
+        InputElement el =
+            fixture.debugElement.query(By.css('input')).nativeElement;
+        expect(el.attributes['aria-label'], 'label');
+        instance.ariaLabel = 'label 2';
+        fixture.detectChanges();
+        expect(el.getAttribute('aria-label'), 'label 2');
+        expect(el.getAttribute('aria-disabled'), isNotNull);
+        completer.done();
+      });
     });
   });
 
