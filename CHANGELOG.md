@@ -1,3 +1,15 @@
+## 0.1.1
+
+- Upgrade Angular to beta.21.
+- Upgrade related packages and SDK constraints.
+- Add a large number of analysis options for stricter type checking and better code style.
+- Upgrade tests for angular beta.21.
+- Also Upgrade demo.
+ 
+### Bug fixes.
+
+Fix `MdAnchor disabled` didn't work.
+
 ## 0.1.0
 
 **All porting works have done for the current target (anuglar/material2 6/15/2016).**
