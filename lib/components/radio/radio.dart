@@ -34,7 +34,7 @@ class MdRadioChange {
     selector: "md-radio-group",
     providers: const [MD_RADIO_GROUP_CONTROL_VALUE_ACCESSOR],
     host: const {"role": "radiogroup"})
-class MdRadioGroup implements AfterContentInit, ControlValueAccessor {
+class MdRadioGroup implements AfterContentInit, ControlValueAccessor<dynamic> {
   /**
    * Selected value for group. Should equal the value of the selected radio button if there *is*
    * a corresponding radio button with a matching value. If there is *not* such a corresponding

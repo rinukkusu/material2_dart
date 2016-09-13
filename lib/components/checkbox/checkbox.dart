@@ -53,7 +53,7 @@ class MdCheckboxChange {
     providers: const [MD_CHECKBOX_CONTROL_VALUE_ACCESSOR],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush)
-class MdCheckbox implements AfterContentInit, ControlValueAccessor {
+class MdCheckbox implements AfterContentInit, ControlValueAccessor<dynamic> {
   Renderer _renderer;
   ElementRef _elementRef;
 

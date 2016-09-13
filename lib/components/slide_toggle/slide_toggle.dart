@@ -29,7 +29,7 @@ int nextId = 0;
     styleUrls: const ["slide_toggle.scss.css"],
     providers: const [MD_SLIDE_TOGGLE_VALUE_ACCESSOR],
     changeDetection: ChangeDetectionStrategy.OnPush)
-class MdSlideToggle implements ControlValueAccessor {
+class MdSlideToggle implements ControlValueAccessor<dynamic> {
   ElementRef _elementRef;
   Renderer _renderer;
   Function onChange = (dynamic _) {};
