@@ -143,7 +143,7 @@ void main() {
     selector: 'test-app',
     template: '''
     <button md-button type="button" (click)="increment()"
-      [disabled]="isDisabled" [color]="buttonColor">
+      [disabled]="isDisabled" [color]="buttonColor" [disableRipple]="rippleDisabled">
       Go
     </button>
     <a href="http://www.google.com" md-button [disabled]="isDisabled" [color]="buttonColor">Link</a>
@@ -153,6 +153,7 @@ class TestApp {
   int clickCount = 0;
   bool isDisabled = false;
   String buttonColor;
+  bool rippleDisabled = false;
 
   void increment() {
     clickCount++;

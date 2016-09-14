@@ -1,10 +1,8 @@
 import 'dart:html';
 import 'dart:async';
 import 'package:angular2/core.dart';
-
-// TODO(jelbourn): Ink ripples.
-// TODO(jelbourn): Make the `isMouseDown` stuff done with one global listener.
-// TODO(kara): Convert attribute selectors to classes when attr maps become available
+import "package:material2_dart/core/annotations/field_value.dart";
+//import "package:material2_dart/core/ripple/ripple.dart";
 
 @Component(
     selector:
@@ -29,6 +27,16 @@ class MdButton {
   /// Whether a mousedown has occurred on this element in the last 100ms.
   bool isMouseDown = false;
 
+  bool _disableRipple = false;
+
+  /// Whether the ripple effect on click should be disabled.
+  @Input()
+  set disableRipple(dynamic v) {
+    _disableRipple = booleanFieldValue(v);
+  }
+
+  bool get disableRipple => _disableRipple;
+
   ElementRef _elementRef;
   Renderer _renderer;
 
@@ -40,8 +48,7 @@ class MdButton {
     _updateColor(value);
   }
 
-  // TODO: Confirm this method work after making it private.
-  /** @internal */
+  // internal
   void setMousedown() {
     // We only *show* the focus style when focus has come to the button via the keyboard.
     // The Material Design spec is silent on this topic, and without doing this, the
@@ -52,25 +59,23 @@ class MdButton {
   }
 
   void _updateColor(String newColor) {
-    this._setElementColor(_color, false);
-    this._setElementColor(newColor, true);
+    _setElementColor(_color, false);
+    _setElementColor(newColor, true);
     _color = newColor;
   }
 
   void _setElementColor(String color, bool isAdd) {
     if (color != null && color.isNotEmpty) {
-      assert(this._elementRef != null);
-      _renderer.setElementClass(
-          this._elementRef.nativeElement, 'md-$color', isAdd);
+      _renderer.setElementClass(_elementRef.nativeElement, 'md-$color', isAdd);
     }
   }
 
-  /** @internal */
+  // internal
   void setKeyboardFocus() {
     isKeyboardFocused = !isMouseDown;
   }
 
-  /** @internal */
+  // internal
   void removeKeyboardFocus() {
     isKeyboardFocused = false;
   }
@@ -78,6 +83,17 @@ class MdButton {
   void focus() {
     _elementRef.nativeElement.focus();
   }
+
+  Element getHostElement() => _elementRef.nativeElement;
+
+  bool isRoundButton() {
+    final Element el = _elementRef.nativeElement;
+    return el.attributes.containsKey('md-icon-button') ||
+        el.attributes.containsKey('md-fab') ||
+        el.attributes.containsKey('md-mini-fab');
+  }
+
+  bool isRippleEnabled() => !disableRipple;
 }
 
 @Component(
@@ -116,10 +132,10 @@ class MdAnchor extends MdButton {
     _disabled = value != null && value != false;
   }
 
-  /// @internal
+  // internal
   void haltDisabledEvents(Event event) {
     // A disabled button shouldn't apply any actions
-    if (_disabled) {
+    if (disabled) {
       event.preventDefault();
       event.stopImmediatePropagation();
     }
