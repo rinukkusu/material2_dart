@@ -138,7 +138,6 @@ class MdCheckbox implements AfterContentInit, ControlValueAccessor<dynamic> {
     }
   }
 
-  // TODO: internal
   @override
   void ngAfterContentInit() {
     _isInitialized = true;
@@ -166,7 +165,6 @@ class MdCheckbox implements AfterContentInit, ControlValueAccessor<dynamic> {
   }
 
   /// Implemented as part of ControlValueAccessor.
-  /// TODO: internal
   @override
   void writeValue(dynamic value) {
     // FIXME(ntaoo): I'm assuming the value is either bool or String or null, that may be wrong.
@@ -180,14 +178,12 @@ class MdCheckbox implements AfterContentInit, ControlValueAccessor<dynamic> {
   }
 
   /// Implemented as part of ControlValueAccessor.
-  /// TODO: internal
   @override
   void registerOnChange(dynamic fn) {
     _controlValueAccessorChangeFn = fn as Function;
   }
 
   /// Implemented as part of ControlValueAccessor.
-  /// TODO: internal
   @override
   void registerOnTouched(dynamic fn) {
     onTouched = fn as Function;
@@ -223,7 +219,6 @@ class MdCheckbox implements AfterContentInit, ControlValueAccessor<dynamic> {
 
   /**
    * Informs the component when the input has focus so that we can style accordingly
-   * @internal
    */
   void onInputFocus() {
     hasFocus = true;
@@ -247,7 +242,6 @@ class MdCheckbox implements AfterContentInit, ControlValueAccessor<dynamic> {
 
   /// Event handler for checkbox input element.
   /// Toggles checked state if element is not disabled.
-  /// @internal
   void onInteractionEvent(Event event) {
     // We always have to stop propagation on the change event.
 
@@ -260,7 +254,6 @@ class MdCheckbox implements AfterContentInit, ControlValueAccessor<dynamic> {
     }
   }
 
-  ///@internal
   void onInputClick(Event event) {
     // We have to stop propagation for click events on the visual hidden input element.
     // By default, when a user clicks on a label element, a generated click event will be

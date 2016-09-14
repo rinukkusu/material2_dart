@@ -97,7 +97,6 @@ class MdSlideToggle implements AfterContentInit, ControlValueAccessor<dynamic> {
    * The onChangeEvent method will be also called on click.
    * This is because everything for the slide-toggle is wrapped inside of a label,
    * which triggers a onChange event on click.
-   * @internal
    */
   void onChangeEvent(Event event) {
     // We always have to stop propagation on the change event.
@@ -107,7 +106,6 @@ class MdSlideToggle implements AfterContentInit, ControlValueAccessor<dynamic> {
     if (!disabled) toggle();
   }
 
-  /** @internal */
   void onInputClick(Event event) {
     onTouched();
     // We have to stop propagation for click events on the visual hidden input element.
@@ -120,7 +118,6 @@ class MdSlideToggle implements AfterContentInit, ControlValueAccessor<dynamic> {
     event.stopPropagation();
   }
 
-  /** @internal */
   void setMousedown() {
     // We only *show* the focus style when focus has come to the button via the keyboard.
     // The Material Design spec is silent on this topic, and without doing this, the
@@ -132,14 +129,12 @@ class MdSlideToggle implements AfterContentInit, ControlValueAccessor<dynamic> {
     });
   }
 
-  /** @internal */
   void onInputFocus() {
     // Only show the focus / ripple indicator when the focus was not triggered by a mouse
     // interaction on the component.
     if (!_isMousedown) hasFocus = true;
   }
 
-  /** @internal */
   void onInputBlur() {
     hasFocus = false;
     onTouched();
@@ -147,7 +142,6 @@ class MdSlideToggle implements AfterContentInit, ControlValueAccessor<dynamic> {
 
   /**
    * Implemented as part of ControlValueAccessor.
-   * TODO: internal
    */
   @override
   void writeValue(dynamic value) {
@@ -155,14 +149,12 @@ class MdSlideToggle implements AfterContentInit, ControlValueAccessor<dynamic> {
   }
 
   /// Implemented as part of ControlValueAccessor.
-  /// TODO: internal
   @override
   void registerOnChange(dynamic fn) {
     onChange = fn as Function;
   }
 
   /// mplemented as part of ControlValueAccessor.
-  /// TODO: internal
   @override
   void registerOnTouched(dynamic fn) {
     onTouched = fn as Function;

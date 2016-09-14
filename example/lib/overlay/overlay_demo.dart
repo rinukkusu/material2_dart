@@ -46,7 +46,6 @@ class OverlayDemo {
   }
 
   Future<Null> openSpaghettiPanel() async {
-    // TODO(jelbourn): separate overlay demo for connected positioning.
     var strategy = overlay.position().connectedTo(
         overlayOrigin.elementRef,
         new OriginConnectionPosition(

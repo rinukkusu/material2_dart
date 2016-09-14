@@ -92,7 +92,6 @@ class GlobalPositionStrategy implements PositionStrategy {
 
 
    // Apply the position to the element.
-   // TODO: internal
   @override
   Future apply(Element element) {
     element.style

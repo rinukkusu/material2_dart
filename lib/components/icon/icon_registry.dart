@@ -25,7 +25,6 @@ class MdIconSvgTagNotFoundError extends MdError {
 
 /**
  * Configuration for an icon, including the URL and possibly the cached SVG element.
- * @internal
  */
 class SvgIconConfig {
   SvgElement svgElement;

@@ -41,8 +41,6 @@ class MdTab {
     directives: const [PortalHostDirective, MdTabLabelWrapper, MdInkBar])
 class MdTabGroup implements AfterViewChecked {
   NgZone _zone;
-
-  /** @internal */
   @ContentChildren(MdTab)
   QueryList<MdTab> tabs;
   @ViewChildren(MdTabLabelWrapper)
@@ -91,7 +89,6 @@ class MdTabGroup implements AfterViewChecked {
   /**
    * Waits one frame for the view to update, then upates the ink bar
    * Note: This must be run outside of the zone or it will create an infinite change detection loop
-   * TODO: internal
    */
   @override
   void ngAfterViewChecked() {
@@ -144,13 +141,11 @@ class MdTabGroup implements AfterViewChecked {
 
   /**
    * Returns a unique id for each tab label element
-   * @internal
    */
   String getTabLabelId(int i) => 'md-tab-label-$_groupId-$i';
 
   /**
    * Returns a unique id for each tab content element
-   * @internal
    */
   String getTabContentId(int i) => 'md-tab-content-$_groupId-$i';
 

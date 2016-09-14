@@ -142,7 +142,6 @@
 //
 //  /**
 //   * Type of the button toggle. Either 'radio' or 'checkbox'.
-//   * @internal
 //   */
 //  String type;
 //
@@ -202,7 +201,6 @@
 //    }
 //  }
 //
-//  /** @internal */
 //  ngOnInit() {
 //    if (id == null) {
 //      id = 'md-button-toggle-${_uniqueIdCounter++}';
@@ -277,7 +275,6 @@
 //
 //  /**
 //   * Checks the button toggle due to an interaction with the underlying native input.
-//   * @internal
 //   */
 //  onInputChange(Event event) {
 //    event.stopPropagation();

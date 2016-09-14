@@ -24,14 +24,12 @@ class MdListAvatar {}
     templateUrl: 'list_item.html',
     encapsulation: ViewEncapsulation.None)
 class MdListItem implements AfterContentInit {
-  // @internal
   bool hasFocus = false;
 
   MdLineSetter _lineSetter;
   @ContentChildren(MdLine)
   QueryList<MdLine> lines;
 
-  // TODO: internal
   @override
   void ngAfterContentInit() {
     _lineSetter = new MdLineSetter(lines, _renderer, _elementRef);
@@ -48,12 +46,10 @@ class MdListItem implements AfterContentInit {
 
   MdListItem(this._renderer, this._elementRef);
 
-  /** @internal */
   void handleFocus() {
     hasFocus = true;
   }
 
-  /** @internal */
   void handleBlur() {
     hasFocus = false;
   }

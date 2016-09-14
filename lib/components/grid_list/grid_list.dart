@@ -123,7 +123,6 @@ class MdGridList implements OnInit, AfterContentChecked {
 
   /**
    * Sets style on the main grid-list element, given the style name and value.
-   * @internal
    */
   void setListStyle(List<String> style) {
     if (style != null) {

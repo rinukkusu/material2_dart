@@ -274,26 +274,22 @@ class MdInput
     inputElement.nativeElement.focus();
   }
 
-  /** @internal */
   void handleFocus(FocusEvent event) {
     _focused = true;
     _focusEmitter.emit(event);
   }
 
-  /** @internal */
   void handleBlur(FocusEvent event) {
     _focused = false;
     _onTouchedCallback();
     _blurEmitter.emit(event);
   }
 
-  /** @internal */
   void handleChange(Event event) {
     value = (event.target as InputElement).value;
     _onTouchedCallback();
   }
 
-  /** @internal */
   bool hasPlaceholder() => !isBlank(placeholder) || placeholderChild != null;
 
   /// Implemented as part of ControlValueAccessor.

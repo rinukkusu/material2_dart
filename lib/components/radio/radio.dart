@@ -117,7 +117,6 @@ class MdRadioGroup implements AfterContentInit, ControlValueAccessor<dynamic> {
 
   /// Initialize properties once content children are available.
   /// This allows us to propagate relevant attributes to associated buttons.
-  /// TODO: internal
   @override
   void ngAfterContentInit() {
     // Mark this component as initialized in AfterContentInit because the initial value can
@@ -128,7 +127,6 @@ class MdRadioGroup implements AfterContentInit, ControlValueAccessor<dynamic> {
 
   /// Mark this group as being "touched" (for ngModel). Meant to be called by the contained
   /// radio buttons upon their blur.
-  /// @internal
   void touch() {
     if (onTouched != null) onTouched();
   }
@@ -170,7 +168,6 @@ class MdRadioGroup implements AfterContentInit, ControlValueAccessor<dynamic> {
 
   /**
    * Implemented as part of ControlValueAccessor.
-   * TODO: internal
    */
   @override
   void writeValue(dynamic value) {
@@ -179,7 +176,6 @@ class MdRadioGroup implements AfterContentInit, ControlValueAccessor<dynamic> {
 
   /**
    * Implemented as part of ControlValueAccessor.
-   * TODO: internal
    */
   // void fn(dynamic value)
   @override
@@ -189,7 +185,6 @@ class MdRadioGroup implements AfterContentInit, ControlValueAccessor<dynamic> {
 
   /**
    * Implemented as part of ControlValueAccessor.
-   * TODO: internal
    */
   @override
   void registerOnTouched(dynamic fn) {
@@ -309,7 +304,6 @@ class MdRadioButton implements OnInit {
     _disabled = booleanFieldValue(value);
   }
 
-  /** TODO: internal */
   @override
   void ngOnInit() {
     if (radioGroup != null) {
@@ -328,7 +322,6 @@ class MdRadioButton implements OnInit {
     change.emit(event);
   }
 
-  // @internal
   void onClick(Event event) {
     if (disabled) {
       event.preventDefault();
@@ -348,12 +341,10 @@ class MdRadioButton implements OnInit {
   /// We use a hidden native input field to handle changes to focus state via keyboard navigation,
   ///  with visual rendering done separately. The native element is kept in sync with the overall
   ///  state of the component.
-  ///  @internal
   void onInputFocus() {
     isFocused = true;
   }
 
-  // @internal
   void onInputBlur() {
     isFocused = false;
     if (radioGroup != null) {
@@ -362,7 +353,6 @@ class MdRadioButton implements OnInit {
   }
 
   /// Checks the radio due to an interaction with the underlying native <input type="radio">
-  /// @internal
   void onInputChange(Event event) {
     // We always have to stop propagation on the change event.
     // Otherwise the change event, from the input element, will bubble up and

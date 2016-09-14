@@ -47,17 +47,13 @@ class MdProgressCircle implements OnDestroy {
    * because voiceover does not report the progress indicator as indeterminate if the aria min
    * and/or max value are number values.
    *
-   * @internal
    */
   num get ariaValueMin => mode == "determinate" ? 0 : null;
 
-  /** @internal */
   num get ariaValueMax => mode == "determinate" ? 100 : null;
 
-  /** @internal */
   Timer get interdeterminateInterval => _interdeterminateInterval;
 
-  /** @internal */
   set interdeterminateInterval(Timer interval) {
     _interdeterminateInterval?.cancel();
     _interdeterminateInterval = interval;

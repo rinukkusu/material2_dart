@@ -3,7 +3,6 @@ import "package:angular2/core.dart";
 
 /**
  * The ink-bar is used to display and animate the line underneath the current active tab label.
- * @internal
  */
 @Directive(selector: "md-ink-bar")
 class MdInkBar {
