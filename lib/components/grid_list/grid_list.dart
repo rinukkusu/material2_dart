@@ -69,7 +69,6 @@ class MdGridList implements OnInit, AfterContentChecked {
     _setTileStyler();
   }
 
-  /// TODO: internal
   @override
   void ngOnInit() {
     _checkCols();
@@ -78,7 +77,6 @@ class MdGridList implements OnInit, AfterContentChecked {
 
   /// The layout calculation is fairly cheap if nothing changes, so there's little cost
   /// to run it frequently.
-  /// TODO: internal
   @override
   void ngAfterContentChecked() {
     _layoutTiles();

@@ -297,27 +297,23 @@ class MdInput
   bool hasPlaceholder() => !isBlank(placeholder) || placeholderChild != null;
 
   /// Implemented as part of ControlValueAccessor.
-  /// TODO: internal
   @override
   void writeValue(dynamic value) {
     _value = value.toString();
   }
 
   /// Implemented as part of ControlValueAccessor.
-  /// TODO: internal
   @override
   void registerOnChange(dynamic fn) {
     _onChangeCallback = fn as OnChangeCallback;
   }
 
   /// Implemented as part of ControlValueAccessor.
-  /// TODO: internal
   @override
   void registerOnTouched(dynamic fn) {
     _onTouchedCallback = fn as OnTouchedCallback;
   }
 
-  // TODO: internal
   @override
   void ngAfterContentInit() {
     _validateConstraints();
@@ -327,7 +323,6 @@ class MdInput
     });
   }
 
-  // TODO: internal
   @override
   void ngOnChanges(Map<String, SimpleChange> changes) {
     _validateConstraints();

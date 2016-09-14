@@ -131,14 +131,12 @@ class FixedTileStyler extends TileStyler {
 
   FixedTileStyler(this.fixedRowHeight) : super();
 
-  // @internal
   @override
   void init(String gutterSize, TileCoordinator tracker, int cols, String direction) {
     super.init(gutterSize, tracker, cols, direction);
     fixedRowHeight = normalizeUnits(fixedRowHeight);
   }
 
-  // @internal
   @override
   void setRowStyles(
       MdGridTile tile, int rowIndex, num percentWidth, num gutterWidth) {
@@ -146,7 +144,6 @@ class FixedTileStyler extends TileStyler {
     tile.setStyle("height", calc(getTileSize(fixedRowHeight, tile.rowspan)));
   }
 
-  // @internal
   @override
   List<String> getComputedHeight() {
     return [

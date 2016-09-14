@@ -108,7 +108,6 @@ class MdIcon implements OnChanges, OnInit, AfterViewChecked {
     }
   }
 
-  // TODO: internal
   @override
   void ngOnChanges(Map<String, SimpleChange> changes) {
     final changedInputs = (changes.keys).toList(growable: false);
@@ -140,7 +139,6 @@ class MdIcon implements OnChanges, OnInit, AfterViewChecked {
     _updateAriaLabel();
   }
 
-  // TODO: internal
   @override
   void ngOnInit() {
     // Update font classes because ngOnChanges won't be called if none of the inputs are present,
@@ -150,7 +148,6 @@ class MdIcon implements OnChanges, OnInit, AfterViewChecked {
     }
   }
 
-  // TODO: internal
   @override
   void ngAfterViewChecked() {
     // Update aria label here because it may depend on the projected text content.

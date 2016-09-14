@@ -84,6 +84,7 @@ class MdSlideToggle implements AfterContentInit, ControlValueAccessor<dynamic> {
 
   MdSlideToggle(this._elementRef, this._renderer);
 
+  @override
   void ngAfterContentInit() {
     // Mark this component as initialized in AfterContentInit because
     // the initial checked value can possibly be set by NgModel
