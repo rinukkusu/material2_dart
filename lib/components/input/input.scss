@@ -1,6 +1,8 @@
-@import '../../core/style/default_theme';
-@import '../../core/style/mixins';
-@import '../../core/style/variables';
+@import "../../core/style/default_theme";
+@import "../../core/style/mixins";
+@import "../../core/style/variables";
+
+$md-input-floating-placeholder-scale-factor: 0.75 !default;
 
 // Placeholder colors. Required is used for the `*` star shown in the placeholder.
 $md-input-placeholder-color: md-color($md-foreground, hint-text);
@@ -30,9 +32,10 @@ $md-input-underline-disabled-background-image: linear-gradient(to right,
  * Applies a floating placeholder above the input itself.
  */
 @mixin md-input-placeholder-floating {
-  visibility: visible;
+  display: block;
   padding-bottom: 5px;
-  transform: translateY(-100%) scale(0.75);
+  transform: translateY(-100%) scale($md-input-floating-placeholder-scale-factor);
+  width: 100% / $md-input-floating-placeholder-scale-factor;
 
   .md-placeholder-required {
     color: $md-input-required-placeholder-color;
@@ -102,15 +105,14 @@ $md-input-underline-disabled-background-image: linear-gradient(to right,
     left: 0;
     top: 0;
 
-    visibility: hidden;
     font-size: 100%;
-    pointer-events: none; // We shouldn't catch mouse events (let them through).
+    pointer-events: none;  // We shouldn't catch mouse events (let them through).
     color: $md-input-placeholder-color;
     z-index: 1;
 
     // Put ellipsis text overflow.
     width: 100%;
-    display: block;
+    display: none;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow-x: hidden;
@@ -118,11 +120,12 @@ $md-input-underline-disabled-background-image: linear-gradient(to right,
     transform: translateY(0);
     transform-origin: bottom left;
     transition: transform $swift-ease-out-duration $swift-ease-out-timing-function,
-    scale $swift-ease-out-duration $swift-ease-out-timing-function,
-    color $swift-ease-out-duration $swift-ease-out-timing-function;
+                scale $swift-ease-out-duration $swift-ease-out-timing-function,
+                color $swift-ease-out-duration $swift-ease-out-timing-function,
+                width $swift-ease-out-duration $swift-ease-out-timing-function;
 
     &.md-empty {
-      visibility: visible;
+      display: block;
       cursor: text;
     }
 
@@ -182,7 +185,7 @@ $md-input-underline-disabled-background-image: linear-gradient(to right,
       opacity: 0;
       transform: scaleY(0);
       transition: transform $swift-ease-out-duration $swift-ease-out-timing-function,
-      opacity $swift-ease-out-duration $swift-ease-out-timing-function;
+                  opacity $swift-ease-out-duration $swift-ease-out-timing-function;
 
       &.md-accent {
         background-color: $md-input-underline-color-accent;
@@ -210,6 +213,7 @@ $md-input-underline-disabled-background-image: linear-gradient(to right,
     }
   }
 }
+
 
 // RTL support.
 :host-context([dir='rtl']) {

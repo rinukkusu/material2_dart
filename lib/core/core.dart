@@ -9,3 +9,4 @@ export "overlay/overlay_directives.dart";
 
 //export "gestures/MdGestureConfig.dart";
 export "a11y/live_announcer.dart";
+export "coordination/unique_selection_dispatcher.dart";

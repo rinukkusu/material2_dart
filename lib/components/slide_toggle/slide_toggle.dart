@@ -29,7 +29,7 @@ int nextId = 0;
     styleUrls: const ["slide_toggle.scss.css"],
     providers: const [MD_SLIDE_TOGGLE_VALUE_ACCESSOR],
     changeDetection: ChangeDetectionStrategy.OnPush)
-class MdSlideToggle implements ControlValueAccessor<dynamic> {
+class MdSlideToggle implements AfterContentInit, ControlValueAccessor<dynamic> {
   ElementRef _elementRef;
   Renderer _renderer;
   Function onChange = (dynamic _) {};
@@ -41,6 +41,7 @@ class MdSlideToggle implements ControlValueAccessor<dynamic> {
   String _color;
   bool hasFocus = false;
   bool _isMousedown = false;
+  bool _isInitialized = false;
 
   @Input()
   set disabled(dynamic v) {
@@ -82,6 +83,14 @@ class MdSlideToggle implements ControlValueAccessor<dynamic> {
   String getInputId() => '$id-input';
 
   MdSlideToggle(this._elementRef, this._renderer);
+
+  void ngAfterContentInit() {
+    // Mark this component as initialized in AfterContentInit because
+    // the initial checked value can possibly be set by NgModel
+    // or the checked attribute. This would cause the change event to
+    // be emitted, before the component is actually initialized.
+    _isInitialized = true;
+  }
 
   /**
    * The onChangeEvent method will be also called on click.
@@ -166,7 +175,12 @@ class MdSlideToggle implements ControlValueAccessor<dynamic> {
     if (!identical(checked, v)) {
       _checked = v;
       onChange(_checked);
-      _emitChangeEvent();
+
+      // Only fire a change event if the `slide-toggle` is completely initialized
+      // and all attributes / inputs are properly loaded.
+      if (_isInitialized) {
+        _emitChangeEvent();
+      }
     }
   }
 

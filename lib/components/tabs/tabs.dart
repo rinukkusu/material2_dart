@@ -1,4 +1,5 @@
 import 'dart:html';
+import 'dart:async';
 import 'package:angular2/core.dart';
 import "package:material2_dart/core/portal/portal_directives.dart";
 import "tab_label.dart";
@@ -53,13 +54,20 @@ class MdTabGroup implements AfterViewChecked {
 
   @Input()
   set selectedIndex(int value) {
-    _selectedIndex = value;
-    if (_isInitialized) {
-      _onSelectChange.emit(_createChangeEvent(value));
+    if (value != _selectedIndex) {
+      _selectedIndex = value;
+      if (_isInitialized) {
+        _onSelectChange.emit(_createChangeEvent(value));
+      }
     }
   }
 
   int get selectedIndex => _selectedIndex;
+
+  /// Output to enable support for two-way binding on `selectedIndex`.
+  @Output('selectedIndexChange')
+  Stream<int> get selectedIndexChange =>
+      selectChange.map((MdTabChangeEvent event) => event.index);
 
   EventEmitter<MdTabChangeEvent> _onFocusChange =
       new EventEmitter<MdTabChangeEvent>();

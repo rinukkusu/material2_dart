@@ -1,4 +1,5 @@
 import 'dart:html';
+import 'dart:async';
 import 'package:angular2/core.dart';
 import "package:angular2/testing_internal.dart";
 import 'package:material2_dart/components/tabs/tabs.dart';
@@ -50,19 +51,39 @@ void main() {
           checkSelectedIndex(0);
 
           // select the second tab
-          var tabLabel = fixture.debugElement
-              .query(By.css('.md-tab-label:nth-of-type(2)'));
+          var tabLabel =
+              fixture.debugElement.queryAll(By.css('.md-tab-label'))[1];
           tabLabel.nativeElement.click();
           checkSelectedIndex(1);
 
           // select the third tab
-          tabLabel = fixture.debugElement
-              .query(By.css('.md-tab-label:nth-of-type(3)'));
+          tabLabel = fixture.debugElement.queryAll(By.css('.md-tab-label'))[2];
           tabLabel.nativeElement.click();
           checkSelectedIndex(2);
           completer.done();
         });
       });
+
+      test('should support two-way binding for selectedIndex', () {
+        return inject([TestComponentBuilder, AsyncTestCompleter],
+            (TestComponentBuilder tcb, AsyncTestCompleter completer) async {
+          fixture = await tcb.createAsync(SimpleTabsTestApp);
+          SimpleTabsTestApp component = fixture.debugElement.componentInstance;
+          component.selectedIndex = 0;
+          fixture.detectChanges();
+
+          var tabLabel =
+              fixture.debugElement.queryAll(By.css('.md-tab-label'))[1];
+          tabLabel.nativeElement.click();
+
+          fixture.detectChanges();
+
+          // whenStable
+          expect(component.selectedIndex, 1);
+
+          completer.done();
+        });
+      }, skip: 'Skip until `fixture.whenStable()` is introduced to ng2dart.');
 
       test(
           'should cycle through tab focus with focusNextTab/focusPreviousTab functions',
@@ -157,8 +178,8 @@ void main() {
         });
       });
     });
-      group('async tabs', () {
-        // FIXME: Waiting for ng2 updated to greater than rc2 and whenStable() is supported.
+    group('async tabs', () {
+      // FIXME: Waiting for ng2 updated to greater than rc2 and whenStable() is supported.
 //        ngSetUp(() async {
 //          fixture = await builder.createAsync(AsyncTabsTestApp);
 //        });
@@ -170,14 +191,14 @@ void main() {
 //
 //          fixture.detectChanges();
 
-        // https://github.com/angular/angular/issues/8617
+      // https://github.com/angular/angular/issues/8617
 //          fixture.whenStable().then(() {
 //          fixture.detectChanges();
 //          labels = fixture.debugElement.queryAll(By.css('.md-tab-label'));
 //          expect(labels.length, equals(2));
 //        });
 //       });
-      });
+    });
   });
 }
 
