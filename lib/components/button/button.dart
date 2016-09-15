@@ -2,7 +2,7 @@ import 'dart:html';
 import 'dart:async';
 import 'package:angular2/core.dart';
 import "package:material2_dart/core/annotations/field_value.dart";
-//import "package:material2_dart/core/ripple/ripple.dart";
+import "package:material2_dart/core/core.dart" show MD_RIPPLE_DIRECTIVES;
 
 @Component(
     selector:
@@ -16,6 +16,7 @@ import "package:material2_dart/core/annotations/field_value.dart";
     },
     templateUrl: 'button.html',
     styleUrls: const ['button.scss.css'],
+    directives: const [MD_RIPPLE_DIRECTIVES],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush)
 class MdButton {
@@ -109,6 +110,7 @@ class MdButton {
     },
     templateUrl: 'button.html',
     styleUrls: const ['button.scss.css'],
+    directives: const [MD_RIPPLE_DIRECTIVES],
     encapsulation: ViewEncapsulation.None)
 class MdAnchor extends MdButton {
   bool _disabled = false;

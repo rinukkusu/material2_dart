@@ -53,7 +53,7 @@ class MdCheckboxChange {
     providers: const [MD_CHECKBOX_CONTROL_VALUE_ACCESSOR],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush)
-class MdCheckbox implements AfterContentInit, ControlValueAccessor<dynamic> {
+class MdCheckbox implements ControlValueAccessor<dynamic> {
   Renderer _renderer;
   ElementRef _elementRef;
 
@@ -107,8 +107,6 @@ class MdCheckbox implements AfterContentInit, ControlValueAccessor<dynamic> {
   /** Called when the checkbox is blurred. Needed to properly implement ControlValueAccessor. */
   Function onTouched = () {};
 
-  /** Whether the `checked` state has been set to its initial value. */
-  bool _isInitialized = false;
   String _currentAnimationClass = "";
   TransitionCheckState _currentCheckState = TransitionCheckState.Init;
   bool _checked = false;
@@ -133,14 +131,7 @@ class MdCheckbox implements AfterContentInit, ControlValueAccessor<dynamic> {
       _transitionCheckState(_checked
           ? TransitionCheckState.Checked
           : TransitionCheckState.Unchecked);
-      // Only fire a change event if this isn't the first time the checked property is ever set.
-      if (_isInitialized) _emitChangeEvent();
     }
-  }
-
-  @override
-  void ngAfterContentInit() {
-    _isInitialized = true;
   }
 
   /// Whether the checkbox is indeterminate. This is also known as "mixed" mode and can be used to
@@ -251,6 +242,11 @@ class MdCheckbox implements AfterContentInit, ControlValueAccessor<dynamic> {
     event.stopPropagation();
     if (!disabled) {
       toggle();
+
+      // Emit our custom change event if the native input emitted one.
+      // It is important to only emit it, if the native input triggered one, because
+      // we don't want to trigger a change event, when the `checked` variable changes for example.
+      _emitChangeEvent();
     }
   }
 

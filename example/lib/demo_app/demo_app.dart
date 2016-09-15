@@ -33,6 +33,7 @@ import '../sidenav/sidenav_demo.dart';
 import '../slide_toggle/slide_toggle_demo.dart';
 import '../toolbar/toolbar_demo.dart';
 import '../tabs/tab_group_demo.dart';
+import '../ripple/ripple_demo.dart';
 
 @Component(
     selector: 'home',
@@ -43,26 +44,26 @@ import '../tabs/tab_group_demo.dart';
 class Home {}
 
 @Component(
-    selector: 'demo-app',
-    templateUrl: 'demo_app.html',
-    styleUrls: const [
-      'demo_app.scss.css'
-    ],
-    providers: const [
-      ROUTER_PROVIDERS,
-      MdLiveAnnouncer,
-      MdIconRegistry,
-      Renderer
-    ],
-    directives: const [
-      ROUTER_DIRECTIVES,
-      Dir,
-      MdButton,
-      MdIcon,
-      MD_SIDENAV_DIRECTIVES,
-      MD_LIST_DIRECTIVES,
-      MdToolbar
-    ])
+  selector: 'demo-app',
+  templateUrl: 'demo_app.html',
+  styleUrls: const ['demo_app.scss.css'],
+  providers: const [
+    ROUTER_PROVIDERS,
+    MdLiveAnnouncer,
+    MdIconRegistry,
+    Renderer
+  ],
+  directives: const [
+    ROUTER_DIRECTIVES,
+    Dir,
+    MdButton,
+    MdIcon,
+    MD_SIDENAV_DIRECTIVES,
+    MD_LIST_DIRECTIVES,
+    MdToolbar
+  ],
+  encapsulation: ViewEncapsulation.None,
+)
 @RouteConfig(const [
   const Route(path: '/', name: 'Home', component: Home, useAsDefault: true),
   const Route(path: '/button', name: 'Button', component: ButtonDemo),
@@ -88,6 +89,7 @@ class Home {}
       name: 'ProgressCircle',
       component: ProgressCircleDemo),
   const Route(path: '/radio', name: 'Radio', component: RadioDemo),
+  const Route(path: '/ripple', name: 'Ripple', component: RippleDemo),
   const Route(
       path: '/slide-toggle', name: 'SlideToggle', component: SlideToggleDemo),
   const Route(path: '/sidenav', name: 'Sidenav', component: SidenavDemo),

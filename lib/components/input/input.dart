@@ -4,6 +4,7 @@ import "package:angular2/core.dart";
 import "package:angular2/common.dart";
 import "package:material2_dart/core/annotations/field_value.dart";
 import "package:material2_dart/core/errors/error.dart";
+import "package:material2_dart/dart_helper/num_field_value.dart";
 
 final Function noop = ([dynamic _]) {};
 
@@ -155,6 +156,12 @@ class MdInput
   String autoComplete;
 
   @Input()
+  String autoCorrect;
+
+  @Input()
+  String autoCapitalize;
+
+  @Input()
   set autoFocus(dynamic v) {
     _autoFocus = booleanFieldValue(v);
   }
@@ -177,24 +184,28 @@ class MdInput
   String list;
 
   @Input()
-  String max;
+  set max(dynamic v) {
+    _max = intFieldValue(v);
+  }
+
+  int get max => _max;
+  int _max;
+
+  @Input()
+  set min(dynamic v) {
+    _min = intFieldValue(v);
+  }
+
+  int get min => _min;
+  int _min;
 
   @Input()
   set maxLength(dynamic v) {
-    if (v is String) {
-      _maxLength = int.parse(v);
-    } else if (v is int) {
-      _maxLength = v;
-    } else {
-      throw new ArgumentError(v);
-    }
+    _maxLength = intFieldValue(v);
   }
 
   int get maxLength => _maxLength;
   int _maxLength;
-
-  @Input()
-  String min;
 
   @Input()
   num minLength;
@@ -247,7 +258,7 @@ class MdInput
   @Output("focus")
   Stream<FocusEvent> get onFocus => _focusEmitter;
 
-  dynamic get value => _value;
+  String get value => _value;
 
   @Input()
   set value(dynamic v) {

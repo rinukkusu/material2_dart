@@ -4,12 +4,9 @@ import "package:angular2/core.dart";
 import "portal.dart";
 import "portal_errors.dart";
 
-/**
- * A PortalHost for attaching portals to an arbitrary DOM element outside of the Angular
- * application context.
- *
- * This is the only part of the portal core that directly touches the DOM.
- */
+/// A PortalHost for attaching portals to an arbitrary DOM element outside
+/// of the Angular application context.
+/// This is the only part of the portal core that directly touches the DOM.
 class DomPortalHost extends BasePortalHost {
   Element _hostDomElement;
   ComponentResolver _componentResolver;
@@ -25,7 +22,7 @@ class DomPortalHost extends BasePortalHost {
     var componentFactory =
         await _componentResolver.resolveComponent(portal.component);
     var ref = portal.viewContainerRef.createComponent(componentFactory,
-        portal.viewContainerRef.length, portal.viewContainerRef.parentInjector);
+        portal.viewContainerRef.length, portal.injector ?? portal.viewContainerRef.parentInjector);
     var hostView = (ref.hostView as EmbeddedViewRef);
     _hostDomElement.append(hostView.rootNodes[0] as Node);
     setDisposeFn(() => ref.destroy());
@@ -36,7 +33,8 @@ class DomPortalHost extends BasePortalHost {
   Future<Map<String, dynamic>> attachTemplatePortal(TemplatePortal portal) {
     var viewContainer = portal.viewContainerRef;
     var viewRef = viewContainer.createEmbeddedView(portal.templateRef);
-    viewRef.rootNodes.forEach((Node rootNode) => _hostDomElement.append(rootNode));
+    viewRef.rootNodes
+        .forEach((Node rootNode) => _hostDomElement.append(rootNode));
     setDisposeFn((() {
       var index = viewContainer.indexOf(viewRef);
       if (index != -1) viewContainer.remove(index);

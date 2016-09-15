@@ -1,6 +1,8 @@
 import "dart:async";
 import "package:angular2/core.dart";
 import "portal_errors.dart";
+// TODO(ntaoo): Define generic component type.
+//import "../overlay/generic_component_type.dart";
 
 /**
  * A `Portal` is something that you want to render somewhere else.
@@ -41,24 +43,25 @@ abstract class Portal<T> {
   }
 }
 
-/**
- * A `ComponentPortal` is a portal that instantiates some Component upon attachment.
- */
+/// A `ComponentPortal` is a portal that instantiates some Component upon attachment.
 class ComponentPortal extends Portal<ComponentRef> {
-  /** The type of the component that will be instantiated for attachment. */
+  /// The type of the component that will be instantiated for attachment.
   Type component;
 
-  /**
-   * [Optional] Where the attached component should live in Angular's *logical* component tree.
-   * This is different from where the component *renders*, which is determined by the PortalHost.
-   * The origin necessary when the host is outside of the Angular application context.
-   */
+  /// [Optional] Where the attached component should live in Angular's *logical* component tree.
+  /// This is different from where the component *renders*, which is determined by the PortalHost.
+  /// The origin necessary when the host is outside of the Angular application context.
   ViewContainerRef viewContainerRef;
 
-  ComponentPortal(Type component, [ViewContainerRef viewContainerRef = null])
+  /// [Optional] Injector used for the instantiation of the component.
+  Injector injector;
+
+  ComponentPortal(Type component,
+      [ViewContainerRef viewContainerRef = null, Injector injector = null])
       : super() {
     this.component = component;
     this.viewContainerRef = viewContainerRef;
+    this.injector = injector;
   }
 }
 
@@ -156,7 +159,10 @@ abstract class BasePortalHost implements PortalHost {
 
   @override
   Future detach() {
-    _attachedPortal.setAttachedHost(null);
+    if (_attachedPortal != null) {
+      _attachedPortal.setAttachedHost(null);
+    }
+
     _attachedPortal = null;
     if (_disposeFn != null) {
       _disposeFn();

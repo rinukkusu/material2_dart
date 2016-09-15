@@ -6,12 +6,10 @@ import "../portal/dom_portal_host.dart";
 import "overlay_ref.dart";
 import "position/overlay_position_builder.dart";
 import "position/viewport_ruler.dart";
+import "overlay_container.dart";
 
 export 'position/connected_position.dart';
-export 'overlay_container.dart';
 
-/** Token used to inject the DOM element that serves as the overlay container. */
-const OpaqueToken OVERLAY_CONTAINER_TOKEN = const OpaqueToken("overlayContainer");
 /** Next overlay unique ID. */
 int nextUniqueId = 0;
 /** The default state for newly created overlays. */
@@ -27,12 +25,12 @@ OverlayState defaultState = new OverlayState();
  */
 @Injectable()
 class Overlay {
-  Element _overlayContainerElement;
+  OverlayContainer _overlayContainer;
   ComponentResolver _componentResolver;
   OverlayPositionBuilder _positionBuilder;
 
-  Overlay(@Inject(OVERLAY_CONTAINER_TOKEN) this._overlayContainerElement,
-      this._componentResolver, this._positionBuilder);
+  Overlay(
+      this._overlayContainer, this._componentResolver, this._positionBuilder);
 
   /**
    * Creates an overlay.
@@ -56,24 +54,20 @@ class Overlay {
     DivElement pane = new DivElement()
       ..id = 'md-overlay-${nextUniqueId++}'
       ..classes.add("md-overlay-pane");
-    _overlayContainerElement.append(pane);
+    _overlayContainer.getContainerElement().append(pane);
     return new Future.value(pane);
   }
 
-  /**
-   * Create a DomPortalHost into which the overlay content can be loaded.
-   */
+  /// Create a DomPortalHost into which the overlay content can be loaded.
   DomPortalHost _createPortalHost(DivElement pane) =>
       new DomPortalHost(pane, _componentResolver);
 
-  /**
-   * Creates an OverlayRef for an overlay in the given DOM element.
-   */
+  /// Creates an OverlayRef for an overlay in the given DOM element.
   OverlayRef _createOverlayRef(DivElement pane, OverlayState state) =>
       new OverlayRef(_createPortalHost(pane), pane, state);
 }
 
-/** Providers for Overlay and its related injectables. */
+/// Providers for Overlay and its related injectables.
 const List OVERLAY_PROVIDERS = const [
   ViewportRuler,
   OverlayPositionBuilder,

@@ -41,20 +41,21 @@ class PortalHostDirective extends BasePortalHost {
     _replaceAttachedPortal(p);
   }
 
-  /// Attach the given ComponentPortal to this PortlHost using the ComponentResolver.
+  /// Attach the given ComponentPortal to this PortalHost using the ComponentResolver.
   @override
   Future<ComponentRef> attachComponentPortal(ComponentPortal portal) async {
     portal.setAttachedHost(this);
     // If the portal specifies an origin, use that as the logical location of the component
-
     // in the application tree. Otherwise use the location of this PortalHost.
     var viewContainerRef = portal.viewContainerRef != null
         ? portal.viewContainerRef
         : _viewContainerRef;
+
     var componentFactory =
         await _componentResolver.resolveComponent(portal.component);
     var ref = viewContainerRef.createComponent(componentFactory,
-        viewContainerRef.length, viewContainerRef.parentInjector);
+        viewContainerRef.length, portal.injector ?? viewContainerRef.parentInjector);
+
     setDisposeFn(() => ref.destroy());
     return ref;
   }
@@ -65,11 +66,10 @@ class PortalHostDirective extends BasePortalHost {
     portal.setAttachedHost(this);
     _viewContainerRef.createEmbeddedView(portal.templateRef);
     setDisposeFn(() => _viewContainerRef.clear());
-    // TODO(jelbourn): return locals from view
     return new Future.value(new Map<String, dynamic>());
   }
 
-  /** Detatches the currently attached Portal (if there is one) and attaches the given Portal. */
+  /// Detatches the currently attached Portal (if there is one) and attaches the given Portal.
   void _replaceAttachedPortal(Portal<dynamic> p) {
     var maybeDetach = hasAttached() ? detach() : new Future<Null>.value();
     maybeDetach.then/*<Null>*/((Null _) {

@@ -16,9 +16,11 @@ class OverlayRef implements PortalHost {
 
   @override
   Future<dynamic> attach(Portal<dynamic> portal) {
-    return _portalHost.attach(portal).then/*<dynamic>*/((dynamic _) {
-      _updatePosition();
+    var attachFuture = _portalHost.attach(portal);
+    attachFuture.then/*<dynamic>*/((dynamic _) {
+      updatePosition();
     });
+    return attachFuture;
   }
 
   @override
@@ -36,7 +38,7 @@ class OverlayRef implements PortalHost {
   OverlayState getState() => _state;
 
   /** Updates the position of the overlay based on the position strategy. */
-  void _updatePosition() {
+  void updatePosition() {
     if (_state.positionStrategy != null) {
       _state.positionStrategy.apply(_pane);
     }

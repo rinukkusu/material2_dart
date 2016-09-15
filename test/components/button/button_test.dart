@@ -125,6 +125,7 @@ void main() {
         ComponentFixture fixture = await tcb.createAsync(TestApp);
         TestApp testComponent = fixture.debugElement.componentInstance;
         var buttonDebugElement = fixture.debugElement.query(By.css('a'));
+
         fixture.detectChanges();
         expect(buttonDebugElement.nativeElement.attributes['aria-disabled'],
             equals('false'));
@@ -132,6 +133,32 @@ void main() {
         fixture.detectChanges();
         expect(buttonDebugElement.nativeElement.attributes['aria-disabled'],
             equals('true'));
+        completer.done();
+      });
+    });
+  });
+
+  // Ripple tests.
+  group('button ripples', () {
+    test('should remove ripple if md-ripple-disabled input is set', () {
+      return inject([TestComponentBuilder, AsyncTestCompleter],
+          (TestComponentBuilder tcb, AsyncTestCompleter completer) async {
+        ComponentFixture fixture = await tcb.createAsync(TestApp);
+        TestApp testComponent = fixture.debugElement.componentInstance;
+        var buttonDebugElement = fixture.debugElement.query(By.css('button'));
+
+        fixture.detectChanges();
+        expect(
+            buttonDebugElement
+                .nativeElement.querySelectorAll['md-ripple'].length,
+            1);
+
+        testComponent.rippleDisabled = true;
+        fixture.detectChanges();
+        expect(
+            buttonDebugElement
+                .nativeElement.querySelectorAll['md-ripple'].length,
+            0);
         completer.done();
       });
     });
