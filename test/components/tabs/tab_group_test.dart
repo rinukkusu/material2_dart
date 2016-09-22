@@ -177,6 +177,9 @@ void main() {
         });
       });
     });
+    group('disable tabs', () {
+
+    });
     group('async tabs', () {
       // FIXME: Waiting for ng2 updated to greater than rc2 and whenStable() is supported.
 //        ngSetUp(() async {

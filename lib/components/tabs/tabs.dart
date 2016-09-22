@@ -12,10 +12,10 @@ export "tab_content.dart";
 export "tab_label_wrapper.dart";
 export "ink_bar.dart";
 
-/** Used to generate unique ID's for each tab component */
+/// Used to generate unique ID's for each tab component.
 int nextId = 0;
 
-/** A simple change event emitted on focus or selection changes. */
+/// A simple change event emitted on focus or selection changes.
 class MdTabChangeEvent {
   int index;
   MdTab tab;
@@ -27,6 +27,15 @@ class MdTab {
   MdTabLabel label;
   @ContentChild(MdTabContent)
   MdTabContent content;
+
+  bool _disabled = false;
+
+  @Input('disabled')
+  set disabled(bool value) {
+    _disabled = value ?? false;
+  }
+
+  bool get disabled => _disabled;
 }
 
 /**
@@ -52,7 +61,7 @@ class MdTabGroup implements AfterViewChecked {
 
   @Input()
   set selectedIndex(int value) {
-    if (value != _selectedIndex) {
+    if (value != _selectedIndex && isValidIndex(value)) {
       _selectedIndex = value;
       if (_isInitialized) {
         _onSelectChange.emit(_createChangeEvent(value));
@@ -61,6 +70,18 @@ class MdTabGroup implements AfterViewChecked {
   }
 
   int get selectedIndex => _selectedIndex;
+
+  /// Determines if an index is valid.
+  /// If the tabs are not ready yet, we assume that the user is
+  /// providing a valid index and return true.
+  bool isValidIndex(int index) {
+    if (tabs != null && tabs.isNotEmpty) {
+      final tab = tabs.toList()[index];
+      return tab != null && !tab.disabled;
+    } else {
+      return true;
+    }
+  }
 
   /// Output to enable support for two-way binding on `selectedIndex`.
   @Output('selectedIndexChange')
@@ -116,17 +137,21 @@ class MdTabGroup implements AfterViewChecked {
         : null;
   }
 
-  /** Tracks which element has focus; used for keyboard navigation */
+  /// Tracks which element has focus; used for keyboard navigation.
   int get focusIndex => _focusIndex;
 
-  /** When the focus index is set, we must manually send focus to the correct label */
+  /// When the focus index is set, we must manually send focus to the correct label.
   set focusIndex(int value) {
-    _focusIndex = value;
-    if (_isInitialized) {
-      _onFocusChange.emit(_createChangeEvent(value));
-    }
-    if (labelWrappers != null && labelWrappers.isNotEmpty) {
-      labelWrappers.toList()[value].focus();
+    if (isValidIndex(value)) {
+      _focusIndex = value;
+
+      if (_isInitialized) {
+        _onFocusChange.add(_createChangeEvent(value));
+      }
+
+      if (labelWrappers != null && labelWrappers.isNotEmpty) {
+        labelWrappers.toList()[value].focus();
+      }
     }
   }
 
@@ -149,16 +174,44 @@ class MdTabGroup implements AfterViewChecked {
    */
   String getTabContentId(int i) => 'md-tab-content-$_groupId-$i';
 
-  /** Increment the focus index by 1; prevent going over the number of tabs */
-  void focusNextTab() {
-    if (labelWrappers != null && focusIndex < labelWrappers.length - 1) {
-      focusIndex++;
+  void handleKeydown(KeyboardEvent event) {
+    switch (event.keyCode) {
+      case KeyCode.RIGHT:
+        focusNextTab();
+        break;
+      case KeyCode.LEFT:
+        focusPreviousTab();
+        break;
+      case KeyCode.ENTER:
+        selectedIndex = focusIndex;
+        break;
     }
   }
 
-  /** Decrement the focus index by 1; prevent going below 0 */
+  /// Moves the focus left or right depending on the offset provided.
+  ///  Valid offsets are 1 and -1.
+  void moveFocus(int offset) {
+    if (labelWrappers != null && labelWrappers.isNotEmpty) {
+      final List<MdTab> tabs = this.tabs.toList();
+      for (var i = focusIndex + offset;
+          i < tabs.length && i >= 0;
+          i += offset) {
+        if (isValidIndex(i)) {
+          focusIndex = i;
+          return;
+        }
+      }
+    }
+  }
+
+  /// Increment the focus index by 1; prevent going over the number of tabs.
+  void focusNextTab() {
+    moveFocus(1);
+  }
+
+  /// Decrement the focus index by 1; prevent going below 0.
   void focusPreviousTab() {
-    if (focusIndex > 0) focusIndex--;
+    moveFocus(-1);
   }
 }
 

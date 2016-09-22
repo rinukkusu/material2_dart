@@ -1,13 +1,12 @@
 import "dart:async";
 import "package:angular2/core.dart";
 import "portal_errors.dart";
-// TODO(ntaoo): Define generic component type.
-//import "../overlay/generic_component_type.dart";
 
-/**
- * A `Portal` is something that you want to render somewhere else.
- * It can be attach to / detached from a `PortalHost`.
- */
+/// A `Portal` is something that you want to render somewhere else.
+/// It can be attach to / detached from a `PortalHost`.
+// [attach] and [detach] remain async because ComponentResolver is async
+// unlike ComponentFactoryResolver introduced instead of ComponentResolver
+// in AngularTS.
 abstract class Portal<T> {
   PortalHost _attachedHost;
 
@@ -46,6 +45,7 @@ abstract class Portal<T> {
 /// A `ComponentPortal` is a portal that instantiates some Component upon attachment.
 class ComponentPortal extends Portal<ComponentRef> {
   /// The type of the component that will be instantiated for attachment.
+  // Using Type instead of defining ComponentType for ComponentResolver in AngularDart.
   Type component;
 
   /// [Optional] Where the attached component should live in Angular's *logical* component tree.
