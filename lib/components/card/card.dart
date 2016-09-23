@@ -1,5 +1,21 @@
 import 'package:angular2/core.dart';
 
+/// Content of a card, needed as it's used as a selector in the API.
+@Directive(selector: 'md-card-content')
+class MdCardContent {}
+
+/// Title of a card, needed as it's used as a selector in the API.
+@Directive(selector: 'md-card-title')
+class MdCardTitle {}
+
+/// Sub-title of a card, needed as it's used as a selector in the API.
+@Directive(selector: 'md-card-subtitle')
+class MdCardSubtitle {}
+
+/// Action section of a card, needed as it's used as a selector in the API.
+@Directive(selector: 'md-card-actions')
+class MdCardActions {}
+
 /*
 <md-card> is a basic content container component that adds the styles of a material design card.
 
@@ -61,4 +77,12 @@ TODO(kara): update link to demo site when it exists
     changeDetection: ChangeDetectionStrategy.OnPush)
 class MdCardTitleGroup {}
 
-const List MD_CARD_DIRECTIVES = const [MdCard, MdCardHeader, MdCardTitleGroup];
+const List MD_CARD_DIRECTIVES = const [
+  MdCard,
+  MdCardContent,
+  MdCardHeader,
+  MdCardTitleGroup,
+  MdCardTitle,
+  MdCardSubtitle,
+  MdCardActions
+];

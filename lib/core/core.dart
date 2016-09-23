@@ -19,12 +19,8 @@ export "overlay/overlay_ref.dart" show OverlayRef;
 export "overlay/overlay_state.dart" show OverlayState;
 export "overlay/overlay_directives.dart"
     show ConnectedOverlayDirective, OverlayOrigin, OVERLAY_DIRECTIVES;
-export "overlay/position/connected_position.dart"
-    show
-        OverlayConnectionPosition,
-        OriginConnectionPosition,
-        HorizontalConnectionPos,
-        VerticalConnectionPos;
+export "overlay/position/connected_position.dart";
+export "overlay/position/connected_position_strategy.dart";
 export "ripple/ripple.dart" show MD_RIPPLE_DIRECTIVES, MdRipple;
 //export "gestures/MdGestureConfig.dart";
 export "a11y/live_announcer.dart"
@@ -32,6 +28,11 @@ export "a11y/live_announcer.dart"
 export "coordination/unique_selection_dispatcher.dart"
     show MdUniqueSelectionDispatcher, MdUniqueSelectionDispatcherListener;
 export "line/line.dart" show MdLine, MdLineSetter;
+
+export "style/apply_transform.dart" show applyCssTransform;
+export "errors/error.dart" show MdError;
+export "annotations/field_value.dart" show booleanFieldValue;
+
 
 const List CORE_DIRECTIVES = const <dynamic>[
   MdLine,

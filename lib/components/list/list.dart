@@ -2,6 +2,9 @@ import 'package:angular2/core.dart';
 import 'package:material2_dart/core/line/line.dart';
 export 'package:material2_dart/core/line/line.dart';
 
+@Directive(selector: 'md-divider')
+class MdListDivider {}
+
 @Component(
     selector: 'md-list, md-nav-list',
     host: const {'role': 'list'},
@@ -55,4 +58,10 @@ class MdListItem implements AfterContentInit {
   }
 }
 
-const List MD_LIST_DIRECTIVES = const [MdList, MdListItem, MdLine, MdListAvatar];
+const List MD_LIST_DIRECTIVES = const [
+  MdList,
+  MdListDivider,
+  MdListItem,
+  MdLine,
+  MdListAvatar
+];

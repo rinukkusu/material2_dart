@@ -27,7 +27,8 @@ void validateArgument(dynamic value, List<dynamic> list) {
     selector: 'md-sidenav',
     template: '<ng-content></ng-content>',
     host: const {'(transitionend)': r'onTransitionEnd($event)'},
-    changeDetection: ChangeDetectionStrategy.OnPush)
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None)
 class MdSidenav {
   /// Alignment of the sidenav (direction neutral); whether 'start' or 'end'.
   String _align = 'start';
@@ -216,7 +217,8 @@ class MdSidenav {
 // changes its state.
     directives: const [MdSidenav],
     templateUrl: 'sidenav.html',
-    styleUrls: const ['sidenav.scss.css', 'sidenav_transitions.scss.css'])
+    styleUrls: const ['sidenav.scss.css', 'sidenav_transitions.scss.css'],
+    encapsulation: ViewEncapsulation.None)
 class MdSidenavLayout implements AfterContentInit {
   @ContentChildren(MdSidenav)
   QueryList<MdSidenav> sidenavs;
