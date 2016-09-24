@@ -5,6 +5,7 @@ import 'portal/portal_directives.dart';
 import 'overlay/overlay_directives.dart';
 import 'overlay/overlay.dart';
 import "a11y/live_announcer.dart";
+import "coordination/unique_selection_dispatcher.dart";
 
 // TODO(ntaoo): export LayoutDirection.
 export "rtl/dir.dart" show Dir;
@@ -45,4 +46,5 @@ const List CORE_DIRECTIVES = const <dynamic>[
 const List CORE_PROVIDERS = const <dynamic>[
   OVERLAY_PROVIDERS,
   MdLiveAnnouncer,
+  MdUniqueSelectionDispatcher,
 ];

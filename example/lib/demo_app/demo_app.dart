@@ -16,7 +16,7 @@ import 'package:material2_dart/components/toolbar/toolbar.dart';
 import '../baseline/baseline_demo.dart';
 import '../button/button_demo.dart';
 
-//import '../button_toggle/button_toggle_demo.dart';
+import '../button_toggle/button_toggle_demo.dart';
 import '../card/card_demo.dart';
 import '../checkbox/checkbox_demo.dart';
 import '../grid_list/grid_list_demo.dart';
@@ -66,10 +66,12 @@ class Home {}
 )
 @RouteConfig(const [
   const Route(path: '/', name: 'Home', component: Home, useAsDefault: true),
-  const Route(path: '/button', name: 'Button', component: ButtonDemo),
   const Route(path: '/baseline', name: 'Baseline', component: BaselineDemo),
-//  const Route(
-//      path: '/button-toggle', name: 'ButtonToggle', component: ButtonToggleDemo),
+  const Route(path: '/button', name: 'Button', component: ButtonDemo),
+  const Route(
+      path: '/button-toggle',
+      name: 'ButtonToggle',
+      component: ButtonToggleDemo),
   const Route(path: '/card', name: 'Card', component: CardDemo),
   const Route(path: '/checkbox', name: 'Checkbox', component: CheckboxDemo),
   const Route(path: '/grid-list', name: 'GridList', component: GridListDemo),
