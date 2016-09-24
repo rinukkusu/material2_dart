@@ -2,6 +2,9 @@ import 'package:angular2/core.dart';
 import 'package:material2_dart/core/line/line.dart';
 export 'package:material2_dart/core/line/line.dart';
 
+@Directive(selector: 'md-divider')
+class MdListDivider {}
+
 @Component(
     selector: 'md-list, md-nav-list',
     host: const {'role': 'list'},
@@ -24,14 +27,12 @@ class MdListAvatar {}
     templateUrl: 'list_item.html',
     encapsulation: ViewEncapsulation.None)
 class MdListItem implements AfterContentInit {
-  // @internal
   bool hasFocus = false;
 
   MdLineSetter _lineSetter;
   @ContentChildren(MdLine)
   QueryList<MdLine> lines;
 
-  // TODO: internal
   @override
   void ngAfterContentInit() {
     _lineSetter = new MdLineSetter(lines, _renderer, _elementRef);
@@ -48,15 +49,19 @@ class MdListItem implements AfterContentInit {
 
   MdListItem(this._renderer, this._elementRef);
 
-  /** @internal */
   void handleFocus() {
     hasFocus = true;
   }
 
-  /** @internal */
   void handleBlur() {
     hasFocus = false;
   }
 }
 
-const List MD_LIST_DIRECTIVES = const [MdList, MdListItem, MdLine, MdListAvatar];
+const List MD_LIST_DIRECTIVES = const [
+  MdList,
+  MdListDivider,
+  MdListItem,
+  MdLine,
+  MdListAvatar
+];

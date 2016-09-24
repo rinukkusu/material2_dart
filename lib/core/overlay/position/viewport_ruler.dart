@@ -3,7 +3,6 @@ import "package:angular2/core.dart";
 
 /**
  * Simple utility for getting the bounds of the browser viewport.
- * TODO: internal
  */
 @Injectable()
 class ViewportRuler {

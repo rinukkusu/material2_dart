@@ -36,6 +36,41 @@ void main() {
         });
       });
 
+      test('should load a component into the portal with a given injector', () {
+        return inject([TestComponentBuilder, AsyncTestCompleter],
+            (TestComponentBuilder tcb, AsyncTestCompleter completer) {
+          fakeAsync(() async {
+            ComponentFixture appFixture = await tcb.createAsync(PortalTestApp);
+
+            // Flush the async creation of the PortalTestApp.
+            flushMicrotasks();
+
+            // Create a custom injector for the component.
+            var chocolateInjector =
+                new ChocolateInjector(appFixture.componentInstance.injector);
+
+            // Set the selectedHost to be a ComponentPortal.
+            PortalTestApp testAppComponent =
+                appFixture.debugElement.componentInstance;
+
+            testAppComponent.selectedPortal =
+                new ComponentPortal(PizzaMsg, null, chocolateInjector);
+            appFixture.detectChanges();
+
+            // Flush the attachment of the Portal.
+            flushMicrotasks();
+            appFixture.detectChanges();
+
+            // Expect that the content of the attached portal is present.
+            Element hostContainer =
+                appFixture.nativeElement.querySelector('.portal-container');
+            expect(hostContainer.text, contains('Pizza'));
+            expect(hostContainer.text, contains('Chocolate'));
+          })();
+          completer.done();
+        });
+      });
+
       test('should load a <template> portal', () {
         return inject([TestComponentBuilder, AsyncTestCompleter],
             (TestComponentBuilder tcb, AsyncTestCompleter completer) {
@@ -177,11 +212,12 @@ void main() {
     });
     group('DomPortalHost', () {
       ViewContainerRef aViewContainerRef;
-      DivElement divElement;
+      DivElement aDivElement;
       DomPortalHost host;
+      Injector aInjector;
 
       setUp(() {
-        divElement = new DivElement();
+        aDivElement = new DivElement();
       });
 
       test('should attach and detach a component portal', () {
@@ -189,7 +225,7 @@ void main() {
             [TestComponentBuilder, AsyncTestCompleter, ComponentResolver],
             (TestComponentBuilder tcb, AsyncTestCompleter completer,
                 ComponentResolver resolver) async {
-          host = new DomPortalHost(divElement, resolver);
+          host = new DomPortalHost(aDivElement, resolver);
           fakeAsync(() async {
             ComponentFixture fixture =
                 await tcb.createAsync(ArbitraryViewContainerRefComponent);
@@ -207,12 +243,52 @@ void main() {
             flushMicrotasks();
 
             expect(componentInstance, new isInstanceOf<PizzaMsg>());
-            expect(divElement.text, contains('Pizza'));
+            expect(aDivElement.text, contains('Pizza'));
 
             await host.detach();
             flushMicrotasks();
 
-            expect(divElement.innerHtml, isEmpty);
+            expect(aDivElement.innerHtml, isEmpty);
+          })();
+          completer.done();
+        });
+      });
+
+      test('should attach and detach a component portal with a given injector',
+          () {
+        return inject(
+            [TestComponentBuilder, AsyncTestCompleter, ComponentResolver],
+            (TestComponentBuilder tcb, AsyncTestCompleter completer,
+                ComponentResolver resolver) async {
+          host = new DomPortalHost(aDivElement, resolver);
+          fakeAsync(() async {
+            ComponentFixture fixture =
+                await tcb.createAsync(ArbitraryViewContainerRefComponent);
+            aViewContainerRef = fixture.componentInstance.viewContainerRef;
+            aInjector = fixture.componentInstance.injector;
+
+            // Flush the async creation of the PortalTestApp.
+            flushMicrotasks();
+
+            var chocolateInjector = new ChocolateInjector(aInjector);
+            var portal = new ComponentPortal(
+                PizzaMsg, aViewContainerRef, chocolateInjector);
+
+            PizzaMsg componentInstance;
+            var ref = await portal.attach(host);
+            componentInstance = ref.instance;
+
+            flushMicrotasks();
+            fixture.detectChanges();
+
+            expect(componentInstance, new isInstanceOf<PizzaMsg>());
+            expect(aDivElement.text, contains('Pizza'));
+            expect(aDivElement.text, contains('Chocolate'));
+
+            await host.detach();
+            flushMicrotasks();
+
+            expect(aDivElement.innerHtml, '');
           })();
           completer.done();
         });
@@ -223,7 +299,7 @@ void main() {
             [TestComponentBuilder, AsyncTestCompleter, ComponentResolver],
             (TestComponentBuilder tcb, AsyncTestCompleter completer,
                 ComponentResolver resolver) {
-          host = new DomPortalHost(divElement, resolver);
+          host = new DomPortalHost(aDivElement, resolver);
           fakeAsync(() async {
             ComponentFixture appFixture = await tcb.createAsync(PortalTestApp);
             flushMicrotasks();
@@ -233,7 +309,7 @@ void main() {
                 .attach(host);
             flushMicrotasks();
 
-            expect(divElement.text, contains('Cake'));
+            expect(aDivElement.text, contains('Cake'));
             completer.done();
           })();
         });
@@ -244,7 +320,7 @@ void main() {
             [TestComponentBuilder, AsyncTestCompleter, ComponentResolver],
             (TestComponentBuilder tcb, AsyncTestCompleter completer,
                 ComponentResolver resolver) {
-          host = new DomPortalHost(divElement, resolver);
+          host = new DomPortalHost(aDivElement, resolver);
           fakeAsync(() async {
             ComponentFixture appFixture = await tcb.createAsync(PortalTestApp);
             flushMicrotasks();
@@ -259,17 +335,17 @@ void main() {
             appFixture.detectChanges();
 
             // Expect that the content of the attached portal is present.
-            expect(divElement.text, contains('Banana'));
+            expect(aDivElement.text, contains('Banana'));
 
             // When updating the binding value.
             testAppComponent.fruit = 'Mango';
             appFixture.detectChanges();
 
             // Expect the new value to be reflected in the rendered output.
-            expect(divElement.text, contains('Mango'));
+            expect(aDivElement.text, contains('Mango'));
 
             await host.detach();
-            expect(divElement.innerHtml, isEmpty);
+            expect(aDivElement.innerHtml, isEmpty);
             completer.done();
           })();
         });
@@ -280,7 +356,7 @@ void main() {
             [TestComponentBuilder, AsyncTestCompleter, ComponentResolver],
             (TestComponentBuilder tcb, AsyncTestCompleter completer,
                 ComponentResolver resolver) {
-          host = new DomPortalHost(divElement, resolver);
+          host = new DomPortalHost(aDivElement, resolver);
           fakeAsync(() async {
             aViewContainerRef =
                 (await tcb.createAsync(ArbitraryViewContainerRefComponent))
@@ -294,7 +370,7 @@ void main() {
             appFixture.componentInstance.piePortal.attach(host);
             flushMicrotasks();
 
-            expect(divElement.text, contains('Pie'));
+            expect(aDivElement.text, contains('Pie'));
 
             await host.detach();
             flushMicrotasks();
@@ -302,7 +378,7 @@ void main() {
             await host.attach(new ComponentPortal(PizzaMsg, aViewContainerRef));
             flushMicrotasks();
 
-            expect(divElement.text, contains('Pizza'));
+            expect(aDivElement.text, contains('Pizza'));
             completer.done();
           })();
         });
@@ -311,16 +387,34 @@ void main() {
   });
 }
 
+class Chocolate {
+  @override
+  String toString() => 'Chocolate';
+}
+
+class ChocolateInjector implements Injector {
+  Injector parentInjector;
+  ChocolateInjector(this.parentInjector);
+
+  @override
+  dynamic get(dynamic token, [dynamic notFoundValue]) {
+    return token == Chocolate ? new Chocolate() : parentInjector.get(token);
+  }
+}
+
 /// Simple component for testing ComponentPortal.
-@Component(selector: 'pizza-msg', template: '<p>Pizza</p>')
-class PizzaMsg {}
+@Component(selector: 'pizza-msg', template: '<p>Pizza</p><p>{{snack}}</p>')
+class PizzaMsg {
+  Chocolate snack;
+  PizzaMsg(@Optional() this.snack);
+}
 
 /// Simple component to grab an arbitrary ViewContainerRef
 @Component(selector: 'some-placeholder', template: '<p>Hello</p>')
 class ArbitraryViewContainerRefComponent {
   ViewContainerRef viewContainerRef;
-
-  ArbitraryViewContainerRefComponent(this.viewContainerRef);
+  Injector injector;
+  ArbitraryViewContainerRefComponent(this.viewContainerRef, this.injector);
 }
 
 /// Test-bed component that contains a portal host and a couple of template portals.
@@ -343,6 +437,9 @@ class PortalTestApp {
   QueryList<TemplatePortalDirective> portals;
   Portal<dynamic> selectedPortal;
   String fruit = 'Banana';
+  Injector injector;
+
+  PortalTestApp(this.injector);
 
   Portal get cakePortal => portals.first;
 

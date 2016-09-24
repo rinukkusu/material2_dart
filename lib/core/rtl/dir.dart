@@ -48,3 +48,5 @@ class Dir {
     }
   }
 }
+
+const List RTL_DIRECTIVES = const <dynamic>[Dir];

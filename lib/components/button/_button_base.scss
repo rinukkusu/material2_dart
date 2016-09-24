@@ -1,10 +1,10 @@
 @import '../../core/style/variables';
 @import '../../core/style/elevation';
-// TODO(jelbourn): This goes away.
+@import '../../core/style/button_mixins';
 @import '../../core/style/default_theme';
 @import 'button_theme';
 
-// Flat and raised button standards
+
 $md-button-padding: 0 16px !default;
 $md-button-min-width: 88px !default;
 $md-button-margin: 0 !default;
@@ -32,12 +32,7 @@ $md-mini-fab-padding: 8px !default;
   position: relative;
 
   // Reset browser <button> styles.
-  background: transparent;
-  text-align: center;
-  cursor: pointer;
-  user-select: none;
-  outline: none;
-  border: none;
+  @include md-button-reset();
 
   // Make anchors render like buttons.
   display: inline-block;
@@ -50,6 +45,7 @@ $md-mini-fab-padding: 8px !default;
   font-family: $md-font-family;
   font-weight: 500;
   color: currentColor;
+  text-align: center;
 
   // Sizing.
   margin: $md-button-margin;
@@ -81,7 +77,7 @@ $md-mini-fab-padding: 8px !default;
 
   // Animation.
   transition: background $swift-ease-out-duration $swift-ease-out-timing-function,
-  md-elevation-transition-property-value();
+              md-elevation-transition-property-value();
 
   &:active {
     @include md-elevation(8);

@@ -117,7 +117,6 @@ class MdRadioGroup implements AfterContentInit, ControlValueAccessor<dynamic> {
 
   /// Initialize properties once content children are available.
   /// This allows us to propagate relevant attributes to associated buttons.
-  /// TODO: internal
   @override
   void ngAfterContentInit() {
     // Mark this component as initialized in AfterContentInit because the initial value can
@@ -128,7 +127,6 @@ class MdRadioGroup implements AfterContentInit, ControlValueAccessor<dynamic> {
 
   /// Mark this group as being "touched" (for ngModel). Meant to be called by the contained
   /// radio buttons upon their blur.
-  /// @internal
   void touch() {
     if (onTouched != null) onTouched();
   }
@@ -170,7 +168,6 @@ class MdRadioGroup implements AfterContentInit, ControlValueAccessor<dynamic> {
 
   /**
    * Implemented as part of ControlValueAccessor.
-   * TODO: internal
    */
   @override
   void writeValue(dynamic value) {
@@ -179,7 +176,6 @@ class MdRadioGroup implements AfterContentInit, ControlValueAccessor<dynamic> {
 
   /**
    * Implemented as part of ControlValueAccessor.
-   * TODO: internal
    */
   // void fn(dynamic value)
   @override
@@ -189,7 +185,6 @@ class MdRadioGroup implements AfterContentInit, ControlValueAccessor<dynamic> {
 
   /**
    * Implemented as part of ControlValueAccessor.
-   * TODO: internal
    */
   @override
   void registerOnTouched(dynamic fn) {
@@ -198,11 +193,11 @@ class MdRadioGroup implements AfterContentInit, ControlValueAccessor<dynamic> {
 }
 
 @Component(
-    selector: "md-radio-button",
-    templateUrl: "radio.html",
-    styleUrls: const ["radio.scss.css"],
-    encapsulation: ViewEncapsulation.None,
-    host: const {"(click)": "onClick(\$event)"})
+  selector: "md-radio-button",
+  templateUrl: "radio.html",
+  styleUrls: const ["radio.scss.css"],
+  encapsulation: ViewEncapsulation.None,
+)
 class MdRadioButton implements OnInit {
   MdUniqueSelectionDispatcher radioDispatcher;
   @HostBinding("class.md-radio-focused")
@@ -262,9 +257,6 @@ class MdRadioButton implements OnInit {
       // Notify all radio buttons with the same name to un-check.
       radioDispatcher.notify(id, name);
     }
-    if (newCheckedState != _checked) {
-      _emitChangeEvent();
-    }
     _checked = newCheckedState;
     if (newCheckedState && radioGroup != null && radioGroup.value != value) {
       radioGroup.selected = this;
@@ -309,7 +301,6 @@ class MdRadioButton implements OnInit {
     _disabled = booleanFieldValue(value);
   }
 
-  /** TODO: internal */
   @override
   void ngOnInit() {
     if (radioGroup != null) {
@@ -328,47 +319,43 @@ class MdRadioButton implements OnInit {
     change.emit(event);
   }
 
-  // @internal
-  void onClick(Event event) {
-    if (disabled) {
-      event.preventDefault();
-      event.stopPropagation();
-      return;
-    }
-    if (radioGroup != null) {
-      // Propagate the change one-way via the group, which will in turn mark this
-      // button as checked.
-      radioGroup.selected = this;
-      radioGroup.touch();
-    } else {
-      checked = true;
-    }
-  }
-
   /// We use a hidden native input field to handle changes to focus state via keyboard navigation,
   ///  with visual rendering done separately. The native element is kept in sync with the overall
   ///  state of the component.
-  ///  @internal
   void onInputFocus() {
     isFocused = true;
   }
 
-  // @internal
   void onInputBlur() {
     isFocused = false;
+
     if (radioGroup != null) {
       radioGroup.touch();
     }
   }
 
-  /// Checks the radio due to an interaction with the underlying native <input type="radio">
-  /// @internal
+  void onInputClick(Event event) {
+    // We have to stop propagation for click events on the visual hidden input element.
+    // By default, when a user clicks on a label element, a generated click event will be
+    // dispatched on the associated input element. Since we are using a label element as our
+    // root container, the click event on the `radio-button` will be executed twice.
+    // The real click event will bubble up, and the generated click event also tries to bubble up.
+    // This will lead to multiple click events.
+    // Preventing bubbling for the second event will solve that issue.
+    event.stopPropagation();
+  }
+
+  /// Triggered when the radio button received a click or the input recognized any change.
+  /// Clicking on a label element, will trigger a change event on the associated input.
   void onInputChange(Event event) {
     // We always have to stop propagation on the change event.
     // Otherwise the change event, from the input element, will bubble up and
     // emit its event object to the `change` output.
     event.stopPropagation();
+
     checked = true;
+    _emitChangeEvent();
+
     if (radioGroup != null) {
       radioGroup.touch();
     }

@@ -53,7 +53,6 @@ class MdProgressBar {
 
   /**
    * Gets the current transform value for the progress bar's primary indicator.
-   * @internal
    */
   Map primaryTransform() {
     var scale = value / 100;
@@ -63,7 +62,6 @@ class MdProgressBar {
   /**
    * Gets the current transform value for the progress bar's buffer indicator.  Only used if the
    * progress mode is set to buffer, otherwise returns an undefined, causing no transformation.
-   * @internal
    */
   Map bufferTransform() {
     if (mode == "buffer") {

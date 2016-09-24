@@ -27,7 +27,8 @@ void validateArgument(dynamic value, List<dynamic> list) {
     selector: 'md-sidenav',
     template: '<ng-content></ng-content>',
     host: const {'(transitionend)': r'onTransitionEnd($event)'},
-    changeDetection: ChangeDetectionStrategy.OnPush)
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None)
 class MdSidenav {
   /// Alignment of the sidenav (direction neutral); whether 'start' or 'end'.
   String _align = 'start';
@@ -139,7 +140,6 @@ class MdSidenav {
    * When transition has finished, set the internal state for classes and emit the proper event.
    * The event passed is actually of type TransitionEvent, but that type is not available in
    * Android so we use any.
-   * @internal
    */
   void onTransitionEnd(TransitionEvent transitionEvent) {
     if (transitionEvent.target == elementRef.nativeElement &&
@@ -187,7 +187,6 @@ class MdSidenav {
   /**
    * This is public because we need it from MdSidenavLayout, but it's undocumented and should
    * not be used outside.
-   * @internal
    */
   num get width {
     if (elementRef.nativeElement != null) {
@@ -218,7 +217,8 @@ class MdSidenav {
 // changes its state.
     directives: const [MdSidenav],
     templateUrl: 'sidenav.html',
-    styleUrls: const ['sidenav.scss.css', 'sidenav_transitions.scss.css'])
+    styleUrls: const ['sidenav.scss.css', 'sidenav_transitions.scss.css'],
+    encapsulation: ViewEncapsulation.None)
 class MdSidenavLayout implements AfterContentInit {
   @ContentChildren(MdSidenav)
   QueryList<MdSidenav> sidenavs;
@@ -254,7 +254,6 @@ class MdSidenavLayout implements AfterContentInit {
     if (_dir != null) _dir.dirChange.listen((Null _) => _validateDrawers());
   }
 
-  // TODO: internal
   @override
   void ngAfterContentInit() {
     // On changes, assert on consistency.
@@ -267,7 +266,6 @@ class MdSidenavLayout implements AfterContentInit {
   * Subscribes to sidenav events in order to set a class on the main layout element when the sidenav
   * is open and the backdrop is visible. This ensures any overflow on the layout element is properly
   * hidden.
-  * @internal
   */
   void _watchSidenavToggle(MdSidenav sidenav) {
     if (sidenav == null || sidenav.mode == 'side') return;
@@ -309,7 +307,6 @@ class MdSidenavLayout implements AfterContentInit {
     }
   }
 
-  /** @internal */
   void closeModalSidenav() {
     if (_start != null && _start.mode != 'side') {
       _start.close();
@@ -319,7 +316,6 @@ class MdSidenavLayout implements AfterContentInit {
     }
   }
 
-  /** @internal */
   bool get isShowingBackdrop {
     return (_isSidenavOpen(_start) && _start.mode != 'side') ||
         (_isSidenavOpen(_end) && _end.mode != 'side');
@@ -339,30 +335,24 @@ class MdSidenavLayout implements AfterContentInit {
         : 0;
   }
 
-  /** @internal */
   num get marginLeft => _getSidenavEffectiveWidth(_left, 'side');
 
-  /** @internal */
   num get marginRight => _getSidenavEffectiveWidth(_right, 'side');
 
-  /** @internal */
   num get positionLeft => _getSidenavEffectiveWidth(_left, 'push');
 
-  /** @internal */
   num get positionRight => _getSidenavEffectiveWidth(_right, 'push');
 
   /**
    * Returns the horizontal offset for the content area.  There should never be a value for both
    * left and right, so by subtracting the right value from the left value, we should always get
    * the appropriate offset.
-   * @internal
    */
   num get positionOffset => positionLeft - positionRight;
 
   /**
    * This is using ngStyle rather than separate [style...] properties because style.transform
    * doesn't seem to work right now.
-   * @internal
    */
   Map get styles {
     return {

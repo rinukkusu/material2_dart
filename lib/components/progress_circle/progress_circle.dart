@@ -8,12 +8,15 @@ import "package:angular2/core.dart";
 const num degreeInRadiants = math.PI / 180;
 //// Duration of the indeterminate animation.
 const int durationIndeterminate = 667;
+
 /// Duration of the indeterminate animation.
 const int durationDeterminate = 225;
+
 /// Start animation value of the indeterminate animation
-num startIndeterminate = 3;
+const num startIndeterminate = 3;
+
 /// End animation value of the indeterminate animation
-num endIndeterminate = 80;
+const num endIndeterminate = 80;
 
 enum ProgressCircleMode { determinate, indeterminate }
 
@@ -47,23 +50,19 @@ class MdProgressCircle implements OnDestroy {
    * because voiceover does not report the progress indicator as indeterminate if the aria min
    * and/or max value are number values.
    *
-   * @internal
    */
   num get ariaValueMin => mode == "determinate" ? 0 : null;
 
-  /** @internal */
   num get ariaValueMax => mode == "determinate" ? 100 : null;
 
-  /** @internal */
   Timer get interdeterminateInterval => _interdeterminateInterval;
 
-  /** @internal */
   set interdeterminateInterval(Timer interval) {
     _interdeterminateInterval?.cancel();
     _interdeterminateInterval = interval;
   }
 
-  /** The current path value, representing the progres circle. */
+  /** The current path value, representing the progress circle. */
   String _currentPath;
 
   String get currentPath => _currentPath;
@@ -145,33 +144,34 @@ class MdProgressCircle implements OnDestroy {
    * @param duration The length of time to show the animation, in milliseconds.
    * @param rotation The starting angle of the circle fill, with 0° represented at the top center of the circle.
    */
-  void _animateCircle(num animateFrom, num animateTo, EasingFn ease, num duration,
-      num rotation) {
+  void _animateCircle(num animateFrom, num animateTo, EasingFn ease,
+      num duration, num rotation) {
     num id = ++_lastAnimationId;
     num startTime = now();
     num changeInValue = animateTo - animateFrom;
+
     // No need to animate it if the values are the same
     if (animateTo == animateFrom) {
       currentPath = getSvgArc(animateTo, rotation);
     } else {
-      window.animationFrame.then/*<num>*/((num number) {
-        _animation(number, id, startTime, animateFrom, changeInValue, duration,
+      window.animationFrame.then/*<num>*/((num _) {
+        _animation(id, startTime, animateFrom, changeInValue, duration,
             rotation, ease);
       });
     }
   }
 
-  void _animation(num currentTime, num id, num startTime, num animateFrom,
-      num changeInValue, num duration, num rotation, EasingFn ease) {
-    if (currentTime == null || currentTime == 0) currentTime = now();
+  void _animation(num id, num startTime, num animateFrom, num changeInValue,
+      num duration, num rotation, EasingFn ease) {
+    var currentTime = now();
     num elapsedTime = math.max(0, math.min(currentTime - startTime, duration));
     currentPath = getSvgArc(
         ease(elapsedTime, animateFrom, changeInValue, duration), rotation);
     // Prevent overlapping animations by checking if a new animation has been called for and
     // if the animation has lasted long than the animation duration.
     if (id == _lastAnimationId && elapsedTime < duration) {
-      window.animationFrame.then/*<num>*/((num number) {
-        _animation(number, id, startTime, animateFrom, changeInValue, duration,
+      window.animationFrame.then/*<num>*/((num _) {
+        _animation(id, startTime, animateFrom, changeInValue, duration,
             rotation, ease);
       });
     }
@@ -232,15 +232,9 @@ num clamp(num v) {
   return math.max(0, math.min(100, v));
 }
 
-/**
- * Returns the current timestamp either based on the performance global or a date object.
- */
-num now() {
-  if (window.performance != null && window.performance.now != null) {
-    return window.performance.now();
-  }
-  return new DateTime.now().millisecondsSinceEpoch;
-}
+/// Returns the current timestamp either based on the performance global
+/// or a date object.
+num now() => new DateTime.now().millisecondsSinceEpoch;
 
 /**
  * Converts Polar coordinates to Cartesian.

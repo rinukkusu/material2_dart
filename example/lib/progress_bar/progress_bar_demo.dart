@@ -2,7 +2,6 @@ import "package:angular2/core.dart";
 import "package:material2_dart/components/button/button.dart";
 import "package:material2_dart/components/progress_bar/progress_bar.dart";
 
-// TODO(josephperrott): Add an automatically filling example progress bar.
 @Component(
     selector: "progress-bar-demo",
     templateUrl: "progress_bar_demo.html",

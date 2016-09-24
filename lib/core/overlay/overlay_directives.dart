@@ -6,7 +6,7 @@ import "../portal/portal.dart";
 import "overlay_state.dart";
 import "position/connected_position.dart";
 
-/** Default set of positions for the overlay. Follows the behavior of a dropdown. */
+/// Default set of positions for the overlay. Follows the behavior of a dropdown.
 List<ConnectionPositionPair> defaultPositionList = [
   new ConnectionPositionPair(
       new OriginConnectionPosition(
@@ -53,13 +53,11 @@ class ConnectedOverlayDirective implements OnInit, OnDestroy {
 
   OverlayRef get overlayRef => _overlayRef;
 
-  // TODO: internal
   @override
   void ngOnInit() {
     _createOverlay();
   }
 
-  // TODO: internal
   @override
   void ngOnDestroy() {
     _destroyOverlay();

@@ -1,7 +1,13 @@
 <label class="md-slide-toggle-label">
+
   <div class="md-slide-toggle-container">
     <div class="md-slide-toggle-bar"></div>
-    <div class="md-slide-toggle-thumb-container">
+
+    <div class="md-slide-toggle-thumb-container"
+         (slidestart)="onDragStart()"
+         (slide)="onDrag($event)"
+         (slideend)="onDragEnd()">
+
       <div class="md-slide-toggle-thumb">
         <div class="md-ink-ripple"></div>
       </div>

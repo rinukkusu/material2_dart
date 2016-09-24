@@ -218,12 +218,13 @@ $_md-checkbox-indeterminate-checked-easing-function: cubic-bezier(0.14, 0, 0, 1)
 }
 
 md-checkbox {
-  &, label {
-    cursor: pointer;
-  }
+  cursor: pointer;
 }
 
 .md-checkbox-layout {
+  // `cursor: inherit` ensures that the wrapper element gets the same cursor as the md-checkbox
+  // (e.g. pointer by default, regular when disabled), instead of the browser default.
+  cursor: inherit;
   align-items: baseline;
   display: inline-flex;
 }
@@ -268,8 +269,9 @@ md-checkbox {
   align-items: center;
   display: inline-flex;
   justify-content: center;
-  transition: background-color $md-checkbox-transition-duration $md-linear-out-slow-in-timing-function,
-  opacity $md-checkbox-transition-duration $md-linear-out-slow-in-timing-function;
+  transition: background-color $md-checkbox-transition-duration
+                  $md-linear-out-slow-in-timing-function,
+              opacity $md-checkbox-transition-duration $md-linear-out-slow-in-timing-function;
   will-change: background-color, opacity;
 }
 
@@ -356,6 +358,7 @@ md-checkbox {
   }
 }
 
+
 .md-checkbox-unchecked {
   .md-checkbox-background {
     background-color: transparent;
@@ -369,7 +372,7 @@ md-checkbox {
   $white-30pct-opacity-on-dark-theme: #686868;
   $black-26pct-opacity-on-light-theme: #b0b0b0;
   $disabled-color: if(
-                  $md-is-dark-theme, $white-30pct-opacity-on-dark-theme, $black-26pct-opacity-on-light-theme);
+      $md-is-dark-theme, $white-30pct-opacity-on-dark-theme, $black-26pct-opacity-on-light-theme);
 
   cursor: default;
 
@@ -399,7 +402,8 @@ md-checkbox {
       // Instead of delaying the animation, we simply multiply its length by 2 and begin the
       // animation at 50% in order to prevent a flash of styles applied to a checked checkmark
       // as the background is fading in before the animation begins.
-      animation: $md-checkbox-transition-duration * 2 linear 0ms md-checkbox-unchecked-checked-checkmark-path;
+      animation:
+        $md-checkbox-transition-duration * 2 linear 0ms md-checkbox-unchecked-checked-checkmark-path;
     }
   }
 
@@ -409,7 +413,8 @@ md-checkbox {
     }
 
     .md-checkbox-mixedmark {
-      animation: $md-checkbox-transition-duration linear 0ms md-checkbox-unchecked-indeterminate-mixedmark;
+      animation:
+        $md-checkbox-transition-duration linear 0ms md-checkbox-unchecked-indeterminate-mixedmark;
     }
   }
 
@@ -419,27 +424,32 @@ md-checkbox {
     }
 
     .md-checkbox-checkmark-path {
-      animation: $md-checkbox-transition-duration linear 0ms md-checkbox-checked-unchecked-checkmark-path;
+      animation:
+        $md-checkbox-transition-duration linear 0ms md-checkbox-checked-unchecked-checkmark-path;
     }
   }
 
   &-checked-indeterminate {
     .md-checkbox-checkmark {
-      animation: $md-checkbox-transition-duration linear 0ms md-checkbox-checked-indeterminate-checkmark;
+      animation:
+        $md-checkbox-transition-duration linear 0ms md-checkbox-checked-indeterminate-checkmark;
     }
 
     .md-checkbox-mixedmark {
-      animation: $md-checkbox-transition-duration linear 0ms md-checkbox-checked-indeterminate-mixedmark;
+      animation:
+        $md-checkbox-transition-duration linear 0ms md-checkbox-checked-indeterminate-mixedmark;
     }
   }
 
   &-indeterminate-checked {
     .md-checkbox-checkmark {
-      animation: $indeterminate-change-duration linear 0ms md-checkbox-indeterminate-checked-checkmark;
+      animation:
+        $indeterminate-change-duration linear 0ms md-checkbox-indeterminate-checked-checkmark;
     }
 
     .md-checkbox-mixedmark {
-      animation: $indeterminate-change-duration linear 0ms md-checkbox-indeterminate-checked-mixedmark;
+      animation:
+        $indeterminate-change-duration linear 0ms md-checkbox-indeterminate-checked-mixedmark;
     }
   }
 
@@ -449,7 +459,9 @@ md-checkbox {
     }
 
     .md-checkbox-mixedmark {
-      animation: $indeterminate-change-duration * 0.6 linear 0ms md-checkbox-indeterminate-unchecked-mixedmark;
+      animation:
+        $indeterminate-change-duration * 0.6 linear 0ms
+        md-checkbox-indeterminate-unchecked-mixedmark;
     }
   }
 }

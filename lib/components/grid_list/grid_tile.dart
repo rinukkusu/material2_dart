@@ -32,7 +32,6 @@ class MdGridTile {
 
   /** Sets the style of the grid-tile element.  Needs to be set manually to avoid
    * "Changed after checked" errors that would occur with HostBinding.
-   * @internal
    */
   void setStyle(String property, String value) {
     _renderer.setElementStyle(_elementRef.nativeElement, property, value);

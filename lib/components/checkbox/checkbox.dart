@@ -7,7 +7,7 @@ int nextId = 0;
 
 /**
  * Provider Expression that allows md-checkbox to register as a ControlValueAccessor. This allows it
- * to support [(ngModel)] and ngControl.
+ * to support [(ngModel)].
  */
 const Provider MD_CHECKBOX_CONTROL_VALUE_ACCESSOR =
     const Provider(NG_VALUE_ACCESSOR, useExisting: MdCheckbox, multi: true);
@@ -53,7 +53,7 @@ class MdCheckboxChange {
     providers: const [MD_CHECKBOX_CONTROL_VALUE_ACCESSOR],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush)
-class MdCheckbox implements AfterContentInit, ControlValueAccessor<dynamic> {
+class MdCheckbox implements ControlValueAccessor<dynamic> {
   Renderer _renderer;
   ElementRef _elementRef;
 
@@ -107,8 +107,6 @@ class MdCheckbox implements AfterContentInit, ControlValueAccessor<dynamic> {
   /** Called when the checkbox is blurred. Needed to properly implement ControlValueAccessor. */
   Function onTouched = () {};
 
-  /** Whether the `checked` state has been set to its initial value. */
-  bool _isInitialized = false;
   String _currentAnimationClass = "";
   TransitionCheckState _currentCheckState = TransitionCheckState.Init;
   bool _checked = false;
@@ -133,15 +131,7 @@ class MdCheckbox implements AfterContentInit, ControlValueAccessor<dynamic> {
       _transitionCheckState(_checked
           ? TransitionCheckState.Checked
           : TransitionCheckState.Unchecked);
-      // Only fire a change event if this isn't the first time the checked property is ever set.
-      if (_isInitialized) _emitChangeEvent();
     }
-  }
-
-  // TODO: internal
-  @override
-  void ngAfterContentInit() {
-    _isInitialized = true;
   }
 
   /// Whether the checkbox is indeterminate. This is also known as "mixed" mode and can be used to
@@ -166,7 +156,6 @@ class MdCheckbox implements AfterContentInit, ControlValueAccessor<dynamic> {
   }
 
   /// Implemented as part of ControlValueAccessor.
-  /// TODO: internal
   @override
   void writeValue(dynamic value) {
     // FIXME(ntaoo): I'm assuming the value is either bool or String or null, that may be wrong.
@@ -180,14 +169,12 @@ class MdCheckbox implements AfterContentInit, ControlValueAccessor<dynamic> {
   }
 
   /// Implemented as part of ControlValueAccessor.
-  /// TODO: internal
   @override
   void registerOnChange(dynamic fn) {
     _controlValueAccessorChangeFn = fn as Function;
   }
 
   /// Implemented as part of ControlValueAccessor.
-  /// TODO: internal
   @override
   void registerOnTouched(dynamic fn) {
     onTouched = fn as Function;
@@ -223,7 +210,6 @@ class MdCheckbox implements AfterContentInit, ControlValueAccessor<dynamic> {
 
   /**
    * Informs the component when the input has focus so that we can style accordingly
-   * @internal
    */
   void onInputFocus() {
     hasFocus = true;
@@ -247,7 +233,6 @@ class MdCheckbox implements AfterContentInit, ControlValueAccessor<dynamic> {
 
   /// Event handler for checkbox input element.
   /// Toggles checked state if element is not disabled.
-  /// @internal
   void onInteractionEvent(Event event) {
     // We always have to stop propagation on the change event.
 
@@ -257,10 +242,14 @@ class MdCheckbox implements AfterContentInit, ControlValueAccessor<dynamic> {
     event.stopPropagation();
     if (!disabled) {
       toggle();
+
+      // Emit our custom change event if the native input emitted one.
+      // It is important to only emit it, if the native input triggered one, because
+      // we don't want to trigger a change event, when the `checked` variable changes for example.
+      _emitChangeEvent();
     }
   }
 
-  ///@internal
   void onInputClick(Event event) {
     // We have to stop propagation for click events on the visual hidden input element.
     // By default, when a user clicks on a label element, a generated click event will be

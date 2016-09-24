@@ -120,7 +120,6 @@ class TileCoordinator {
 }
 
 /** Simple data structure for tile position (row, col).
- * @internal
  */
 class TilePosition {
   int row;

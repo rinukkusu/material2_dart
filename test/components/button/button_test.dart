@@ -125,6 +125,7 @@ void main() {
         ComponentFixture fixture = await tcb.createAsync(TestApp);
         TestApp testComponent = fixture.debugElement.componentInstance;
         var buttonDebugElement = fixture.debugElement.query(By.css('a'));
+
         fixture.detectChanges();
         expect(buttonDebugElement.nativeElement.attributes['aria-disabled'],
             equals('false'));
@@ -136,6 +137,32 @@ void main() {
       });
     });
   });
+
+  // Ripple tests.
+  group('button ripples', () {
+    test('should remove ripple if md-ripple-disabled input is set', () {
+      return inject([TestComponentBuilder, AsyncTestCompleter],
+          (TestComponentBuilder tcb, AsyncTestCompleter completer) async {
+        ComponentFixture fixture = await tcb.createAsync(TestApp);
+        TestApp testComponent = fixture.debugElement.componentInstance;
+        var buttonDebugElement = fixture.debugElement.query(By.css('button'));
+
+        fixture.detectChanges();
+        expect(
+            buttonDebugElement
+                .nativeElement.querySelectorAll['md-ripple'].length,
+            1);
+
+        testComponent.rippleDisabled = true;
+        fixture.detectChanges();
+        expect(
+            buttonDebugElement
+                .nativeElement.querySelectorAll['md-ripple'].length,
+            0);
+        completer.done();
+      });
+    });
+  });
 }
 
 /// Test component that contains an MdButton.
@@ -143,7 +170,7 @@ void main() {
     selector: 'test-app',
     template: '''
     <button md-button type="button" (click)="increment()"
-      [disabled]="isDisabled" [color]="buttonColor">
+      [disabled]="isDisabled" [color]="buttonColor" [disableRipple]="rippleDisabled">
       Go
     </button>
     <a href="http://www.google.com" md-button [disabled]="isDisabled" [color]="buttonColor">Link</a>
@@ -153,6 +180,7 @@ class TestApp {
   int clickCount = 0;
   bool isDisabled = false;
   String buttonColor;
+  bool rippleDisabled = false;
 
   void increment() {
     clickCount++;

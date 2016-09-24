@@ -13,7 +13,6 @@ class TileStyler {
 
   /** Adds grid-list layout info once it is available. Cannot be processed in the constructor
    * because these properties haven't been calculated by that point.
-   * @internal
    * */
   void init(
       String _gutterSize, TileCoordinator tracker, int cols, String direction) {
@@ -27,7 +26,6 @@ class TileStyler {
   /**
    * Computes the amount of space a single 1x1 tile would take up (width or height).
    * Used as a basis for other calculations.
-   * @internal
    * @param sizePercent Percent of the total grid-list space that one 1x1 tile would take up.
    * @param gutterFraction Fraction of the gutter size taken up by one 1x1 tile.
    * @return The size of a 1x1 tile as an expression that can be evaluated via CSS calc().
@@ -43,7 +41,6 @@ class TileStyler {
 
   /**
    * Gets The horizontal or vertical position of a tile, e.g., the 'top' or 'left' property value.
-   * @internal
    * @param offset Number of tiles that have already been rendered in the row/column.
    * @param baseSize Base size of a 1x1 tile (as computed in getBaseTileSize).
    * @return Position of the tile as a CSS calc() expression.
@@ -56,7 +53,6 @@ class TileStyler {
 
   /**
    * Gets the actual size of a tile, e.g., width or height, taking rowspan or colspan into account.
-   * @internal
    * @param baseSize Base size of a 1x1 tile (as computed in getBaseTileSize).
    * @param span The tile's rowspan or colspan.
    * @return Size of the tile as a CSS calc() expression.
@@ -66,7 +62,6 @@ class TileStyler {
   }
 
   /** Gets the style properties to be applied to a tile for the given row and column index.
-   * @internal
    */
   void setStyle(MdGridTile tile, int rowIndex, int colIndex) {
     // Percent of the available horizontal space that one column takes up.
@@ -81,7 +76,6 @@ class TileStyler {
   }
 
   /** Sets the horizontal placement of the tile in the list.
-   * @internal
    */
   void setColStyles(
       MdGridTile tile, int colIndex, num percentWidth, num gutterWidth) {
@@ -95,14 +89,12 @@ class TileStyler {
   }
 
   /** Calculates the total size taken up by gutters across one axis of a list.
-   * @internal
    */
   String getGutterSpan() {
     return '$_gutterSize * ($_rowspan - 1)';
   }
 
   /** Calculates the total size taken up by tiles across one axis of a list.
-   * @internal
    */
   String getTileSpan(String tileHeight) {
     return '$_rowspan * ${getTileSize(tileHeight, 1)}';
@@ -110,14 +102,12 @@ class TileStyler {
 
   /** Sets the vertical placement of the tile in the list.
    * This method will be implemented by each type of TileStyler.
-   * @internal
    */
   void setRowStyles(
       MdGridTile tile, int rowIndex, num percentWidth, num gutterWidth) {}
 
   /** Calculates the computed height and returns the correct style property to set.
    * This method will be implemented by each type of TileStyler.
-   * @internal
    */
   List<String> getComputedHeight() {
     return null;
@@ -131,14 +121,12 @@ class FixedTileStyler extends TileStyler {
 
   FixedTileStyler(this.fixedRowHeight) : super();
 
-  // @internal
   @override
   void init(String gutterSize, TileCoordinator tracker, int cols, String direction) {
     super.init(gutterSize, tracker, cols, direction);
     fixedRowHeight = normalizeUnits(fixedRowHeight);
   }
 
-  // @internal
   @override
   void setRowStyles(
       MdGridTile tile, int rowIndex, num percentWidth, num gutterWidth) {
@@ -146,7 +134,6 @@ class FixedTileStyler extends TileStyler {
     tile.setStyle("height", calc(getTileSize(fixedRowHeight, tile.rowspan)));
   }
 
-  // @internal
   @override
   List<String> getComputedHeight() {
     return [
@@ -167,7 +154,6 @@ class RatioTileStyler extends TileStyler {
     _parseRatio(value);
   }
 
-  // @internal
   @override
   void setRowStyles(
       MdGridTile tile, int rowIndex, num percentWidth, num gutterWidth) {
@@ -181,7 +167,6 @@ class RatioTileStyler extends TileStyler {
         "paddingTop", calc(getTileSize(baseTileHeight, tile.rowspan)));
   }
 
-  // @internal
   @override
   List<String> getComputedHeight() {
     return [
@@ -190,7 +175,6 @@ class RatioTileStyler extends TileStyler {
     ];
   }
 
-  /** @internal */
   void _parseRatio(String value) {
     List<String> ratioParts = value.split(":");
     if (ratioParts.length != 2) {
@@ -204,7 +188,6 @@ class RatioTileStyler extends TileStyler {
  *  In other words, the row height will reflect the total height of the container divided
  *  by the number of rows.  Example <md-grid-list cols="3" rowHeight="fit"> */
 class FitTileStyler extends TileStyler {
-  // @internal
   @override
   void setRowStyles(
       MdGridTile tile, int rowIndex, num percentWidth, num gutterWidth) {
@@ -221,12 +204,10 @@ class FitTileStyler extends TileStyler {
 }
 
 /** Wraps a CSS string in a calc function
- * @internal
  */
 String calc(String exp) => 'calc($exp)';
 
 /** Appends pixels to a CSS string if no units are given.
- * @internal
  */
 String normalizeUnits(String value) {
   return value.contains(new RegExp(r'px|em|rem')) ? value : value + "px";

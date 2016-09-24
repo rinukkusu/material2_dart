@@ -42,7 +42,6 @@ class ConnectedPositionStrategy implements PositionStrategy {
   /**
    * Updates the position of the overlay element, using whichever preferred position relative
    * to the origin fits on-screen.
-   * TODO: internal
    */
   @override
   Future apply(Element element) {

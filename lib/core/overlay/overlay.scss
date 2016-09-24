@@ -1,4 +1,4 @@
-// TODO(jelbourn): change from the `md` prefix to something else for everything in the toolkit.
+@import '../../core/style/variables';
 
 /** The overlay-container is an invisible element which contains all individual overlays. */
 .md-overlay-container {
@@ -19,5 +19,5 @@
   position: absolute;
   pointer-events: auto;
   box-sizing: border-box;
-  z-index: 1;
+  z-index: $z-index-overlay;
 }

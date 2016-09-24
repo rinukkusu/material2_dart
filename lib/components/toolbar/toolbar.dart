@@ -1,5 +1,8 @@
 import 'package:angular2/core.dart';
 
+@Directive(selector: 'md-toolbar-row')
+class MdToolbarRow {}
+
 @Component(
     selector: 'md-toolbar',
     templateUrl: 'toolbar.html',
@@ -33,4 +36,4 @@ class MdToolbar {
   }
 }
 
-const List MD_TOOLBAR_DIRECTIVES = const [MdToolbar];
+const List MD_TOOLBAR_DIRECTIVES = const [MdToolbar, MdToolbarRow];

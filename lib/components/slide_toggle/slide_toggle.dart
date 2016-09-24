@@ -1,8 +1,10 @@
 import 'dart:html';
 import 'dart:async';
+import 'dart:math';
 import "package:angular2/core.dart";
 import "package:angular2/common.dart";
 import "package:material2_dart/core/annotations/field_value.dart";
+import "package:material2_dart/core/style/apply_transform.dart";
 
 const Provider MD_SLIDE_TOGGLE_VALUE_ACCESSOR =
     const Provider(NG_VALUE_ACCESSOR, useExisting: MdSlideToggle, multi: true);
@@ -29,7 +31,7 @@ int nextId = 0;
     styleUrls: const ["slide_toggle.scss.css"],
     providers: const [MD_SLIDE_TOGGLE_VALUE_ACCESSOR],
     changeDetection: ChangeDetectionStrategy.OnPush)
-class MdSlideToggle implements ControlValueAccessor<dynamic> {
+class MdSlideToggle implements AfterContentInit, ControlValueAccessor<dynamic> {
   ElementRef _elementRef;
   Renderer _renderer;
   Function onChange = (dynamic _) {};
@@ -41,6 +43,7 @@ class MdSlideToggle implements ControlValueAccessor<dynamic> {
   String _color;
   bool hasFocus = false;
   bool _isMousedown = false;
+  SlideToggleRenderer _slideRenderer;
 
   @Input()
   set disabled(dynamic v) {
@@ -83,21 +86,34 @@ class MdSlideToggle implements ControlValueAccessor<dynamic> {
 
   MdSlideToggle(this._elementRef, this._renderer);
 
+  @override
+  void ngAfterContentInit() {
+    _slideRenderer = new SlideToggleRenderer(_elementRef);
+  }
+
   /**
    * The onChangeEvent method will be also called on click.
    * This is because everything for the slide-toggle is wrapped inside of a label,
    * which triggers a onChange event on click.
-   * @internal
    */
   void onChangeEvent(Event event) {
     // We always have to stop propagation on the change event.
     // Otherwise the change event, from the input element, will bubble up and
     // emit its event object to the component's `change` output.
     event.stopPropagation();
-    if (!disabled) toggle();
+
+    // Once a drag is currently in progress,
+    // we do not want to toggle the slide-toggle on a click.
+    if (!disabled && !_slideRenderer.isDragging()) {
+      toggle();
+
+      // Emit our custom change event if the native input emitted one.
+      // It is important to only emit it, if the native input triggered one, because
+      // we don't want to trigger a change event, when the `checked` variable changes for example.
+      _emitChangeEvent();
+    }
   }
 
-  /** @internal */
   void onInputClick(Event event) {
     onTouched();
     // We have to stop propagation for click events on the visual hidden input element.
@@ -110,7 +126,6 @@ class MdSlideToggle implements ControlValueAccessor<dynamic> {
     event.stopPropagation();
   }
 
-  /** @internal */
   void setMousedown() {
     // We only *show* the focus style when focus has come to the button via the keyboard.
     // The Material Design spec is silent on this topic, and without doing this, the
@@ -122,14 +137,12 @@ class MdSlideToggle implements ControlValueAccessor<dynamic> {
     });
   }
 
-  /** @internal */
   void onInputFocus() {
     // Only show the focus / ripple indicator when the focus was not triggered by a mouse
     // interaction on the component.
     if (!_isMousedown) hasFocus = true;
   }
 
-  /** @internal */
   void onInputBlur() {
     hasFocus = false;
     onTouched();
@@ -137,7 +150,6 @@ class MdSlideToggle implements ControlValueAccessor<dynamic> {
 
   /**
    * Implemented as part of ControlValueAccessor.
-   * TODO: internal
    */
   @override
   void writeValue(dynamic value) {
@@ -145,14 +157,12 @@ class MdSlideToggle implements ControlValueAccessor<dynamic> {
   }
 
   /// Implemented as part of ControlValueAccessor.
-  /// TODO: internal
   @override
   void registerOnChange(dynamic fn) {
     onChange = fn as Function;
   }
 
   /// mplemented as part of ControlValueAccessor.
-  /// TODO: internal
   @override
   void registerOnTouched(dynamic fn) {
     onTouched = fn as Function;
@@ -166,7 +176,6 @@ class MdSlideToggle implements ControlValueAccessor<dynamic> {
     if (!identical(checked, v)) {
       _checked = v;
       onChange(_checked);
-      _emitChangeEvent();
     }
   }
 
@@ -193,11 +202,97 @@ class MdSlideToggle implements ControlValueAccessor<dynamic> {
     }
   }
 
+  // Emits the change event to the `change` output EventEmitter.
   void _emitChangeEvent() {
     var event = new MdSlideToggleChange();
     event.source = this;
     event.checked = checked;
     _change.emit(event);
+  }
+
+  void onDragStart() {
+    _slideRenderer.startThumbDrag(checked);
+  }
+
+  // TODO: Implement HammerJS wrapper, or wait for yet another solution.
+  // HammerInput
+  void onDrag(dynamic event) {
+    _slideRenderer.updateThumbPosition(event.deltaX);
+  }
+
+  void onDragEnd() {
+    // Notice that we have to stop outside of the current event handler,
+    // because otherwise the click event will be fired and will reset
+    // the new checked variable.
+    new Future<Null>.delayed((const Duration(milliseconds: 0)), () {
+      checked = _slideRenderer.stopThumbDrag();
+    });
+  }
+}
+
+/// Renderer for the Slide Toggle component, which separates DOM modification
+/// in its own class
+class SlideToggleRenderer {
+  Element _thumbEl;
+  Element _thumbBarEl;
+  num _thumbBarWidth = 0;
+  bool _checked;
+  num _percentage;
+
+  ElementRef _elementRef;
+
+  SlideToggleRenderer(this._elementRef) {
+    _thumbEl = _elementRef.nativeElement
+        .querySelector('.md-slide-toggle-thumb-container');
+    _thumbBarEl =
+        _elementRef.nativeElement.querySelector('.md-slide-toggle-bar');
+  }
+
+  /// Whether the slide-toggle is currently dragging.
+  bool isDragging() {
+    return _thumbBarWidth != 0;
+  }
+
+  /// Initializes the drag of the slide-toggle.
+  void startThumbDrag(bool checked) {
+    if (_thumbBarWidth == 0) {
+      _thumbBarWidth = _thumbBarEl.clientWidth - _thumbEl.clientWidth;
+      _checked = checked;
+      _thumbEl.classes.add('md-dragging');
+    }
+  }
+
+  /// Stops the current drag and returns the new checked value.
+  bool stopThumbDrag() {
+    if (_thumbBarWidth != 0) {
+      _thumbBarWidth = 0;
+      _thumbEl.classes.remove('md-dragging');
+
+      applyCssTransform(_thumbEl, '');
+
+      return _percentage > 50;
+    }
+    return false;
+  }
+
+  /// Updates the thumb containers position from the specified distance.
+  void updateThumbPosition(num distance) {
+    if (_thumbBarWidth != 0) {
+      _percentage = _getThumbPercentage(distance);
+      applyCssTransform(_thumbEl, 'translate3d($_percentage%, 0, 0)');
+    }
+  }
+
+  /// Retrieves the percentage of thumb from the moved distance.
+  num _getThumbPercentage(num distance) {
+    num percentage = (distance / _thumbBarWidth) * 100;
+
+    // When the toggle was initially checked, then we have to start the drag at the end.
+    if (_checked) {
+      percentage += 100;
+    }
+
+    return max(0, min(percentage, 100));
   }
 }
 
