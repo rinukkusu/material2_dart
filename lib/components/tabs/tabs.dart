@@ -38,11 +38,10 @@ class MdTab {
   bool get disabled => _disabled;
 }
 
-/**
- * Material design tab-group component.  Supports basic tab pairs (label + content) and includes
- * animated ink-bar, keyboard navigation, and screen reader.
- * See: https://www.google.com/design/spec/components/tabs.html
- */
+/// Material design tab-group component.
+/// Supports basic tab pairs (label + content) and includes
+/// animated ink-bar, keyboard navigation, and screen reader.
+/// See: https://www.google.com/design/spec/components/tabs.html
 @Component(
     selector: "md-tab-group",
     templateUrl: "tab_group.html",
@@ -107,10 +106,9 @@ class MdTabGroup implements AfterViewChecked {
     _groupId = nextId++;
   }
 
-  /**
-   * Waits one frame for the view to update, then upates the ink bar
-   * Note: This must be run outside of the zone or it will create an infinite change detection loop
-   */
+  /// Waits one frame for the view to update, then updates the ink bar
+  /// Note: This must be run outside of the zone
+  /// or it will create an infinite change detection loop
   @override
   void ngAfterViewChecked() {
     _zone.runOutsideAngular(() {
@@ -121,15 +119,14 @@ class MdTabGroup implements AfterViewChecked {
     _isInitialized = true;
   }
 
-  /** Tells the ink-bar to align itself to the current label wrapper */
+  /// Tells the ink-bar to align itself to the current label wrapper.
   void _updateInkBar() {
     inkBar.toList().first.alignToElement(_currentLabelWrapper);
   }
 
-  /**
-   * Reference to the current label wrapper; defaults to null for initial render before the
-   * ViewChildren references are ready.
-   */
+  /// Reference to the current label wrapper;
+  /// defaults to null for initial render before the
+  /// ViewChildren references are ready.
   Element get _currentLabelWrapper {
     return labelWrappers != null && labelWrappers.isNotEmpty
         ? labelWrappers.toList()[selectedIndex].elementRef.nativeElement
@@ -164,14 +161,10 @@ class MdTabGroup implements AfterViewChecked {
     return event;
   }
 
-  /**
-   * Returns a unique id for each tab label element
-   */
+  /// Returns a unique id for each tab label element.
   String getTabLabelId(int i) => 'md-tab-label-$_groupId-$i';
 
-  /**
-   * Returns a unique id for each tab content element
-   */
+  /// Returns a unique id for each tab content element.
   String getTabContentId(int i) => 'md-tab-content-$_groupId-$i';
 
   void handleKeydown(KeyboardEvent event) {
@@ -189,7 +182,7 @@ class MdTabGroup implements AfterViewChecked {
   }
 
   /// Moves the focus left or right depending on the offset provided.
-  ///  Valid offsets are 1 and -1.
+  /// Valid offsets are 1 and -1.
   void moveFocus(int offset) {
     if (labelWrappers != null && labelWrappers.isNotEmpty) {
       final List<MdTab> tabs = this.tabs.toList();

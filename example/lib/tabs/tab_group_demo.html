@@ -14,16 +14,16 @@
 </md-tab-group>
 
 <h1>Async Tabs</h1>
-FIXME: Waiting for ng2 updated to greater than rc2 and whenStable() is supported.
-<!--<md-tab-group class="demo-tab-group">-->
-<!--<md-tab *ngFor="let tab of asyncTabs | async">-->
-<!--<template md-tab-label>{{tab['label']}}</template>-->
-<!--<template md-tab-content>-->
-<!--{{tab['content']}}-->
-<!--<br>-->
-<!--<br>-->
-<!--<br>-->
-<!--<md-input placeholder="Tab Label" [(ngModel)]="tab['label']"></md-input>-->
-<!--</template>-->
-<!--</md-tab>-->
-<!--</md-tab-group>-->
+
+<md-tab-group class="demo-tab-group">
+  <md-tab *ngFor="let tab of asyncTabs | async; let i = index" [disabled]="i == 1">
+    <template md-tab-label>{{tab['label']}}</template>
+    <template md-tab-content>
+      {{tab['content']}}
+      <br>
+      <br>
+      <br>
+      <md-input placeholder="Tab Label" [(ngModel)]="tab['label']"></md-input>
+    </template>
+  </md-tab>
+</md-tab-group>
