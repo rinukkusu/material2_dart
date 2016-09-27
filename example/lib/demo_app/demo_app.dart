@@ -30,6 +30,7 @@ import '../progress_bar/progress_bar_demo.dart';
 import '../progress_circle/progress_circle_demo.dart';
 import '../radio/radio_demo.dart';
 import '../sidenav/sidenav_demo.dart';
+import '../slider/slider_demo.dart';
 import '../slide_toggle/slide_toggle_demo.dart';
 import '../toolbar/toolbar_demo.dart';
 import '../tabs/tab_group_demo.dart';
@@ -94,6 +95,7 @@ class Home {}
   const Route(path: '/ripple', name: 'Ripple', component: RippleDemo),
   const Route(
       path: '/slide-toggle', name: 'SlideToggle', component: SlideToggleDemo),
+  const Route(path: '/slider', name: 'Slider', component: SliderDemo),
   const Route(path: '/sidenav', name: 'Sidenav', component: SidenavDemo),
   const Route(path: '/toolbar', name: 'Toolbar', component: ToolbarDemo),
   const Route(path: '/tabs', name: 'Tabs', component: TabsDemo)
