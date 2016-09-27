@@ -11,6 +11,7 @@ import '../progress_circle/progress_circle.dart';
 import '../radio/radio.dart';
 import '../sidenav/sidenav.dart';
 import '../slide_toggle/slide_toggle.dart';
+import '../slider/slider.dart';
 import '../tabs/tabs.dart';
 import '../toolbar/toolbar.dart';
 
@@ -23,6 +24,7 @@ import '../../core/a11y/live_announcer.dart';
 
 const List MATERIAL_DIRECTIVES = const <dynamic>[
   MD_BUTTON_DIRECTIVES,
+  MD_BUTTON_TOGGLE_DIRECTIVES,
   MD_CARD_DIRECTIVES,
   MD_CHECKBOX_DIRECTIVES,
   MD_GRID_LIST_DIRECTIVES,
@@ -34,6 +36,7 @@ const List MATERIAL_DIRECTIVES = const <dynamic>[
   MD_RADIO_DIRECTIVES,
   MD_RIPPLE_DIRECTIVES,
   MD_SIDENAV_DIRECTIVES,
+  MD_SLIDER_DIRECTIVES,
   MD_SLIDE_TOGGLE_DIRECTIVES,
   MD_TABS_DIRECTIVES,
   MD_TOOLBAR_DIRECTIVES,
@@ -43,6 +46,8 @@ const List MATERIAL_DIRECTIVES = const <dynamic>[
 ];
 
 const List MATERIAL_PROVIDERS = const <dynamic>[
+  MD_BUTTON_TOGGLE_GROUP_VALUE_ACCESSOR,
   OVERLAY_PROVIDERS,
-  MdLiveAnnouncer
+  MdLiveAnnouncer,
+  MD_SLIDER_VALUE_ACCESSOR
 ];
