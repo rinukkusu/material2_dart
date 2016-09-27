@@ -10,7 +10,7 @@ import "package:material2_dart/core/annotations/field_value.dart";
  * Provider Expression that allows md-button-toggle-group to register as a ControlValueAccessor.
  * This allows it to support [(ngModel)].
  */
-const MD_BUTTON_TOGGLE_GROUP_VALUE_ACCESSOR = const Provider(NG_VALUE_ACCESSOR,
+const Provider MD_BUTTON_TOGGLE_GROUP_VALUE_ACCESSOR = const Provider(NG_VALUE_ACCESSOR,
     useExisting: MdButtonToggleGroup, multi: true);
 
 int _uniqueIdCounter = 0;
@@ -62,6 +62,7 @@ class MdButtonToggleGroup implements AfterViewInit, ControlValueAccessor<dynamic
   @ContentChildren(MdButtonToggle)
   QueryList<MdButtonToggle> buttonToggles;
 
+  @override
   void ngAfterViewInit() {
     _isInitialized = true;
   }
@@ -144,16 +145,19 @@ class MdButtonToggleGroup implements AfterViewInit, ControlValueAccessor<dynamic
   }
 
   /// Implemented as part of ControlValueAccessor.
+  @override
   void writeValue(dynamic value) {
     this.value = value;
   }
 
   /// Implemented as part of ControlValueAccessor.
+  @override
   void registerOnChange(_ControlValueAccessorChangeFn fn) {
     _controlValueAccessorChangeFn = fn;
   }
 
   /// Implemented as part of ControlValueAccessor.
+  @override
   void registerOnTouched(Function fn) {
     onTouched = fn;
   }
@@ -244,6 +248,7 @@ class MdButtonToggle implements OnInit {
     }
   }
 
+  @override
   void ngOnInit() {
     if (id == null) {
       id = 'md-button-toggle-${_uniqueIdCounter++}';
@@ -345,7 +350,7 @@ class MdButtonToggle implements OnInit {
   }
 }
 
-const MD_BUTTON_TOGGLE_DIRECTIVES = const [
+const List MD_BUTTON_TOGGLE_DIRECTIVES = const [
   MdButtonToggleGroup,
   MdButtonToggleGroupMultiple,
   MdButtonToggle
