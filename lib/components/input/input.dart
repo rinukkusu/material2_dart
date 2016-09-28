@@ -124,7 +124,7 @@ class MdInput
   /** Readonly properties. */
   bool get focused => _focused;
 
-  bool get empty => _value == null || _value.isEmpty;
+  bool get empty => (_value == null || _value.isEmpty) && type != 'date';
 
   int get characterCount => empty ? 0 : _value.length;
 

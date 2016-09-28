@@ -34,12 +34,12 @@ class GridListDemo {
     {"name": "Molly", "human": "Rob"},
     {"name": "Husi", "human": "Matias"}
   ];
+  num basicRowHeight = 80;
   num fixedCols = 4;
   num fixedRowHeight = 100;
   num ratioGutter = 1;
   String fitListHeight = "400px";
   String ratio = "4:1";
-  String basicRowHeight = '100px';
 
   void addTileCols() {
     tiles[2]['cols']++;
