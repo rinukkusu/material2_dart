@@ -1,8 +1,5 @@
 import "package:angular2/core.dart";
-import "package:material2_dart/components/grid_list/grid_list.dart";
-import "package:material2_dart/components/button/button.dart";
-import "package:material2_dart/components/card/card.dart";
-import "package:material2_dart/components/icon/icon.dart";
+import "package:material2_dart/material.dart";
 
 @Component(
     selector: "grid-list-demo",

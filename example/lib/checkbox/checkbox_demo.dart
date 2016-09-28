@@ -1,6 +1,6 @@
 import "package:angular2/core.dart";
 import "package:angular2/common.dart";
-import "package:material2_dart/components/checkbox/checkbox.dart";
+import "package:material2_dart/material.dart";
 
 class Task {
   String name;

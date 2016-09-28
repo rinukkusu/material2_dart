@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:material2_dart/core/annotations/field_value.dart';
+import 'package:material2_dart/material.dart';
 
 void main() {
   group('BooleanFieldValue', () {

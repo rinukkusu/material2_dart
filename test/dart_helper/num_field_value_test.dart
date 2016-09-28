@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import 'package:material2_dart/dart_helper/num_field_value.dart';
+import 'package:material2_dart/material.dart';
 
 void main() {
   test('numFieldValue', () {

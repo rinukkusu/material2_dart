@@ -1,11 +1,5 @@
 import "package:angular2/core.dart";
-import "package:material2_dart/components/input/input.dart";
-import "package:material2_dart/components/button/button.dart";
-import "package:material2_dart/components/card/card.dart";
-import "package:material2_dart/components/checkbox/checkbox.dart";
-import "package:material2_dart/components/icon/icon.dart";
-import "package:material2_dart/components/toolbar/toolbar.dart";
-
+import "package:material2_dart/material.dart";
 int max = 5;
 
 @Component(

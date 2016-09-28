@@ -1,7 +1,7 @@
 import 'dart:html';
 import 'package:angular2/core.dart';
 import "package:angular2/testing_internal.dart";
-import 'package:material2_dart/components/tabs/tabs.dart';
+import 'package:material2_dart/src/components/tabs/tabs.dart';
 @TestOn('browser')
 import 'package:test/test.dart';
 

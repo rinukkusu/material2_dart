@@ -1,7 +1,5 @@
 import "package:angular2/core.dart";
-import "package:material2_dart/components/button/button.dart";
-import "package:material2_dart/components/list/list.dart";
-import "package:material2_dart/components/icon/icon.dart";
+import "package:material2_dart/material.dart";
 
 @Component(
     selector: "list-demo",

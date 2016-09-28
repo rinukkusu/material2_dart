@@ -4,7 +4,7 @@ This is the Dart version of [angular/material2](https://github.com/angular/mater
 
 ## Project Status
 
-Synced with the 2.0.0-alpha.8 except gesture support and non 'available' components. 
+Synced with the 2.0.0-alpha.9 except gesture support and non 'available' components. 
 
 ## Prerequisites
 
@@ -13,22 +13,22 @@ If you have not set up scissors, please set up `scissors` with the [guide](https
 
 ### Components
 
-* [Button](https://github.com/ntaoo/material2_dart/tree/master/lib/components/button)
-* [Button Toggle](https://github.com/ntaoo/material2_dart/tree/master/lib/components/button_toggle) 
-* [Card](https://github.com/ntaoo/material2_dart/tree/master/lib/components/card)
-* [Checkbox](https://github.com/ntaoo/material2_dart/tree/master/lib/components/checkbox)
-* [Grid List](https://github.com/ntaoo/material2_dart/tree/master/lib/components/grid_list)
-* [Icon](https://github.com/ntaoo/material2_dart/tree/master/lib/components/icon)
-* [Input](https://github.com/ntaoo/material2_dart/tree/master/lib/components/input)
-* [List](https://github.com/ntaoo/material2_dart/tree/master/lib/components/list)
-* [Progress Bar](https://github.com/ntaoo/material2_dart/tree/master/lib/components/progress_bar)
-* [Progress Circle](https://github.com/ntaoo/material2_dart/tree/master/lib/components/progress_circle)
-* [Radio](https://github.com/ntaoo/material2_dart/tree/master/lib/components/radio)
-* [Sidenav](https://github.com/ntaoo/material2_dart/tree/master/lib/components/sidenav)
-* [Slider](https://github.com/ntaoo/material2_dart/tree/master/lib/components/slider)
-* [Slide Toggle](https://github.com/ntaoo/material2_dart/tree/master/lib/components/slide_toggle)
-* [Tabs](https://github.com/ntaoo/material2_dart/tree/master/lib/components/tabs)
-* [Toolbar](https://github.com/ntaoo/material2_dart/tree/master/lib/components/tabs)
+* [Button](https://github.com/ntaoo/material2_dart/tree/master/doc/components/button.md)
+* [Button Toggle](https://github.com/ntaoo/material2_dart/tree/master/doc/components/button_toggle.md) 
+* [Card](https://github.com/ntaoo/material2_dart/tree/master/doc/components/card.md)
+* [Checkbox](https://github.com/ntaoo/material2_dart/tree/master/doc/components/checkbox.md)
+* [Grid List](https://github.com/ntaoo/material2_dart/tree/master/doc/components/grid_list.md)
+* [Icon](https://github.com/ntaoo/material2_dart/tree/master/doc/components/icon.md)
+* [Input](https://github.com/ntaoo/material2_dart/tree/master/doc/components/input.md)
+* [List](https://github.com/ntaoo/material2_dart/tree/master/doc/components/list.md)
+* [Progress Bar](https://github.com/ntaoo/material2_dart/tree/master/doc/components/progress_bar.md)
+* [Progress Circle](https://github.com/ntaoo/material2_dart/tree/master/doc/components/progress_circle.md)
+* [Radio](https://github.com/ntaoo/material2_dart/tree/master/doc/components/radio.md)
+* [Sidenav](https://github.com/ntaoo/material2_dart/tree/master/doc/components/sidenav.md)
+* [Slider](https://github.com/ntaoo/material2_dart/tree/master/doc/components/slider.md)
+* [Slide Toggle](https://github.com/ntaoo/material2_dart/tree/master/doc/components/slide_toggle.md)
+* [Tabs](https://github.com/ntaoo/material2_dart/tree/master/doc/components/tabs.md)
+* [Toolbar](https://github.com/ntaoo/material2_dart/tree/master/doc/components/tabs.md)
 
 ## Usage
 
@@ -39,7 +39,7 @@ If you have not set up scissors, please set up `scissors` with the [guide](https
 
 2. Run `pub get`.
 
-3. Import component files and add directives on a component metadata. [(The example)](https://github.com/ntaoo/material2_dart/tree/master/example/lib/button)
+3. Import this library as `import 'package:material2_dart:material.dart'`. [(The example)](https://github.com/ntaoo/material2_dart/tree/master/example/lib/button)
 
 ## Example
 

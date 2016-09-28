@@ -1,7 +1,7 @@
 import 'dart:html';
 import 'package:angular2/core.dart';
 import "package:angular2/testing_internal.dart";
-import 'package:material2_dart/components/button/button.dart';
+import 'package:material2_dart/src/components/button/button.dart';
 @TestOn('browser')
 import 'package:test/test.dart';
 

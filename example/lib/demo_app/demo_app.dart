@@ -3,15 +3,7 @@
 // is governed by a BSD-style license that can be found in the LICENSE file.
 import 'package:angular2/core.dart';
 import 'package:angular2/router.dart';
-
-import 'package:material2_dart/core/rtl/dir.dart';
-import 'package:material2_dart/core/a11y/live_announcer.dart';
-import 'package:material2_dart/components/button/button.dart';
-import 'package:material2_dart/components/sidenav/sidenav.dart';
-import 'package:material2_dart/components/icon/icon.dart';
-import 'package:material2_dart/components/icon/icon_registry.dart';
-import 'package:material2_dart/components/list/list.dart';
-import 'package:material2_dart/components/toolbar/toolbar.dart';
+import 'package:material2_dart/material.dart';
 
 import '../baseline/baseline_demo.dart';
 import '../button/button_demo.dart';

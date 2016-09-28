@@ -1,9 +1,7 @@
 import 'dart:html';
 import 'package:angular2/core.dart';
 import "package:angular2/testing_internal.dart";
-import 'package:material2_dart/core/portal/portal.dart';
-import 'package:material2_dart/core/portal/dom_portal_host.dart';
-import 'package:material2_dart/core/portal/portal_directives.dart';
+import 'package:material2_dart/material.dart';
 @TestOn('browser')
 import 'package:test/test.dart';
 

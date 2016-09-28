@@ -1,9 +1,7 @@
 import 'dart:async';
 import "package:angular2/core.dart";
 import "package:angular2/common.dart";
-import "package:material2_dart/components/tabs/tabs.dart";
-import "package:material2_dart/components/toolbar/toolbar.dart";
-import "package:material2_dart/components/input/input.dart";
+import "package:material2_dart/material.dart";
 
 @Component(
     selector: "tab-group-demo",

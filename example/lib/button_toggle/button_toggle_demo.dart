@@ -1,8 +1,5 @@
 import "package:angular2/core.dart";
-
-import "package:material2_dart/components/button_toggle/button_toggle.dart";
-import "package:material2_dart/core/coordination/unique_selection_dispatcher.dart";
-import "package:material2_dart/components/icon/icon.dart";
+import "package:material2_dart/material.dart";
 
 @Component(
     selector: "button-toggle-demo",
