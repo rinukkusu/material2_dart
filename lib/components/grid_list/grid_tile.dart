@@ -1,3 +1,4 @@
+import "dart:html";
 import "package:angular2/core.dart";
 import "package:material2_dart/core/line/line.dart";
 import "grid_list_measure.dart";
@@ -30,11 +31,11 @@ class MdGridTile {
     _colspan = coerceToNumber(value).toInt();
   }
 
-  /** Sets the style of the grid-tile element.  Needs to be set manually to avoid
-   * "Changed after checked" errors that would occur with HostBinding.
-   */
+  /// Sets the style of the grid-tile element. Needs to be set manually to avoid
+  /// "Changed after checked" errors that would occur with HostBinding.
   void setStyle(String property, String value) {
-    _renderer.setElementStyle(_elementRef.nativeElement, property, value);
+    Element e = _elementRef.nativeElement;
+    e.style.setProperty(property, value);
   }
 }
 

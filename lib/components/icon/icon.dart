@@ -7,7 +7,7 @@ import 'package:material2_dart/core/errors/error.dart';
 import 'icon_registry.dart';
 export 'icon_registry.dart';
 
-/** Exception thrown when an invalid icon name is passed to an md-icon component. */
+/// Exception thrown when an invalid icon name is passed to an md-icon component.
 class MdIconInvalidNameError extends MdError {
   MdIconInvalidNameError(String iconName)
       : super('Invalid icon name: "$iconName"');
@@ -158,8 +158,8 @@ class MdIcon implements OnChanges, OnInit, AfterViewChecked {
   void _updateAriaLabel() {
     final ariaLabel = _getAriaLabel();
     if (ariaLabel != null && ariaLabel.isNotEmpty) {
-      _renderer.setElementAttribute(
-          _elementRef.nativeElement, 'aria-label', ariaLabel);
+      Element e = _elementRef.nativeElement;
+      e.attributes['aria-label'] = ariaLabel;
     }
   }
 
@@ -190,12 +190,11 @@ class MdIcon implements OnChanges, OnInit, AfterViewChecked {
   bool get _usingFontIcon => !(svgIcon != null || svgSrc != null);
 
   void _setSvgElement(SvgElement svg) {
-    final Element layoutElement = _elementRef.nativeElement as Element;
+    Element layoutElement = _elementRef.nativeElement;
     // Remove existing child nodes and add the new SVG element.
-    // We would use renderer.detachView(Array.from(layoutElement.childNodes)) here,
-    // but it fails in IE11: https://github.com/angular/angular/issues/6327
-    layoutElement.innerHtml = '';
-    _renderer.projectNodes(layoutElement, [svg]);
+    layoutElement
+      ..innerHtml = ''
+      ..nodes.add(svg);
   }
 
   void _updateFontIconClasses() {

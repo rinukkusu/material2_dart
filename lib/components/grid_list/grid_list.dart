@@ -1,3 +1,4 @@
+import "dart:html";
 import "package:angular2/core.dart";
 import "package:material2_dart/core/rtl/dir.dart";
 import "package:material2_dart/core/line/line.dart";
@@ -21,7 +22,6 @@ const String MD_FIT_MODE = "fit";
     styleUrls: const ["grid_list.scss.css"],
     encapsulation: ViewEncapsulation.None)
 class MdGridList implements OnInit, AfterContentChecked {
-  Renderer _renderer;
   ElementRef _elementRef;
   Dir _dir;
 
@@ -46,7 +46,7 @@ class MdGridList implements OnInit, AfterContentChecked {
   @ContentChildren(MdGridTile)
   QueryList<MdGridTile> tiles;
 
-  MdGridList(this._renderer, this._elementRef, @Optional() this._dir);
+  MdGridList(this._elementRef, @Optional() this._dir);
 
   int get cols => _cols;
 
@@ -107,7 +107,7 @@ class MdGridList implements OnInit, AfterContentChecked {
     }
   }
 
-  /** Computes and applies the size and position for all children grid tiles. */
+  /// Computes and applies the size and position for all children grid tiles.
   void _layoutTiles() {
     List<MdGridTile> tiles = this.tiles.toList();
     TileCoordinator tracker = new TileCoordinator(cols, tiles);
@@ -121,13 +121,11 @@ class MdGridList implements OnInit, AfterContentChecked {
     setListStyle(_tileStyler.getComputedHeight());
   }
 
-  /**
-   * Sets style on the main grid-list element, given the style name and value.
-   */
+  /// Sets style on the main grid-list element, given the style name and value.
   void setListStyle(List<String> style) {
     if (style != null) {
-      _renderer.setElementStyle(
-          _elementRef.nativeElement, style.first, style.last);
+      Element e = _elementRef.nativeElement;
+      e.style.setProperty(style.first, style.last);
     }
   }
 }
