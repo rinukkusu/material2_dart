@@ -3,8 +3,7 @@ import 'dart:async';
 import 'dart:math';
 import "package:angular2/core.dart";
 import "package:angular2/common.dart";
-import "package:material2_dart/core/annotations/field_value.dart";
-import "package:material2_dart/core/style/apply_transform.dart";
+import "package:material2_dart/core/core.dart" show booleanFieldValue, applyCssTransform;
 
 const Provider MD_SLIDE_TOGGLE_VALUE_ACCESSOR =
     const Provider(NG_VALUE_ACCESSOR, useExisting: MdSlideToggle, multi: true);
@@ -52,6 +51,14 @@ class MdSlideToggle implements AfterContentInit, ControlValueAccessor<dynamic> {
 
   bool get disabled => _disabled;
   bool _disabled = false;
+
+  @Input()
+  set required(dynamic v) {
+    _required = booleanFieldValue(v);
+  }
+
+  bool get required => _required;
+  bool _required = false;
 
   @Input()
   String name;

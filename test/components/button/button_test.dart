@@ -150,18 +150,18 @@ void main() {
         fixture.detectChanges();
         expect(
             buttonDebugElement
-                .nativeElement.querySelectorAll('md-ripple').length,
+                .nativeElement.querySelectorAll('[md-ripple]').length,
             1);
 
         testComponent.rippleDisabled = true;
         fixture.detectChanges();
         expect(
             buttonDebugElement
-                .nativeElement.querySelectorAll('md-ripple').length,
+                .nativeElement.querySelectorAll('[md-ripple]').length,
             0);
         completer.done();
       });
-    }, skip: 'Enable when ripple is added again.');
+    });
   });
 }
 

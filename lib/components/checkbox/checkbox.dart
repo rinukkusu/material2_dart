@@ -1,7 +1,7 @@
 import 'dart:html';
 import "package:angular2/core.dart";
 import "package:angular2/common.dart";
-
+import "package:material2_dart/core/core.dart" show booleanFieldValue;
 /// Monotonically increasing integer used to auto-generate unique ids for checkbox components.
 int nextId = 0;
 
@@ -76,6 +76,14 @@ class MdCheckbox implements ControlValueAccessor<dynamic> {
 
   /** ID to be applied to the `input` element */
   String get inputId => 'input-$id';
+
+  @Input()
+  set required(dynamic v) {
+    _required = booleanFieldValue(v);
+  }
+
+  bool get required => _required;
+  bool _required = false;
 
   /** Whether or not the checkbox should come before or after the label. */
   // 'start' | 'end'

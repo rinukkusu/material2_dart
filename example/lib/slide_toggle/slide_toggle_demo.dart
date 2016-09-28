@@ -1,3 +1,4 @@
+import 'dart:html';
 import 'package:angular2/core.dart';
 import 'package:material2_dart/components/slide_toggle/slide_toggle.dart';
 
@@ -8,4 +9,8 @@ import 'package:material2_dart/components/slide_toggle/slide_toggle.dart';
     directives: const [MdSlideToggle])
 class SlideToggleDemo {
   bool firstToggle = false;
+
+  void onFormSubmit() {
+    window.alert('You submitted the form.');
+  }
 }

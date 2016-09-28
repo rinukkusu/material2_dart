@@ -13,12 +13,12 @@ class MdRipple implements OnInit, OnDestroy, OnChanges {
   /// Whether the ripple always originates from the center of the host element's bounds,
   /// rather than originating from the location of the click event.
   @Input('md-ripple-centered')
-  bool centered;
+  bool centered = false;
 
   /// Whether click events will not trigger the ripple.
   /// It can still be triggered by manually calling start() and end().
   @Input('md-ripple-disabled')
-  bool disabled;
+  bool disabled  = false;
 
   /// If set, the radius in pixels of foreground ripples when fully expanded.
   /// If unset, the radius will be the distance from the center of the ripple
@@ -42,12 +42,12 @@ class MdRipple implements OnInit, OnDestroy, OnChanges {
   /// Whether the ripple background will be highlighted to indicated a focused state.
   @HostBinding('class.md-ripple-focused')
   @Input('md-ripple-focused')
-  bool focused;
+  bool focused = false;
 
-  /// Whether foreground ripples should be visible outside the component's bounds. */
+  /// Whether foreground ripples should be visible outside the component's bounds.
   @HostBinding('class.md-ripple-unbounded')
   @Input('md-ripple-unbounded')
-  bool unbounded;
+  bool unbounded = false;
 
   RippleRenderer _rippleRenderer;
   ElementRef _elementRef;
