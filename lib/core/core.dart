@@ -26,6 +26,10 @@ export "ripple/ripple.dart" show MD_RIPPLE_DIRECTIVES, MdRipple;
 //export "gestures/MdGestureConfig.dart";
 export "a11y/live_announcer.dart"
     show MdLiveAnnouncer, LIVE_ANNOUNCER_ELEMENT_TOKEN;
+
+export 'a11y/focus_trap.dart';
+export 'a11y/interactivity_checker.dart';
+
 export "coordination/unique_selection_dispatcher.dart"
     show MdUniqueSelectionDispatcher, MdUniqueSelectionDispatcherListener;
 export "line/line.dart" show MdLine, MdLineSetter;
