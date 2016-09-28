@@ -1,6 +1,7 @@
 // TODO: Add dialog component.
 // TODO: Add menu component.
 // TODO: Add select component.
+// TODO: Add snackbar component.
 // TODO: Add tooltip component.
 
 import '../button/button.dart';

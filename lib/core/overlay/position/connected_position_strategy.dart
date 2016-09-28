@@ -14,7 +14,7 @@ import "connected_position.dart";
  * of the overlay.
  */
 class ConnectedPositionStrategy implements PositionStrategy {
-  ElementRef _connectedTo;
+  ElementRef connectedTo;
   OriginConnectionPosition _originPos;
   OverlayConnectionPosition _overlayPos;
   ViewportRuler _viewportRuler;
@@ -32,7 +32,7 @@ class ConnectedPositionStrategy implements PositionStrategy {
 
   ConnectedPositionStrategy(ElementRef _connectedTo, this._originPos,
       this._overlayPos, this._viewportRuler)
-      : this._connectedTo = _connectedTo,
+      : this.connectedTo = _connectedTo,
         _origin = _connectedTo.nativeElement as Element {
     withFallbackPosition(_originPos, _overlayPos);
   }

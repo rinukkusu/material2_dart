@@ -29,13 +29,13 @@ class MdListAvatar {}
 class MdListItem implements AfterContentInit {
   bool hasFocus = false;
 
-  MdLineSetter _lineSetter;
+  MdLineSetter lineSetter;
   @ContentChildren(MdLine)
   QueryList<MdLine> lines;
 
   @override
   void ngAfterContentInit() {
-    _lineSetter = new MdLineSetter(lines, _renderer, _elementRef);
+    lineSetter = new MdLineSetter(lines, _renderer, _elementRef);
   }
 
   @ContentChild(MdListAvatar)

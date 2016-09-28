@@ -46,11 +46,9 @@ class MdGridTileText implements AfterContentInit {
   Renderer _renderer;
   ElementRef _elementRef;
 
-  /**
-   *  Helper that watches the number of lines in a text area and sets
-   * a class on the host element that matches the line count.
-   */
-  MdLineSetter _lineSetter;
+  /// Helper that watches the number of lines in a text area and sets a class
+  /// on the host element that matches the line count.
+  MdLineSetter lineSetter;
   @ContentChildren(MdLine)
   QueryList<MdLine> lines;
 
@@ -58,6 +56,6 @@ class MdGridTileText implements AfterContentInit {
 
   @override
   void ngAfterContentInit() {
-    _lineSetter = new MdLineSetter(lines, _renderer, _elementRef);
+    lineSetter = new MdLineSetter(lines, _renderer, _elementRef);
   }
 }

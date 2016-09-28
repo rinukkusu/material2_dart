@@ -4,9 +4,9 @@ import "package:angular2/core.dart";
 import "position_strategy.dart";
 
 class RelativePositionStrategy implements PositionStrategy {
-  ElementRef _relativeTo;
+  ElementRef relativeTo;
 
-  RelativePositionStrategy(this._relativeTo);
+  RelativePositionStrategy(this.relativeTo);
 
   @override
   Future apply(Element element) {
