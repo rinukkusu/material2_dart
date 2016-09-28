@@ -23,12 +23,12 @@ void main() {
       Element tabLabelElement = fixture.debugElement
           .query(By.css('.md-tab-label:nth-of-type(${index + 1})'))
           .nativeElement;
-      expect(tabLabelElement.classes, contains('md-active'));
+      expect(tabLabelElement.classes, contains('md-tab-active'));
 
       Element tabContentElement = fixture.debugElement
           .query(By.css('#${tabLabelElement.id}'))
           .nativeElement;
-      expect(tabContentElement.classes, contains('md-active'));
+      expect(tabContentElement.classes, contains('md-tab-active'));
     }
 
     group('basic behavior', () {
