@@ -10,9 +10,10 @@ import "overlay_container.dart";
 
 export 'position/connected_position.dart';
 
-/** Next overlay unique ID. */
+/// Next overlay unique ID.
 int nextUniqueId = 0;
-/** The default state for newly created overlays. */
+
+/// The default state for newly created overlays.
 OverlayState defaultState = new OverlayState();
 
 /**
