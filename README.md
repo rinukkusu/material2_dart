@@ -22,7 +22,7 @@ If you have not set up scissors, please set up `scissors` with the [guide](https
 * [Input](https://github.com/ntaoo/material2_dart/tree/master/lib/components/input)
 * [List](https://github.com/ntaoo/material2_dart/tree/master/lib/components/list)
 * [Progress Bar](https://github.com/ntaoo/material2_dart/tree/master/lib/components/progress_bar)
-* [Progress Circle](https://github.com/ntaoo/material2_dart/tree/master/lib/components/progress_circle
+* [Progress Circle](https://github.com/ntaoo/material2_dart/tree/master/lib/components/progress_circle)
 * [Radio](https://github.com/ntaoo/material2_dart/tree/master/lib/components/radio)
 * [Sidenav](https://github.com/ntaoo/material2_dart/tree/master/lib/components/sidenav)
 * [Slider](https://github.com/ntaoo/material2_dart/tree/master/lib/components/slider)
