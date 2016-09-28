@@ -26,7 +26,11 @@ void validateArgument(dynamic value, List<dynamic> list) {
 @Component(
     selector: 'md-sidenav',
     template: '<ng-content></ng-content>',
-    host: const {'(transitionend)': r'onTransitionEnd($event)'},
+    host: const {
+      '(transitionend)': r'onTransitionEnd($event)',
+      // must prevent the browser from aligning text based on value
+      '[attr.align]': 'null',
+    },
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None)
 class MdSidenav {
@@ -52,9 +56,9 @@ class MdSidenav {
     _mode = value;
   }
 
-  /** Whether the sidenav is opened. */
   bool _opened = false;
 
+  // Whether the sidenav is opened.
   bool get opened => _opened;
 
   @Input()

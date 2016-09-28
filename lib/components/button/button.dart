@@ -7,7 +7,6 @@ import "package:material2_dart/core/core.dart" show MD_RIPPLE_DIRECTIVES;
 @Component(
     selector:
         'button[md-button], button[md-raised-button], button[md-icon-button], button[md-fab], button[md-mini-fab]',
-    inputs: const ['color'],
     host: const {
       '[class.md-button-focus]': 'isKeyboardFocused',
       '(mousedown)': 'setMousedown()',
@@ -45,6 +44,7 @@ class MdButton {
 
   String get color => _color;
 
+  @Input()
   set color(String value) {
     _updateColor(value);
   }
