@@ -68,7 +68,8 @@ typedef dynamic OnTouchedCallback();
     templateUrl: "input.html",
     styleUrls: const ["input.scss.css"],
     providers: const [MD_INPUT_CONTROL_VALUE_ACCESSOR],
-    host: const {"(click)": "focus()"})
+    host: const {"(click)": "focus()"},
+    encapsulation: ViewEncapsulation.None)
 class MdInput
     implements ControlValueAccessor<dynamic>, AfterContentInit, OnChanges {
   bool _focused = false;

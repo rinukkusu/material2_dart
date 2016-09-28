@@ -1,0 +1,44 @@
+@import '../../core/core';
+@import '../button/button_theme';
+@import '../button_toggle/button_toggle_theme';
+@import '../card/card_theme';
+@import '../checkbox/checkbox_theme';
+//@import '../dialog/dialog_theme';
+@import '../grid_list/grid_list_theme';
+@import '../icon/icon_theme';
+@import '../input/input_theme';
+@import '../list/list_theme';
+//@import '../menu/menu_theme';
+@import '../progress_bar/progress_bar_theme';
+@import '../progress_circle/progress_circle_theme';
+@import '../radio/radio_theme';
+@import '../sidenav/sidenav_theme';
+@import '../slide_toggle/slide_toggle_theme';
+@import '../slider/slider_theme';
+@import '../tabs/tabs_theme';
+@import '../toolbar/toolbar_theme';
+//@import '../tooltip/tooltip_theme';
+
+
+@mixin angular-material-theme($theme) {
+  @include md-core-theme($theme);
+  @include md-button-theme($theme);
+  @include md-button-toggle-theme($theme);
+  @include md-card-theme($theme);
+  @include md-checkbox-theme($theme);
+  //@include md-dialog-theme($theme);
+  @include md-grid-list-theme($theme);
+  @include md-icon-theme($theme);
+  @include md-input-theme($theme);
+  @include md-list-theme($theme);
+  //@include md-menu-theme($theme);
+  @include md-progress-bar-theme($theme);
+  @include md-progress-circle-theme($theme);
+  @include md-radio-theme($theme);
+  @include md-sidenav-theme($theme);
+  @include md-slide-toggle-theme($theme);
+  @include md-slider-theme($theme);
+  @include md-tabs-theme($theme);
+  @include md-toolbar-theme($theme);
+  //@include md-tooltip-theme($theme);
+}

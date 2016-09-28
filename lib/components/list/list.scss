@@ -1,12 +1,12 @@
-@import "../../core/style/variables";
-@import "../../core/style/default_theme";
-@import "../../core/style/list_shared";
+@import '../../core/style/variables';
+@import '../../core/style/list_common';
+
 
 $md-list-side-padding: 16px;
 $md-list-avatar-size: 40px;
 $md-list-icon-size: 24px;
 
-/*  Normal list variables */
+// Normal list variables
 $md-list-top-padding: 8px;
 $md-list-font-size: 16px;
 $md-list-secondary-font: 14px;
@@ -18,7 +18,7 @@ $md-list-avatar-height: 56px;
 $md-list-two-line-height: 72px;
 $md-list-three-line-height: 88px;
 
-/* Dense list variables */
+// Dense list variables
 $md-dense-top-padding: 4px;
 $md-dense-font-size: 13px;
 $md-dense-base-height: 40px;
@@ -26,10 +26,8 @@ $md-dense-avatar-height: 48px;
 $md-dense-two-line-height: 60px;
 $md-dense-three-line-height: 76px;
 
-/*
-This mixin provides all list-item styles, changing font size and height
-based on whether the list is in dense mode.
-*/
+// This mixin provides all list-item styles, changing font size and height
+// based on whether the list is in dense mode.
 @mixin md-list-item-base($font-size, $base-height, $avatar-height,
   $two-line-height, $three-line-height) {
 
@@ -42,7 +40,6 @@ based on whether the list is in dense mode.
     font-size: $font-size;
     height: $base-height;
     padding: 0 $md-list-side-padding;
-    color: md-color($md-foreground, base);
   }
 
   &.md-list-avatar .md-list-item {
@@ -80,10 +77,8 @@ based on whether the list is in dense mode.
   }
 }
 
-/*
-This mixin provides all subheader styles, adjusting heights and padding
-based on whether the list is in dense mode.
-*/
+// This mixin provides all subheader styles, adjusting heights and padding
+// based on whether the list is in dense mode.
 @mixin md-subheader-base($top-padding, $secondary-size, $base-height) {
   display: block;
   box-sizing: border-box;
@@ -93,7 +88,6 @@ based on whether the list is in dense mode.
 
   font-size: $secondary-size;
   font-weight: 500;
-  color: md-color($md-foreground, secondary-text);
 
   &:first-child {
     margin-top: -$top-padding;
@@ -106,24 +100,26 @@ md-list, md-nav-list {
 
   [md-subheader] {
     @include md-subheader-base(
-                    $md-list-top-padding,
-                    $md-list-secondary-font,
-                    $md-list-base-height
+      $md-list-top-padding,
+      $md-list-secondary-font,
+      $md-list-base-height
     );
   }
 
+
   md-list-item, a[md-list-item] {
     @include md-list-item-base(
-                    $md-list-font-size,
-                    $md-list-base-height,
-                    $md-list-avatar-height,
-                    $md-list-two-line-height,
-                    $md-list-three-line-height
+      $md-list-font-size,
+      $md-list-base-height,
+      $md-list-avatar-height,
+      $md-list-two-line-height,
+      $md-list-three-line-height
     );
 
     @include md-line-base($md-list-secondary-font);
   }
 }
+
 
 md-list[dense], md-nav-list[dense] {
   padding-top: $md-dense-top-padding;
@@ -131,29 +127,28 @@ md-list[dense], md-nav-list[dense] {
 
   [md-subheader] {
     @include md-subheader-base(
-                    $md-dense-top-padding,
-                    $md-dense-font-size,
-                    $md-dense-base-height
+      $md-dense-top-padding,
+      $md-dense-font-size,
+      $md-dense-base-height
     );
   }
 
   md-list-item, a[md-list-item] {
     @include md-list-item-base(
-                    $md-dense-font-size,
-                    $md-dense-base-height,
-                    $md-dense-avatar-height,
-                    $md-dense-two-line-height,
-                    $md-dense-three-line-height
+      $md-dense-font-size,
+      $md-dense-base-height,
+      $md-dense-avatar-height,
+      $md-dense-two-line-height,
+      $md-dense-three-line-height
     );
 
     @include md-line-base($md-dense-font-size);
   }
-
 }
 
 md-divider {
   display: block;
-  border-top: 1px solid md-color($md-foreground, divider);
+  border-top: 1px solid;
   margin: 0;
 }
 
@@ -168,7 +163,6 @@ md-nav-list {
 
     &:hover, &.md-list-item-focus {
       outline: none;
-      background: md-color($md-background, 'hover');
     }
   }
 }

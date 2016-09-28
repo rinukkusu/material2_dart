@@ -36,7 +36,7 @@ class MdLiveAnnouncer {
 
   Element _createLiveElement() {
     DivElement liveElement = new DivElement()
-      ..classes.add("md-live-announcer")
+      ..classes.add("md-visually-hidden")
       ..attributes["aria-atomic"] = "true"
       ..attributes["aria-live"] = "polite";
     document.body.append(liveElement);

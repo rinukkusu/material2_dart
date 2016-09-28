@@ -1,28 +1,31 @@
 # md-grid-list
 
-`md-grid-list` is an alternative list view that arranges cells into grid-based layout.
+`md-grid-list` is an alternative list view that arranges cells into grid-based layout. 
 See Material Design spec [here](https://www.google.com/design/spec/components/grid-lists.html).
 
 ## Usage
 
 ### Simple grid list
 
-To use `md-grid-list`, first import the grid list directives and add them to your component's directives
-array:
+To use `md-grid-list`, import the MdGridList module into your application's NgModule:
 
-```javascript
-@Component({
+*my-app-module.ts*
+```ts
+import {MdGridListModule} from '@angular2-material/gridlist/gridlist';
+
+@NgModule({
+  imports: [MdGridListModule],
   ...
-  directives: [MD_GRID_LIST_DIRECTIVES]
 })
+export class MyAppModule {}
 ```
 
 In your template, create an `md-grid-list` element and specify the number of columns you want for
-your grid using the `cols` property (this is the only mandatory attribute).
+your grid using the `cols` property (this is the only mandatory attribute). 
 
 You can define each tile using an `md-grid-tile` element, passing any tile content between its tags.
 
-Tiles are greedily placed in the first position of the grid that fits them, so row count depends on
+Tiles are greedily placed in the first position of the grid that fits them, so row count depends on 
 how many tiles can fit in each row, given the col count and the colspan/rowspan of each tile.
 
 ```html
@@ -42,46 +45,46 @@ Output:
 
 ####`cols`
 
-The `cols` property controls the number of columns displayed in your grid. It must be set or the
+The `cols` property controls the number of columns displayed in your grid. It must be set or the 
 grid list will not be able to generate your layout.
 
 Ex: `<md-grid-list cols="3">...`
 
-Default: There is no reasonable default value for this, so if it is unspecified, the grid list will
+Default: There is no reasonable default value for this, so if it is unspecified, the grid list will 
 throw an error.
 
 ####`rowHeight`
 
 Row height for the list can be calculated in three ways:
 
-1. **Fixed height**: The height can be in `px`, `em`, or `rem`.  If no units are specified, `px`
-units are assumed.
-
+1. **Fixed height**: The height can be in `px`, `em`, or `rem`.  If no units are specified, `px` 
+units are assumed. 
+   
    Ex: `<md-grid-list cols="3" rowHeight="100px">...`
-
+        
 2. **Ratio**: This ratio is width:height, and must be passed in with a colon, not a decimal.
 
    Ex: `<md-grid-list cols="3" rowHeight="4:3">...`.
-
+        
 3. **Fit**:  This mode automatically divides the available height by the number of rows.  Please note
-the height of the grid-list or its container must be set.
+the height of the grid-list or its container must be set.  
 
    Ex: `<md-grid-list cols="3" rowHeight="fit">...`
 
-Defaults to a 1:1 ratio of width:height.
-
+Defaults to a 1:1 ratio of width:height. 
+        
 ####`gutterSize`
 
-Gutter size can be set to any `px`, `em`, or `rem` value with the `gutterSize` property.  If no
+Gutter size can be set to any `px`, `em`, or `rem` value with the `gutterSize` property.  If no 
 units are specified, `px` units are assumed.
 
 Ex: `<md-grid-list cols="3" gutterSize="4px">...`
 
 Defaults to `1px`.
-
+        
 ## Grid tile config
 
-You can set the rowspan and colspan of each tile individually, using the `rowspan` and `colspan`
+You can set the rowspan and colspan of each tile individually, using the `rowspan` and `colspan` 
 properties.  If not set, they both default to `1`.
 
 ```html
