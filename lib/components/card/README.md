@@ -18,26 +18,26 @@ Output:
 
 <img src="https://material.angularjs.org/material2_assets/cards/basic-card-min.png">
 
-### Preset sections
+### Preset sections 
 
-We also provide a number of preset sections that you can mix and match within the `md-card` tags.
+We also provide a number of preset sections that you can mix and match within the `md-card` tags. 
 
   * `<md-card-title>`: adds styles for a title
   * `<md-card-subtitle>`: adds styles for a subtitle
   * `<md-card-content>`: main content section, intended for blocks of text
   * `<img md-card-image>`: stretches image to container width
   * `<md-card-actions>`: wraps and styles buttons
-  * `<md-card-footer>`: anchors section to bottom of card
+  * `<md-card-footer>`: anchors section to bottom of card (e.g progress bar)
 
 Example markup for a card with section presets:
 
 ```html
 <md-card>
    <md-card-subtitle>Subtitle first</md-card-subtitle>
-   <md-card-title>Card with title</md-card-title>
+   <md-card-title>Card with title</md-card-title>   
    <md-card-content>
         <p>This is supporting text.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do 
         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad</p>
    </md-card-content>
    <md-card-actions>
@@ -67,7 +67,7 @@ Formats the following sections into a header:
   * `<md-card-title>`: title to format within header
   * `<md-card-subtitle>`: subtitle to format within header
   * `<img md-card-avatar>`: image to use for avatar
-
+    
 Example markup for a card with a header:
 
 ```html
@@ -86,8 +86,8 @@ Example markup for a card with a header:
 
 Output:
 
-<img src="https://material.angularjs.org/material2_assets/cards/header-card-min.png">
-
+<img src="https://material.angularjs.org/material2_assets/cards/header-card-min.png">    
+    
 #### `<md-card-title-group>`
 
 Groups the following sections together:

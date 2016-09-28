@@ -16,6 +16,10 @@ class MdCardSubtitle {}
 @Directive(selector: 'md-card-actions')
 class MdCardActions {}
 
+/// Footer of a card, needed as it's used as a selector in the API.
+@Directive(selector: 'md-card-footer')
+class MdCardFooter {}
+
 /*
 <md-card> is a basic content container component that adds the styles of a material design card.
 
