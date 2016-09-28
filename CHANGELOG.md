@@ -1,3 +1,11 @@
+## 0.2.0
+
+Sync with the alpha.8 only for "Available" components.
+
+- Port Async tabs demo.
+- Port button toggle component. 
+- Port Slider component.
+
 ## 0.1.1
 
 - Upgrade Angular to beta.21.
