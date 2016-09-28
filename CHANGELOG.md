@@ -1,3 +1,10 @@
+## 0.3.0
+
+Sync with the alpha.9 only for "Available" components.
+
+(breaking): Changed the package layout to follow the convention.
+`import 'package:material2_dart/material.dart';` to import the all components and core functions.
+
 ## 0.2.0
 
 Sync with the alpha.8 only for "Available" components.
