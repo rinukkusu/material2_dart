@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAGA,UAAW;EACT,UAAU,EAAE,gDAAkE;;AAGhF,mBAAoB;EAClB,UAAU,EAAE,gDAAkE;;AAGhF,qCAAsC;EACpC,UAAU,EAAE,uDAAyE",
+"sources": ["sidenav_transitions.scss"],
+"names": [],
+"file": "sidenav_transitions.scss.css"
+}
