@@ -11,13 +11,15 @@ dependencies:
   stack_trace: ">=1.6.6 <2.0.0"
   stream_transformers: ">=0.3.0 <0.4.0"
   quiver:  ^0.22.0
-  scissors: ^0.6.5
 dev_dependencies:
   browser: <0.10.0
   test: '>=0.12.0 <0.13.0'
+  build: ^0.4.0
+  sass_builder:
+    git:
+     url: git@github.com:ntaoo/sass_builder.git
+     ref: master
 transformers:
-- scissors:
-    pruneCss: false
 - angular2:
     platform_directives:
     - 'package:angular2/common.dart#CORE_DIRECTIVES'
