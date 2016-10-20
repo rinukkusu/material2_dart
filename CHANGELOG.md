@@ -1,3 +1,11 @@
+## 0.4.0
+
+Bundle pre compiled css and source map files so that users don't need to compile this package's sass files in transformer phase.
+
+Remove `package:scissors` dependency.
+
+The e2e example has moved to the independent repository (https://github.com/ntaoo/material2_dart_e2e_example) to be more practical working example without relative path package dependencies.
+
 ## 0.3.0
 
 Sync with the alpha.9 only for "Available" components.

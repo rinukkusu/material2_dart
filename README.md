@@ -6,10 +6,9 @@ This is the Dart version of [angular/material2](https://github.com/angular/mater
 
 Synced with the 2.0.0-alpha.9 except gesture support and non 'available' components. 
 
-## Prerequisites
+## Demo app.
 
-This package depends on [scissors package](https://github.com/google/dart-scissors) which requires to install `sassc` for scss compilation. (Ruby sass is not supported.)
-If you have not set up scissors, please set up `scissors` with the [guide](https://github.com/google/dart-scissors#prerequisites).
+[This is the e2e example app](https://github.com/ntaoo/material2_dart_e2e_example) which includes all of the components and core functions usages.
 
 ### Components
 
@@ -35,38 +34,11 @@ If you have not set up scissors, please set up `scissors` with the [guide](https
 1. Add this to your package's pubspec.yaml file. [(The example)](https://github.com/ntaoo/material2_dart/blob/master/example/pubspec.yaml)
 
         dependencies:
-          material2_dart: any
+          material2_dart:
 
 2. Run `pub get`.
 
 3. Import this library as `import 'package:material2_dart:material.dart'`. [(The example)](https://github.com/ntaoo/material2_dart/tree/master/example/lib/button)
-
-## Example
-
-Please see the [Demo App](https://github.com/ntaoo/material2_dart/tree/master/example/) which includes all of the components and core functions usages.
-
-### How to see the Demo App on a browser.
-
-[Assuming you have already installed Dart](https://www.dartlang.org/downloads/),
-
-1. Clone this repository.
-
-        git clone https://github.com/ntaoo/material2_dart.git
-
-2. Go to the example directory.
-
-        cd material2_dart/example
-
-3. Run `pub get` to get all the dependent packages.
-
-        pub get
-
-4. Run `pub serve` to start up a development server.
-
-        pub serve
-
-5. Go to `http://localhost:8080` on a browser.
-
 
 ## Contributing
 
