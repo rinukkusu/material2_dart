@@ -1,6 +1,7 @@
 import 'dart:html';
 import 'dart:async';
 import 'package:angular2/core.dart';
+import "package:angular2/common.dart";
 import "../../core/core.dart" show MD_RIPPLE_DIRECTIVES, booleanFieldValue;
 
 @Component(
@@ -14,7 +15,7 @@ import "../../core/core.dart" show MD_RIPPLE_DIRECTIVES, booleanFieldValue;
     },
     templateUrl: 'button.html',
     styleUrls: const ['button.scss.css'],
-    directives: const [MD_RIPPLE_DIRECTIVES],
+    directives: const [NgIf, MD_RIPPLE_DIRECTIVES],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush)
 class MdButton {

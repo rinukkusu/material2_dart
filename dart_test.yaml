@@ -1,0 +1,6 @@
+presets:
+  safe_firefox:
+    platforms: [firefox]
+    exclude_tags: known_ff_failure
+tags:
+  known_ff_failure:
