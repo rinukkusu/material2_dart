@@ -1,16 +1,16 @@
 name: material2_dart
 description: angular/material2 for Dart.
-version: 0.4.0
+version: 0.4.1
 author: ntaoo <ntaoo.g@gmail.com>
 homepage: https://github.com/ntaoo/material2_dart
 environment:
   sdk: '>=1.19.0 <2.0.0'
 dependencies:
-  angular2: 2.0.0-beta.22
+  angular2: ^2.0.0
   http: ">=0.11.0 <0.12.0"
   stack_trace: ">=1.6.6 <2.0.0"
   stream_transformers: ">=0.3.0 <0.4.0"
-  quiver:  ^0.22.0
+  quiver:  ^0.24.0
 dev_dependencies:
   browser: <0.10.0
   test: '>=0.12.0 <0.13.0'

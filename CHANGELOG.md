@@ -1,3 +1,7 @@
+## 0.4.1
+
+Upgrade angular2 dep to ^2.0.0.
+
 ## 0.4.0
 
 Bundle pre compiled css and source map files so that users don't need to compile this package's sass files in transformer phase.
