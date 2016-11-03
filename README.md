@@ -2,6 +2,10 @@ This is the Dart version of [angular/material2](https://github.com/angular/mater
 
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg?maxAge=2592000)](https://gitter.im/ntaoo/material2_dart)
 
+## Note 
+
+You may be looking for [the official Material Design components for AngularDart](https://pub.dartlang.org/packages/angular2_components)?
+
 ## Project Status
 
 Synced with the 2.0.0-alpha.9 except gesture support and non 'available' components. 
