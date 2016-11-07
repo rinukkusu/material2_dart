@@ -1,3 +1,7 @@
+## 0.4.2
+
+Relax dependent package's constraint.
+
 ## 0.4.1
 
 Upgrade angular2 dep to ^2.0.0.
