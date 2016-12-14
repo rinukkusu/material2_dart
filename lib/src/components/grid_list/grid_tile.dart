@@ -10,12 +10,11 @@ import "grid_list_measure.dart";
     styleUrls: const ["grid_list.scss.css"],
     encapsulation: ViewEncapsulation.None)
 class MdGridTile {
-  Renderer _renderer;
   ElementRef _elementRef;
   int _rowspan = 1;
   int _colspan = 1;
 
-  MdGridTile(this._renderer, this._elementRef);
+  MdGridTile(this._elementRef);
 
   int get rowspan => _rowspan;
 
@@ -43,7 +42,6 @@ class MdGridTile {
     selector: "md-grid-tile-header, md-grid-tile-footer",
     templateUrl: "grid_tile_text.html")
 class MdGridTileText implements AfterContentInit {
-  Renderer _renderer;
   ElementRef _elementRef;
 
   /// Helper that watches the number of lines in a text area and sets a class
@@ -52,10 +50,10 @@ class MdGridTileText implements AfterContentInit {
   @ContentChildren(MdLine)
   QueryList<MdLine> lines;
 
-  MdGridTileText(this._renderer, this._elementRef);
+  MdGridTileText(this._elementRef);
 
   @override
   void ngAfterContentInit() {
-    lineSetter = new MdLineSetter(lines, _renderer, _elementRef);
+    lineSetter = new MdLineSetter(lines, _elementRef);
   }
 }

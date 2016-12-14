@@ -37,9 +37,9 @@ class MdButton {
   bool get disableRipple => _disableRipple;
 
   ElementRef _elementRef;
-  Renderer _renderer;
+  Element get _nativeElement => _elementRef.nativeElement;
 
-  MdButton(this._elementRef, this._renderer);
+  MdButton(this._elementRef);
 
   String get color => _color;
 
@@ -59,15 +59,12 @@ class MdButton {
   }
 
   void _updateColor(String newColor) {
-    _setElementColor(_color, false);
-    _setElementColor(newColor, true);
-    _color = newColor;
-  }
-
-  void _setElementColor(String color, bool isAdd) {
     if (color != null && color.isNotEmpty) {
-      _renderer.setElementClass(_elementRef.nativeElement, 'md-$color', isAdd);
+      _nativeElement.classes
+        ..remove('md-$color')
+        ..add('md-$newColor');
     }
+    _color = newColor;
   }
 
   // internal
@@ -81,16 +78,16 @@ class MdButton {
   }
 
   void focus() {
-    _elementRef.nativeElement.focus();
+    _nativeElement.focus();
   }
 
-  Element getHostElement() => _elementRef.nativeElement;
+  Element getHostElement() => _nativeElement;
 
   bool isRoundButton() {
-    final Element el = _elementRef.nativeElement;
-    return el.attributes.containsKey('md-icon-button') ||
-        el.attributes.containsKey('md-fab') ||
-        el.attributes.containsKey('md-mini-fab');
+    var attributes = _nativeElement.attributes;
+    return attributes.containsKey('md-icon-button') ||
+        attributes.containsKey('md-fab') ||
+        attributes.containsKey('md-mini-fab');
   }
 
   bool isRippleEnabled() => !disableRipple;
@@ -114,8 +111,7 @@ class MdButton {
 class MdAnchor extends MdButton {
   bool _disabled = false;
 
-  MdAnchor(ElementRef _elementRef, Renderer _renderer)
-      : super(_elementRef, _renderer);
+  MdAnchor(ElementRef _elementRef) : super(_elementRef);
 
   @HostBinding('tabIndex')
   int get tabIndex => _disabled ? -1 : 0;

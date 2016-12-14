@@ -32,7 +32,7 @@ int _nextId = 0;
     changeDetection: ChangeDetectionStrategy.OnPush)
 class MdSlideToggle implements AfterContentInit, ControlValueAccessor<dynamic> {
   ElementRef _elementRef;
-  Renderer _renderer;
+  Element get _nativeElement => _elementRef.nativeElement;
   Function onChange = (dynamic _) {};
   Function onTouched = () {};
 
@@ -91,7 +91,7 @@ class MdSlideToggle implements AfterContentInit, ControlValueAccessor<dynamic> {
   // Returns the unique id for the visual hidden input.
   String getInputId() => '$id-input';
 
-  MdSlideToggle(this._elementRef, this._renderer);
+  MdSlideToggle(this._elementRef);
 
   @override
   void ngAfterContentInit() {
@@ -198,15 +198,12 @@ class MdSlideToggle implements AfterContentInit, ControlValueAccessor<dynamic> {
   }
 
   void _updateColor(String newColor) {
-    _setElementColor(_color, false);
-    _setElementColor(newColor, true);
-    _color = newColor;
-  }
-
-  void _setElementColor(String color, bool isAdd) {
-    if (color != null && color != "") {
-      _renderer.setElementClass(_elementRef.nativeElement, 'md-$color', isAdd);
+    if (color != null && color.isNotEmpty) {
+      _nativeElement.classes
+        ..remove('md-$color')
+        ..add('md-$newColor');
     }
+    _color = newColor;
   }
 
   // Emits the change event to the `change` output EventEmitter.

@@ -1,3 +1,4 @@
+import 'dart:html';
 import "package:angular2/core.dart";
 
 /**
@@ -11,10 +12,9 @@ class MdLine {}
 /* Helper that takes a query list of lines and sets the correct class on the host */
 class MdLineSetter {
   QueryList<MdLine> lines;
-  Renderer _renderer;
   ElementRef _elementRef;
-
-  MdLineSetter(this.lines, this._renderer, this._elementRef) {
+  Element get _nativeElement => _elementRef.nativeElement;
+  MdLineSetter(this.lines, this._elementRef) {
     _setLineClass(lines.length);
     lines.changes.listen((_) {
       _setLineClass(lines.length);
@@ -24,16 +24,11 @@ class MdLineSetter {
   void _setLineClass(num count) {
     _resetClasses();
     if (identical(count, 2) || identical(count, 3)) {
-      _setClass('md-$count-line', true);
+      _nativeElement.classes.add('md-$count-line');
     }
   }
 
   void _resetClasses() {
-    _setClass("md-2-line", false);
-    _setClass("md-3-line", false);
-  }
-
-  void _setClass(String className, bool bool) {
-    _renderer.setElementClass(_elementRef.nativeElement, className, bool);
+    _nativeElement.classes..remove('md-2-line')..remove('md-3-line');
   }
 }

@@ -74,10 +74,10 @@ class MdIcon implements OnChanges, OnInit, AfterViewChecked {
   String _previousFontIconClass;
 
   ElementRef _elementRef;
-  Renderer _renderer;
+  Element get _nativeElement => _elementRef.nativeElement;
   MdIconRegistry _mdIconRegistry;
 
-  MdIcon(this._elementRef, this._renderer, this._mdIconRegistry);
+  MdIcon(this._elementRef, this._mdIconRegistry);
 
   /**
    * Splits an svgIcon binding value into its icon set and icon name components.
@@ -200,26 +200,25 @@ class MdIcon implements OnChanges, OnInit, AfterViewChecked {
   void _updateFontIconClasses() {
     if (!_usingFontIcon) return;
 
-    final Element elem = _elementRef.nativeElement as Element;
     final String fontSetClass = fontSet != null
         ? _mdIconRegistry.classNameForFontAlias(fontSet)
         : _mdIconRegistry.defaultFontSetClass;
     if (fontSetClass != _previousFontSetClass) {
       if (_previousFontSetClass != null) {
-        _renderer.setElementClass(elem, _previousFontSetClass, false);
+        _nativeElement.classes.remove(_previousFontSetClass);
       }
       if (fontSetClass.isNotEmpty) {
-        _renderer.setElementClass(elem, fontSetClass, true);
+        _nativeElement.classes.add(fontSetClass);
       }
       _previousFontSetClass = fontSetClass;
     }
 
     if (fontIcon != _previousFontIconClass) {
       if (_previousFontIconClass != null) {
-        _renderer.setElementClass(elem, _previousFontIconClass, false);
+        _nativeElement.classes.remove(_previousFontIconClass);
       }
       if (fontIcon != null) {
-        _renderer.setElementClass(elem, fontIcon, true);
+        _nativeElement.classes.add(fontIcon);
       }
       _previousFontIconClass = fontIcon;
     }

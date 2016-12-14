@@ -1,3 +1,4 @@
+import 'dart:html';
 import 'package:angular2/core.dart';
 import '../../core/core.dart';
 export '../../core/line/line.dart';
@@ -35,19 +36,22 @@ class MdListItem implements AfterContentInit {
 
   @override
   void ngAfterContentInit() {
-    lineSetter = new MdLineSetter(lines, _renderer, _elementRef);
+    lineSetter = new MdLineSetter(lines, _elementRef);
   }
 
   @ContentChild(MdListAvatar)
   set hasAvatar(MdListAvatar avatar) {
-    _renderer.setElementClass(
-        _elementRef.nativeElement, 'md-list-avatar', avatar != null);
+    if (avatar != null) {
+      _nativeElement.classes.add('md-list-avatar');
+    } else {
+      _nativeElement.classes.remove('md-list-avatar');
+    }
   }
 
-  Renderer _renderer;
   ElementRef _elementRef;
+  Element get _nativeElement => _elementRef.nativeElement;
 
-  MdListItem(this._renderer, this._elementRef);
+  MdListItem(this._elementRef);
 
   void handleFocus() {
     hasFocus = true;
