@@ -1,7 +1,7 @@
 import 'dart:html';
 import 'dart:async';
 import 'dart:math';
-import 'package:angular2/core.dart';
+import 'package:angular2/angular2.dart';
 
 enum ForegroundRippleState {
   emerging, // It's `NEW` in the TS version. Because `new` is a reserved keyword in Dart.

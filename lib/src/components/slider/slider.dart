@@ -1,9 +1,9 @@
 import 'dart:html';
 import 'dart:math' as math;
-import 'package:angular2/core.dart';
+import 'package:angular2/angular2.dart';
 import 'package:angular2/common.dart';
 import '../../core/core.dart'
-    show booleanFieldValue, applyCssTransform, numFieldValue;
+    show coerceBooleanProperty, applyCssTransform, numFieldValue;
 
 /// Visually, a 30px separation between tick marks looks best.
 /// This is very subjective but it is the default separation we chose.
@@ -47,7 +47,7 @@ class MdSlider implements AfterContentInit, ControlValueAccessor<dynamic> {
 
   @Input()
   set disabled(dynamic value) {
-    _disabled = booleanFieldValue(value);
+    _disabled = coerceBooleanProperty(value);
   }
 
   bool _thumbLabel = false;
@@ -57,7 +57,7 @@ class MdSlider implements AfterContentInit, ControlValueAccessor<dynamic> {
   /// Whether or not to show the thumb label.
   @Input('thumb-label')
   set thumbLabel(dynamic value) {
-    _thumbLabel = booleanFieldValue(value);
+    _thumbLabel = coerceBooleanProperty(value);
   }
 
   /// The miniumum value that the slider can have.
@@ -148,11 +148,12 @@ class MdSlider implements AfterContentInit, ControlValueAccessor<dynamic> {
 
   // String | num
   @Input()
-  set value(dynamic value) {
-    if (value != null) {
-      this._value = numFieldValue(value);
+  set value(dynamic v) {
+    if (v != null) {
+      _value = numFieldValue(v);
       _isInitialized = true;
-      _controlValueAccessorChangeFn(this._value);
+      _controlValueAccessorChangeFn(_value);
+      snapThumbToValue();
     }
   }
 
@@ -253,7 +254,9 @@ class MdSlider implements AfterContentInit, ControlValueAccessor<dynamic> {
   /// Called after a click or drag event is over.
   void snapThumbToValue() {
     updatePercentFromValue();
-    _renderer.updateThumbAndFillPosition(_percent, _sliderDimensions.width);
+    if (_sliderDimensions != null) {
+      _renderer.updateThumbAndFillPosition(_percent, _sliderDimensions.width);
+    }
   }
 
   /// Calculates the separation in pixels of tick marks. If there is no tick interval or the interval

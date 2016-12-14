@@ -1,6 +1,6 @@
 import "dart:html";
 import "dart:async";
-import "package:angular2/core.dart";
+import "package:angular2/angular2.dart";
 import "overlay_state.dart";
 import "../portal/dom_portal_host.dart";
 import "overlay_ref.dart";

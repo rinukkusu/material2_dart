@@ -1,10 +1,11 @@
 import 'dart:html';
 import 'dart:async';
-import 'package:angular2/core.dart';
+import 'package:angular2/angular2.dart';
 import "../../core/core.dart";
 import "tab_label.dart";
 import "tab_content.dart";
 import "tab_label_wrapper.dart";
+import 'tab_nav_bar/tab_nav_bar.dart';
 import "ink_bar.dart";
 
 export "tab_label.dart";

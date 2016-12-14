@@ -1,7 +1,7 @@
 import 'dart:html';
 import 'dart:async';
-import 'package:angular2/core.dart';
-import "../../core/core.dart" show MD_RIPPLE_DIRECTIVES, booleanFieldValue;
+import 'package:angular2/angular2.dart';
+import "../../core/core.dart" show MD_RIPPLE_DIRECTIVES, coerceBooleanProperty;
 
 @Component(
     selector:
@@ -31,7 +31,7 @@ class MdButton {
   /// Whether the ripple effect on click should be disabled.
   @Input()
   set disableRipple(dynamic v) {
-    _disableRipple = booleanFieldValue(v);
+    _disableRipple = coerceBooleanProperty(v);
   }
 
   bool get disableRipple => _disableRipple;

@@ -1,7 +1,7 @@
 import 'dart:html';
 
 import 'dart:async';
-import "package:angular2/core.dart";
+import "package:angular2/angular2.dart";
 import "package:angular2/common.dart";
 import "../../core/core.dart";
 
@@ -81,8 +81,7 @@ class MdButtonToggleGroup
 
   @Input()
   set disabled(dynamic v) {
-    v = booleanFieldValue(v);
-    _disabled = (v != null && !identical(v, false)) ? true : null;
+    _disabled = coerceBooleanProperty(v);
   }
 
   dynamic get value => _value;
@@ -314,7 +313,7 @@ class MdButtonToggle implements OnInit {
 
   @Input()
   set disabled(dynamic value) {
-    _disabled = booleanFieldValue(value);
+    _disabled = coerceBooleanProperty(value);
   }
 
   /// Toggle the state of the current button toggle.

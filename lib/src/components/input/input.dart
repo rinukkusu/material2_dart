@@ -1,6 +1,6 @@
 import 'dart:html';
 import "package:quiver/strings.dart";
-import "package:angular2/core.dart";
+import "package:angular2/angular2.dart";
 import "package:angular2/common.dart";
 import "../../core/core.dart";
 
@@ -89,7 +89,7 @@ class MdInput
 
   @Input("aria-disabled")
   set ariaDisabled(dynamic v) {
-    _ariaDisabled = booleanFieldValue(v);
+    _ariaDisabled = coerceBooleanProperty(v);
   }
 
   bool get ariaDisabled => _ariaDisabled;
@@ -97,7 +97,7 @@ class MdInput
 
   @Input("aria-required")
   set ariaRequired(dynamic v) {
-    _ariaRequired = booleanFieldValue(v);
+    _ariaRequired = coerceBooleanProperty(v);
   }
 
   bool get ariaRequired => _ariaRequired;
@@ -105,7 +105,7 @@ class MdInput
 
   @Input("aria-invalid")
   set ariaInvalid(dynamic v) {
-    _ariaInvalid = booleanFieldValue(v);
+    _ariaInvalid = coerceBooleanProperty(v);
   }
 
   bool get ariaInvalid => _ariaInvalid;
@@ -142,7 +142,7 @@ class MdInput
 
   @Input()
   set floatingPlaceholder(dynamic v) {
-    _floatingPlaceholder = booleanFieldValue(v);
+    _floatingPlaceholder = coerceBooleanProperty(v);
   }
 
   bool get floatingPlaceholder => _floatingPlaceholder;
@@ -162,7 +162,7 @@ class MdInput
 
   @Input()
   set autoFocus(dynamic v) {
-    _autoFocus = booleanFieldValue(v);
+    _autoFocus = coerceBooleanProperty(v);
   }
 
   bool get autoFocus => _autoFocus;
@@ -170,7 +170,7 @@ class MdInput
 
   @Input()
   set disabled(dynamic v) {
-    _disabled = booleanFieldValue(v);
+    _disabled = coerceBooleanProperty(v);
   }
 
   bool get disabled => _disabled;
@@ -214,7 +214,7 @@ class MdInput
 
   @Input()
   set readOnly(dynamic v) {
-    _readOnly = booleanFieldValue(v);
+    _readOnly = coerceBooleanProperty(v);
   }
 
   bool get readOnly => _readOnly;
@@ -222,7 +222,7 @@ class MdInput
 
   @Input()
   set required(dynamic v) {
-    _required = booleanFieldValue(v);
+    _required = coerceBooleanProperty(v);
   }
 
   bool get required => _required;
@@ -230,7 +230,7 @@ class MdInput
 
   @Input()
   set spellCheck(dynamic v) {
-    _spellCheck = booleanFieldValue(v);
+    _spellCheck = coerceBooleanProperty(v);
   }
 
   bool get spellCheck => _spellCheck;

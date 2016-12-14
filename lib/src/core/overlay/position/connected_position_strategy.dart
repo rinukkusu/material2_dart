@@ -1,10 +1,11 @@
 import 'dart:html';
 import "dart:async";
 import "position_strategy.dart";
-import "package:angular2/core.dart";
+import "package:angular2/angular2.dart";
 import "viewport_ruler.dart";
-import "../..//style/apply_transform.dart";
+import "../../style/apply_transform.dart";
 import "connected_position.dart";
+import "../../rtl/dir.dart";
 
 /**
  * A strategy for positioning overlays. Using this strategy, an overlay is given an
@@ -14,15 +15,14 @@ import "connected_position.dart";
  * of the overlay.
  */
 class ConnectedPositionStrategy implements PositionStrategy {
+  String _dir = 'ltr';
   ElementRef connectedTo;
   OriginConnectionPosition _originPos;
   OverlayConnectionPosition _overlayPos;
   ViewportRuler _viewportRuler;
 
-  // TODO(jelbourn): set RTL to the actual value from the app.
-
-  /** Whether the we're dealing with an RTL context */
-  bool _isRtl = false;
+  /// Whether the we're dealing with an RTL context.
+  bool get _isRtl => _dir == 'rtl';
 
   /** Ordered list of preferred positions, from most to least desirable. */
   List<ConnectionPositionPair> _preferredPositions = [];
@@ -73,9 +73,18 @@ class ConnectedPositionStrategy implements PositionStrategy {
     return new Future<Null>.value();
   }
 
-  ConnectedPositionStrategy withFallbackPosition(OriginConnectionPosition originPos,
+  ConnectedPositionStrategy withFallbackPosition(
+      OriginConnectionPosition originPos,
       OverlayConnectionPosition overlayPos) {
     _preferredPositions.add(new ConnectionPositionPair(originPos, overlayPos));
+    return this;
+  }
+
+  /// Sets the layout direction so the overlay's position can be adjusted to match.
+  ConnectedPositionStrategy setDirection(Dir dir) {
+    if (dir.dir == 'ltr' || dir.dir == 'rtl') {
+      _dir = dir.dir;
+    }
     return this;
   }
 
@@ -128,10 +137,10 @@ class ConnectedPositionStrategy implements PositionStrategy {
     num overlayStartX;
     if (positionPair.overlayX == HorizontalConnectionPos.center) {
       overlayStartX = -overlayRectangle.width / 2;
+    } else if (positionPair.overlayX == HorizontalConnectionPos.start) {
+      overlayStartX = _isRtl ? -overlayRectangle.width : 0;
     } else {
-      overlayStartX = positionPair.overlayX == HorizontalConnectionPos.start
-          ? 0
-          : -overlayRectangle.width;
+      overlayStartX = _isRtl ? 0 : -overlayRectangle.width;
     }
     num overlayStartY;
     if (positionPair.overlayY == VerticalConnectionPos.center) {

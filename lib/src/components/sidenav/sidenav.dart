@@ -1,6 +1,6 @@
 import 'dart:html';
 import 'dart:async';
-import 'package:angular2/core.dart';
+import 'package:angular2/angular2.dart';
 import '../../core/core.dart';
 
 /** Exception thrown when two MdSidenav are matching the same side. */
@@ -61,9 +61,7 @@ class MdSidenav {
 
   @Input()
   set opened(dynamic v) {
-    validateArgument(v, ['true', 'false', true, false, null]);
-    bool value = booleanFieldValue(v);
-    toggle(value);
+    toggle(coerceBooleanProperty(v));
   }
 
   /** Event emitted when the sidenav is being opened. Use this to synchronize animations. */

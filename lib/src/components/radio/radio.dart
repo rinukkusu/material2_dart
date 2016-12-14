@@ -1,9 +1,8 @@
 import 'dart:html';
-import "package:angular2/core.dart";
+import "package:angular2/angular2.dart";
 import "package:angular2/common.dart";
 import '../../core/core.dart';
 
-// Re-exports.
 export "../../core/coordination/unique_selection_dispatcher.dart";
 
 /**
@@ -12,13 +11,6 @@ export "../../core/coordination/unique_selection_dispatcher.dart";
  */
 const Provider MD_RADIO_GROUP_CONTROL_VALUE_ACCESSOR =
     const Provider(NG_VALUE_ACCESSOR, useExisting: MdRadioGroup, multi: true);
-
-// TODO(mtlin):
-// Ink ripple is currently placeholder.
-// Determine motion spec for button transitions.
-// Design review.
-// RTL
-// Support forms API.
 
 // Use ChangeDetectionStrategy.OnPush
 var _uniqueIdCounter = 0;
@@ -55,7 +47,7 @@ class MdRadioGroup implements AfterContentInit, ControlValueAccessor<dynamic> {
   bool _isInitialized = false;
 
   /** The method to be called in order to update ngModel */
-  dynamic _controlValueAccessorChangeFn = (dynamic value) {};
+  dynamic controlValueAccessorChangeFn = (dynamic value) {};
 
   /** onTouch function registered via registerOnTouch (ControlValueAccessor). */
   dynamic onTouched = () {};
@@ -85,7 +77,7 @@ class MdRadioGroup implements AfterContentInit, ControlValueAccessor<dynamic> {
   @Input()
   set disabled(dynamic value) {
     // The presence of *any* disabled value makes the component disabled, *except* for false.
-    _disabled = booleanFieldValue(value);
+    _disabled = coerceBooleanProperty(value);
   }
 
   dynamic get value => _value;
@@ -161,7 +153,7 @@ class MdRadioGroup implements AfterContentInit, ControlValueAccessor<dynamic> {
     var event = new MdRadioChange();
     event.source = _selected;
     event.value = _value;
-    _controlValueAccessorChangeFn(event.value);
+    controlValueAccessorChangeFn(event.value);
     change.emit(event);
   }
 
@@ -179,7 +171,7 @@ class MdRadioGroup implements AfterContentInit, ControlValueAccessor<dynamic> {
   // void fn(dynamic value)
   @override
   void registerOnChange(dynamic fn) {
-    _controlValueAccessorChangeFn = fn;
+    controlValueAccessorChangeFn = fn;
   }
 
   /**
@@ -198,6 +190,8 @@ class MdRadioGroup implements AfterContentInit, ControlValueAccessor<dynamic> {
   encapsulation: ViewEncapsulation.None,
 )
 class MdRadioButton implements OnInit {
+  ElementRef _elementRef;
+  Element get nativeElement => _elementRef.nativeElement;
   MdUniqueSelectionDispatcher radioDispatcher;
   @HostBinding("class.md-radio-focused")
   bool isFocused = false;
@@ -222,6 +216,16 @@ class MdRadioButton implements OnInit {
   @Input("aria-labelledby")
   String ariaLabelledby;
 
+  bool _disableRipple = false;
+
+  /// Whether the ripple effect on click should be disabled.
+  @Input()
+  set disableRipple(dynamic v) {
+    _disableRipple = coerceBooleanProperty(v);
+  }
+
+  bool get disableRipple => _disableRipple;
+
   /** Whether this radio is disabled. */
   bool _disabled = false;
 
@@ -235,7 +239,8 @@ class MdRadioButton implements OnInit {
   @Output()
   EventEmitter<MdRadioChange> change = new EventEmitter<MdRadioChange>();
 
-  MdRadioButton(@Optional() MdRadioGroup radioGroup, this.radioDispatcher) {
+  MdRadioButton(@Optional() MdRadioGroup radioGroup, this._elementRef,
+      this.radioDispatcher) {
     // Assertions. Ideally these should be stripped out by the compiler.
 
     // TODO(jelbourn): Assert that there's no name binding AND a parent radio group.
@@ -297,7 +302,7 @@ class MdRadioButton implements OnInit {
   @Input()
   set disabled(dynamic value) {
     // The presence of *any* disabled value makes the component disabled, *except* for false.
-    _disabled = booleanFieldValue(value);
+    _disabled = coerceBooleanProperty(value);
   }
 
   @override
@@ -353,12 +358,15 @@ class MdRadioButton implements OnInit {
     event.stopPropagation();
 
     checked = true;
+    radioGroup.controlValueAccessorChangeFn(value);
     _emitChangeEvent();
 
-    if (radioGroup != null) {
-      radioGroup.touch();
-    }
+    if (radioGroup != null) radioGroup.touch();
   }
+
+  Element getHostElement() => _elementRef.nativeElement;
+
+  bool isRippleEnabled() => !disableRipple;
 }
 
 const List MD_RADIO_DIRECTIVES = const [MdRadioGroup, MdRadioButton];
