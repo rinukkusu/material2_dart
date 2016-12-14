@@ -1,3 +1,7 @@
+## 0.4.3
+
+Remove `Renderer` to support Angular2 2.1.0 or higher.
+
 ## 0.4.2
 
 Relax dependent package's constraint.
