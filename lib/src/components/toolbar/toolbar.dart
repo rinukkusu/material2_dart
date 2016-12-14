@@ -1,3 +1,4 @@
+import 'dart:html';
 import 'package:angular2/core.dart';
 
 @Directive(selector: 'md-toolbar-row')
@@ -19,20 +20,16 @@ class MdToolbar {
 
   String _color;
   ElementRef _elementRef;
-  Renderer _renderer;
-
-  MdToolbar(this._elementRef, this._renderer);
+  Element get _nativeElement => _elementRef.nativeElement;
+  MdToolbar(this._elementRef);
 
   void _updateColor(String newColor) {
-    _setElementColor(_color, false);
-    _setElementColor(newColor, true);
-    _color = newColor;
-  }
-
-  void _setElementColor(String color, bool isAdd) {
     if (color != null && color.isNotEmpty) {
-      _renderer.setElementClass(_elementRef.nativeElement, 'md-$color', isAdd);
+      _nativeElement.classes
+        ..remove('md-$color')
+        ..add('md-$newColor');
     }
+    _color = newColor;
   }
 }
 

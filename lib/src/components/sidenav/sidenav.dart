@@ -250,9 +250,9 @@ class MdSidenavLayout implements AfterContentInit {
 
   Dir _dir;
   ElementRef _elementRef;
-  Renderer _renderer;
+  Element get _nativeElement => _elementRef.nativeElement;
 
-  MdSidenavLayout(@Optional() this._dir, this._elementRef, this._renderer) {
+  MdSidenavLayout(@Optional() this._dir, this._elementRef) {
     if (_dir != null) _dir.dirChange.listen((Null _) => _validateDrawers());
   }
 
@@ -277,8 +277,11 @@ class MdSidenavLayout implements AfterContentInit {
 
   /* Toggles the 'md-sidenav-opened' class on the main 'md-sidenav-layout' element. */
   void _setLayoutClass(MdSidenav sidenav, bool bool) {
-    _renderer.setElementClass(
-        _elementRef.nativeElement, 'md-sidenav-opened', bool);
+    if (bool) {
+      _nativeElement.classes.add('md-sidenav-opened');
+    } else {
+      _nativeElement.classes.remove('md-sidenav-opened');
+    }
   }
 
   /** Validate the state of the sidenav children components. */

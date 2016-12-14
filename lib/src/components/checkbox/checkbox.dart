@@ -2,6 +2,7 @@ import 'dart:html';
 import "package:angular2/core.dart";
 import "package:angular2/common.dart";
 import "../../core/core.dart" show booleanFieldValue;
+
 /// Monotonically increasing integer used to auto-generate unique ids for checkbox components.
 int _nextId = 0;
 
@@ -54,9 +55,8 @@ class MdCheckboxChange {
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush)
 class MdCheckbox implements ControlValueAccessor<dynamic> {
-  Renderer _renderer;
   ElementRef _elementRef;
-
+  Element get _nativeElement => _elementRef.nativeElement;
   /**
    * Attached to the aria-label attribute of the host element. In most cases, arial-labelledby will
    * take precedence so this may be omitted.
@@ -123,7 +123,7 @@ class MdCheckbox implements ControlValueAccessor<dynamic> {
   Function _controlValueAccessorChangeFn = (dynamic value) {};
   bool hasFocus = false;
 
-  MdCheckbox(this._renderer, this._elementRef);
+  MdCheckbox(this._elementRef);
 
   /**
    * Whether the checkbox is checked. Note that setting `checked` will immediately set
@@ -190,21 +190,17 @@ class MdCheckbox implements ControlValueAccessor<dynamic> {
 
   void _transitionCheckState(TransitionCheckState newState) {
     var oldState = _currentCheckState;
-    var renderer = _renderer;
-    var elementRef = _elementRef;
     if (identical(oldState, newState)) {
       return;
     }
     if (_currentAnimationClass.length > 0) {
-      renderer.setElementClass(
-          elementRef.nativeElement, _currentAnimationClass, false);
+      _nativeElement.classes.remove(_currentAnimationClass);
     }
     _currentAnimationClass =
         _getAnimationClassForCheckStateTransition(oldState, newState);
     _currentCheckState = newState;
     if (_currentAnimationClass.length > 0) {
-      renderer.setElementClass(
-          elementRef.nativeElement, _currentAnimationClass, true);
+      _nativeElement.classes.add(_currentAnimationClass);
     }
   }
 
