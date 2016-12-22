@@ -1,3 +1,7 @@
+## 0.4.4
+
+Fix several regressions on 0.4.3.
+
 ## 0.4.3
 
 Remove `Renderer` to support Angular2 2.1.0 or higher.
