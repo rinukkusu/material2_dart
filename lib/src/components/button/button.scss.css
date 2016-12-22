@@ -61,7 +61,8 @@
   height: 56px;
   padding: 0; }
   [md-fab] i, [md-fab] md-icon {
-    padding: 16px 0; }
+    padding: 16px 0;
+    line-height: 24px; }
 
 [md-mini-fab] {
   min-width: 0;
@@ -70,7 +71,8 @@
   height: 40px;
   padding: 0; }
   [md-mini-fab] i, [md-mini-fab] md-icon {
-    padding: 8px 0; }
+    padding: 8px 0;
+    line-height: 24px; }
 
 [md-icon-button] {
   min-width: 0;
@@ -80,6 +82,7 @@
   line-height: 24px;
   border-radius: 50%; }
   [md-icon-button] .md-button-wrapper > * {
+    line-height: 24px;
     vertical-align: middle; }
 
 [md-button] .md-button-wrapper > *, [md-raised-button] .md-button-wrapper > * {

@@ -43,6 +43,9 @@ md-slide-toggle {
   height: 24px;
   position: relative;
   margin-right: 8px; }
+  [dir='rtl'] .md-slide-toggle-container {
+    margin-left: 8px;
+    margin-right: 0; }
 
 .md-slide-toggle-thumb-container {
   position: absolute;

@@ -29,9 +29,11 @@ class Overlay {
   OverlayContainer _overlayContainer;
   ComponentResolver _componentResolver;
   OverlayPositionBuilder _positionBuilder;
+  ApplicationRef _appRef;
+  Injector _injector;
 
-  Overlay(
-      this._overlayContainer, this._componentResolver, this._positionBuilder);
+  Overlay(this._overlayContainer, this._componentResolver,
+      this._positionBuilder, this._appRef, this._injector);
 
   /**
    * Creates an overlay.
@@ -61,7 +63,7 @@ class Overlay {
 
   /// Create a DomPortalHost into which the overlay content can be loaded.
   DomPortalHost _createPortalHost(DivElement pane) =>
-      new DomPortalHost(pane, _componentResolver);
+      new DomPortalHost(pane, _componentResolver, _appRef, _injector);
 
   /// Creates an OverlayRef for an overlay in the given DOM element.
   OverlayRef _createOverlayRef(DivElement pane, OverlayState state) =>

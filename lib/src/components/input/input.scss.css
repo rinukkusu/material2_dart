@@ -1,9 +1,9 @@
-md-input {
+md-input, md-textarea {
   display: inline-block;
   position: relative;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   text-align: left; }
-  [dir='rtl'] md-input {
+  [dir='rtl'] md-input, [dir='rtl'] md-textarea {
     text-align: right; }
 
 .md-input-wrapper {

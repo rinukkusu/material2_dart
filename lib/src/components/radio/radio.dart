@@ -26,13 +26,21 @@ class MdRadioChange {
     providers: const [MD_RADIO_GROUP_CONTROL_VALUE_ACCESSOR],
     host: const {"role": "radiogroup"})
 class MdRadioGroup implements AfterContentInit, ControlValueAccessor<dynamic> {
-  /**
-   * Selected value for group. Should equal the value of the selected radio button if there *is*
-   * a corresponding radio button with a matching value. If there is *not* such a corresponding
-   * radio button, this value persists to be applied in case a new radio button is added with a
-   * matching value.
-   */
+  /// Selected value for group. Should equal the value of the selected radio button if there *is*
+  /// a corresponding radio button with a matching value. If there is *not* such a corresponding
+  /// radio button, this value persists to be applied in case a new radio button is added with a
+  /// matching value.
   dynamic _value;
+
+  bool _disableRipple = false;
+
+  /// Whether the ripple effect on click should be disabled.
+  @Input()
+  set disableRipple(dynamic v) {
+    _disableRipple = coerceBooleanProperty(v);
+  }
+
+  bool get disableRipple => _disableRipple;
 
   /** The HTML name attribute applied to radio buttons in this group. */
   String _name = 'md-radio-group-${_uniqueIdCounter++}';
@@ -187,6 +195,7 @@ class MdRadioGroup implements AfterContentInit, ControlValueAccessor<dynamic> {
   selector: "md-radio-button",
   templateUrl: "radio.html",
   styleUrls: const ["radio.scss.css"],
+  directives: const [MD_RIPPLE_DIRECTIVES],
   encapsulation: ViewEncapsulation.None,
 )
 class MdRadioButton implements OnInit {
@@ -257,13 +266,20 @@ class MdRadioButton implements OnInit {
 
   @Input()
   set checked(bool newCheckedState) {
-    if (newCheckedState) {
-      // Notify all radio buttons with the same name to un-check.
-      radioDispatcher.notify(id, name);
-    }
     _checked = newCheckedState;
     if (newCheckedState && radioGroup != null && radioGroup.value != value) {
       radioGroup.selected = this;
+    } else if (!newCheckedState &&
+        radioGroup != null &&
+        radioGroup.value == value) {
+      // When unchecking the selected radio button, update the selected radio
+      // property on the group.
+      radioGroup.selected = null;
+    }
+
+    if (newCheckedState) {
+      // Notify all radio buttons with the same name to un-check.
+      radioDispatcher.notify(id, name);
     }
   }
 
@@ -358,10 +374,12 @@ class MdRadioButton implements OnInit {
     event.stopPropagation();
 
     checked = true;
-    radioGroup.controlValueAccessorChangeFn(value);
     _emitChangeEvent();
 
-    if (radioGroup != null) radioGroup.touch();
+    if (radioGroup != null) {
+      radioGroup.controlValueAccessorChangeFn(value);
+      radioGroup.touch();
+    }
   }
 
   Element getHostElement() => _elementRef.nativeElement;

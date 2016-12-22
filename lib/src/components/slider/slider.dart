@@ -127,9 +127,10 @@ class MdSlider implements AfterContentInit, ControlValueAccessor<dynamic> {
   set min(dynamic value) {
     _min = numFieldValue(value);
     // If the value wasn't explicitly set by the user, set it to the min.
-    if (!_isInitialized) {
-      this.value = _min;
-    }
+    if (!_isInitialized) value = _min;
+
+    snapThumbToValue();
+    _updateTickSeparation();
   }
 
   num _max = 100;
@@ -141,6 +142,8 @@ class MdSlider implements AfterContentInit, ControlValueAccessor<dynamic> {
   @Input()
   set max(dynamic value) {
     _max = numFieldValue(value);
+    snapThumbToValue();
+    _updateTickSeparation();
   }
 
   @HostBinding('attr.aria-valuenow')
@@ -255,13 +258,17 @@ class MdSlider implements AfterContentInit, ControlValueAccessor<dynamic> {
   void snapThumbToValue() {
     updatePercentFromValue();
     if (_sliderDimensions != null) {
-      _renderer.updateThumbAndFillPosition(_percent, _sliderDimensions.width);
+      var renderedPercent = clamp(_percent);
+      _renderer.updateThumbAndFillPosition(
+          renderedPercent, _sliderDimensions.width);
     }
   }
 
   /// Calculates the separation in pixels of tick marks. If there is no tick interval or the interval
   /// is set to something other than a number or 'auto', nothing happens.
   void _updateTickSeparation() {
+    if (_sliderDimensions == null) return;
+
     if (_tickInterval == 'auto') {
       _updateAutoTickSeparation();
     } else {
@@ -350,6 +357,11 @@ class MdSlider implements AfterContentInit, ControlValueAccessor<dynamic> {
   void registerOnTouched(Function fn) {
     onTouched = fn;
   }
+
+  /// Implemented as part of ControlValueAccessor.
+  void setDisabledState(bool isDisabled) {
+    disabled = isDisabled;
+  }
 }
 
 /// Renderer class in order to keep all dom manipulation in one place and outside of the main class.
@@ -389,9 +401,11 @@ class SliderRenderer {
 
   /// Draws ticks onto the tick container.
   void drawTicks(num tickSeparation) {
+    var sliderTrackContainer =
+        _sliderElement.querySelector('.md-slider-track-container');
+    var tickContainerWidth = sliderTrackContainer.getBoundingClientRect().width;
     var tickContainer =
         _sliderElement.querySelector('.md-slider-tick-container');
-    var tickContainerWidth = tickContainer.getBoundingClientRect().width;
     // An extra element for the last tick is needed because the linear gradient cannot be told to
     // always draw a tick at the end of the gradient. To get around this, there is a second
     // container for ticks that has a single tick mark on the very right edge.
@@ -407,10 +421,14 @@ class SliderRenderer {
         'linear-gradient(to left, black, black 2px, transparent ' +
             '2px, transparent)';
 
-    // If the second to last tick is too close (a separation of less than half the normal
-    // separation), don't show it by decreasing the width of the tick container element.
     if (tickContainerWidth % tickSeparation < (tickSeparation / 2)) {
+      // If the second to last tick is too close (a separation of less than half the normal
+      // separation), don't show it by decreasing the width of the tick container element.
       tickContainer.style.width = '${tickContainerWidth - tickSeparation}px';
+    } else {
+      // If there is enough space for the second-to-last tick, restore the default width of the
+      // tick container.
+      tickContainer.style.width = '';
     }
   }
 }

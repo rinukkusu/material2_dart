@@ -200,10 +200,9 @@ class MdSlideToggle implements AfterContentInit, ControlValueAccessor<dynamic> {
 
   void _updateColor(String newColor) {
     if (color != null && color.isNotEmpty) {
-      _nativeElement.classes
-        ..remove('md-$color')
-        ..add('md-$newColor');
+      _nativeElement.classes.remove('md-$color');
     }
+    _nativeElement.classes.add('md-$newColor');
     _color = newColor;
   }
 

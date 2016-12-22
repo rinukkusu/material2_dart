@@ -57,12 +57,11 @@ typedef dynamic OnChangeCallback(dynamic _);
 
 typedef dynamic OnTouchedCallback();
 
-/**
- * Component that represents a text input. It encapsulates the <input> HTMLElement and
- * improve on its behaviour, along with styling it according to the Material Design.
- */
+/// Component that represents a text input. It encapsulates the
+/// <input> HTMLElement and improve on its behaviour,
+/// along with styling it according to the Material Design.
 @Component(
-    selector: "md-input",
+    selector: "md-input, md-textarea",
     templateUrl: "input.html",
     styleUrls: const ["input.scss.css"],
     providers: const [MD_INPUT_CONTROL_VALUE_ACCESSOR],
@@ -152,20 +151,20 @@ class MdInput
   String hintLabel = "";
 
   @Input()
-  String autoComplete;
+  String autocomplete;
 
   @Input()
-  String autoCorrect;
+  String autocorrect;
 
   @Input()
-  String autoCapitalize;
+  String autocapitalize;
 
   @Input()
-  set autoFocus(dynamic v) {
+  set autofocus(dynamic v) {
     _autoFocus = coerceBooleanProperty(v);
   }
 
-  bool get autoFocus => _autoFocus;
+  bool get autofocus => _autoFocus;
   bool _autoFocus = false;
 
   @Input()
@@ -199,25 +198,26 @@ class MdInput
   int _min;
 
   @Input()
-  set maxLength(dynamic v) {
+  set maxlength(dynamic v) {
     _maxLength = intFieldValue(v);
   }
 
   int get maxLength => _maxLength;
+  int get maxlength => _maxLength;
   int _maxLength;
 
   @Input()
-  num minLength;
+  num minlength;
 
   @Input()
   String placeholder;
 
   @Input()
-  set readOnly(dynamic v) {
+  set readonly(dynamic v) {
     _readOnly = coerceBooleanProperty(v);
   }
 
-  bool get readOnly => _readOnly;
+  bool get readonly => _readOnly;
   bool _readOnly = false;
 
   @Input()
@@ -229,24 +229,32 @@ class MdInput
   bool _required = false;
 
   @Input()
-  set spellCheck(dynamic v) {
+  set spellcheck(dynamic v) {
     _spellCheck = coerceBooleanProperty(v);
   }
 
-  bool get spellCheck => _spellCheck;
+  bool get spellcheck => _spellCheck;
   bool _spellCheck = false;
 
   @Input()
   num step;
 
   @Input()
-  int tabIndex;
+  int tabindex;
 
   @Input()
   String type = "text";
 
   @Input()
   String name;
+
+  // textarea-specific
+  @Input()
+  num rows;
+  @Input()
+  num cols;
+  @Input()
+  String /*'soft' | 'hard'*/ wrap;
 
   EventEmitter<FocusEvent> _blurEmitter = new EventEmitter<FocusEvent>();
   EventEmitter<FocusEvent> _focusEmitter = new EventEmitter<FocusEvent>();
@@ -269,9 +277,7 @@ class MdInput
   }
 
   // This is to remove the `align` property of the `md-input` itself. Otherwise HTML5
-
   // might place it as RTL when we don't want to. We still want to use `align` as an
-
   // Input though, so we use HostBinding.
   @HostBinding("attr.align")
   dynamic get alignAttr => null;
@@ -279,7 +285,15 @@ class MdInput
   @ViewChild("input")
   ElementRef inputElement;
 
-  /** Set focus on input */
+  String /* 'input' | 'textarea' */ elementType;
+
+  MdInput(ElementRef elementRef)
+      : elementType =
+            elementRef.nativeElement.nodeName.toLowerCase() == 'md-input'
+                ? 'input'
+                : 'textarea';
+
+  /// Set focus on input.
   void focus() {
     inputElement.nativeElement.focus();
   }

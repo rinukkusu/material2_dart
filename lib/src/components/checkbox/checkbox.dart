@@ -99,12 +99,15 @@ class MdCheckbox implements ControlValueAccessor<dynamic> {
   @Input()
   String align = "start";
 
-  /**
-   * Whether the checkbox is disabled. When the checkbox is disabled it cannot be interacted with.
-   * The correct ARIA attributes are applied to denote this to assistive technology.
-   */
+  /// Whether the checkbox is disabled. When the checkbox is disabled it cannot be interacted with.
+  /// The correct ARIA attributes are applied to denote this to assistive technology.
   @Input()
-  bool disabled = false;
+  set disabled(dynamic disabled) {
+    _disabled = coerceBooleanProperty(disabled);
+  }
+
+  bool get disabled => _disabled;
+  bool _disabled = false;
 
   /**
    * The tabindex attribute for the checkbox. Note that when the checkbox is disabled, the attribute
