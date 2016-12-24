@@ -39,6 +39,7 @@ class MdTab implements OnInit {
   ViewContainerRef _viewContainerRef;
   MdTab(this._viewContainerRef);
 
+  @override
   void ngOnInit() {
     _contentPortal = new TemplatePortal(templateRef, _viewContainerRef);
   }

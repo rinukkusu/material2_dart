@@ -16,7 +16,8 @@ md-button-toggle {
   display: inline-block;
   line-height: 36px;
   padding: 0 16px;
-  cursor: pointer; }
+  cursor: pointer;
+  user-select: none; }
 
 .md-button-toggle-label-content > * {
   vertical-align: middle; }

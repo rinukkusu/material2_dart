@@ -96,10 +96,6 @@ class MdRadioGroup implements AfterContentInit, ControlValueAccessor<dynamic> {
       // Set this before proceeding to ensure no circular loop occurs with selection.
       _value = newValue;
       _updateSelectedRadioFromValue();
-      // Only fire a change event if this isn't the first time the value is ever set.
-      if (_isInitialized) {
-        _emitChangeEvent();
-      }
     }
   }
 
@@ -156,12 +152,11 @@ class MdRadioGroup implements AfterContentInit, ControlValueAccessor<dynamic> {
     }
   }
 
-  /** Dispatch change event with current selection and group value. */
-  void _emitChangeEvent() {
-    var event = new MdRadioChange();
-    event.source = _selected;
-    event.value = _value;
-    controlValueAccessorChangeFn(event.value);
+  /// Dispatch change event with current selection and group value.
+  void emitChangeEvent() {
+    var event = new MdRadioChange()
+      ..source = _selected
+      ..value = _value;
     change.emit(event);
   }
 
@@ -241,7 +236,7 @@ class MdRadioButton implements OnInit {
   /** Value assigned to this radio.*/
   dynamic _value;
 
-  /** The parent radio group. May or may not be present. */
+  /// The parent radio group. May or may not be present.
   MdRadioGroup radioGroup;
 
   /** Event emitted when the group value changes. */
@@ -373,12 +368,16 @@ class MdRadioButton implements OnInit {
     // emit its event object to the `change` output.
     event.stopPropagation();
 
+    bool groupValueChanged = radioGroup != null && value != radioGroup.value;
     checked = true;
     _emitChangeEvent();
 
     if (radioGroup != null) {
       radioGroup.controlValueAccessorChangeFn(value);
       radioGroup.touch();
+      if (groupValueChanged) {
+        radioGroup.emitChangeEvent();
+      }
     }
   }
 

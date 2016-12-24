@@ -102,7 +102,8 @@ md-checkbox {
   position: relative;
   vertical-align: middle;
   white-space: nowrap;
-  width: 20px; }
+  width: 20px;
+  flex-shrink: 0; }
   [dir='rtl'] .md-checkbox-inner-container {
     margin-left: 8px;
     margin-right: auto; }
@@ -202,6 +203,7 @@ md-checkbox {
   right: -15px;
   bottom: -15px;
   border-radius: 50%;
-  z-index: 1; }
+  z-index: 1;
+  pointer-events: none; }
 
 /*# sourceMappingURL=checkbox.scss.css.map */

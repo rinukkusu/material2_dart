@@ -24,11 +24,7 @@ export "overlay/position/connected_position.dart";
 export "overlay/position/connected_position_strategy.dart";
 export "ripple/ripple.dart" show MD_RIPPLE_DIRECTIVES, MdRipple;
 //export "gestures/MdGestureConfig.dart";
-export "a11y/live_announcer.dart"
-    show MdLiveAnnouncer, LIVE_ANNOUNCER_ELEMENT_TOKEN;
-
-export 'a11y/focus_trap.dart';
-export 'a11y/interactivity_checker.dart';
+export "a11y/live_announcer.dart" show a11yProviders, MdLiveAnnouncer;
 
 export "coordination/unique_selection_dispatcher.dart"
     show MdUniqueSelectionDispatcher, MdUniqueSelectionDispatcherListener;

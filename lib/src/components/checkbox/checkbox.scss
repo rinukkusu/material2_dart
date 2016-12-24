@@ -218,7 +218,8 @@ md-checkbox {
   vertical-align: middle;
   white-space: nowrap;
   width: $md-checkbox-size;
-
+  flex-shrink: 0;
+  
   [dir='rtl'] & {
     margin: {
       left: $md-checkbox-item-spacing;
@@ -425,4 +426,5 @@ md-checkbox {
   bottom: -$md-checkbox-ripple-size;
   border-radius: 50%;
   z-index: 1;
+  pointer-events: none;
 }

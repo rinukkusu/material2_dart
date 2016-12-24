@@ -16,6 +16,12 @@ const Provider MD_SLIDER_VALUE_ACCESSOR =
 
 typedef void _ControlValueAccessorChangeFn(dynamic value);
 
+/// A simple change event emitted by the MdSlider component.
+class MdSliderChange {
+  MdSlider source;
+  num value;
+}
+
 @Component(
   selector: 'md-slider',
   providers: const [MD_SLIDER_VALUE_ACCESSOR],
@@ -60,14 +66,17 @@ class MdSlider implements AfterContentInit, ControlValueAccessor<dynamic> {
     _thumbLabel = coerceBooleanProperty(value);
   }
 
-  /// The miniumum value that the slider can have.
+  /// The minimum value that the slider can have.
   num _min = 0;
 
-  /// The percentage of the slider that coincides with the value. */
+  /// The percentage of the slider that coincides with the value.
   num _percent = 0;
 
   _ControlValueAccessorChangeFn _controlValueAccessorChangeFn =
       (dynamic value) {};
+
+  /// The last value for which a change event was emitted.
+  num _lastEmittedValue;
 
   /// onTouch function registered via registerOnTouch (ControlValueAccessor).
   Function onTouched = () {};
@@ -160,6 +169,9 @@ class MdSlider implements AfterContentInit, ControlValueAccessor<dynamic> {
     }
   }
 
+  @Output()
+  EventEmitter<MdSliderChange> change = new EventEmitter<MdSliderChange>();
+
   MdSlider(ElementRef elementRef)
       : this._renderer = new SliderRenderer(elementRef);
 
@@ -185,6 +197,7 @@ class MdSlider implements AfterContentInit, ControlValueAccessor<dynamic> {
     _renderer.addFocus();
     updateValueFromPosition(event.client.x);
     snapThumbToValue();
+    _emitValueIfChanged();
   }
 
   // FIXME: Blocked by Hammer not being ported.
@@ -264,6 +277,17 @@ class MdSlider implements AfterContentInit, ControlValueAccessor<dynamic> {
     }
   }
 
+  /// Emits a change event if the current value is different from the last emitted value.
+  void _emitValueIfChanged() {
+    if (value != _lastEmittedValue) {
+      var event = new MdSliderChange()
+        ..source = this
+        ..value = value;
+      change.emit(event);
+      _lastEmittedValue = value;
+    }
+  }
+
   /// Calculates the separation in pixels of tick marks. If there is no tick interval or the interval
   /// is set to something other than a number or 'auto', nothing happens.
   void _updateTickSeparation() {
@@ -340,10 +364,6 @@ class MdSlider implements AfterContentInit, ControlValueAccessor<dynamic> {
   @override
   void writeValue(dynamic value) {
     this.value = value;
-
-    if (_sliderDimensions != null) {
-      snapThumbToValue();
-    }
   }
 
   /// Implemented as part of ControlValueAccessor.

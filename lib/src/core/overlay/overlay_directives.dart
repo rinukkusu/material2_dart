@@ -51,6 +51,15 @@ class ConnectedOverlayDirective implements OnDestroy {
   OverlayOrigin origin;
   @Input()
   List<ConnectionPositionPair> positions;
+
+  /// The offset in pixels for the overlay connection point on the x-axis.
+  @Input()
+  num offsetX = 0;
+
+  /// The offset in pixels for the overlay connection point on the y-axis.
+  @Input()
+  num offsetY = 0;
+
   @Input()
   dynamic /*num | String*/ width;
   @Input()
@@ -114,21 +123,36 @@ class ConnectedOverlayDirective implements OnDestroy {
     overlayConfig.hasBackdrop = hasBackdrop;
     if (backdropClass != null && backdropClass.isNotEmpty)
       overlayConfig.backdropClass = backdropClass;
-    overlayConfig.positionStrategy = _getPosition();
+    overlayConfig.positionStrategy = _createPositionStrategy();
     overlayConfig.direction = dir;
     return overlayConfig;
   }
 
-  /// Returns the position of the overlay to be set on the overlay config.
-  ConnectedPositionStrategy _getPosition() {
-    return _overlay.position().connectedTo(
-        origin.elementRef,
-        new OriginConnectionPosition(
-            positions[0].overlayX, positions[0].originY),
-        new OverlayConnectionPosition(
-            positions[0].overlayX, positions[0].overlayY)).setDirection(_dir);
-  }
+//  /// Returns the position of the overlay to be set on the overlay config.
+//  ConnectedPositionStrategy _getPosition() {
+//    return _overlay
+//        .position()
+//        .connectedTo(
+//            origin.elementRef,
+//            new OriginConnectionPosition(
+//                positions[0].overlayX, positions[0].originY),
+//            new OverlayConnectionPosition(
+//                positions[0].overlayX, positions[0].overlayY))
+//        .setDirection(_dir);
+//  }
 
+  /// Returns the position strategy of the overlay to be set on the overlay config.
+  ConnectedPositionStrategy _createPositionStrategy() {
+    final pos = positions[0];
+    final originPoint = new OriginConnectionPosition(pos.originX, pos.originY);
+    final overlayPoint = new OverlayConnectionPosition(pos.overlayX, pos.overlayY);
+    return _overlay.position()
+      .connectedTo(origin.elementRef, originPoint, overlayPoint)
+      .withDirection(dir)
+      .withOffsetX(offsetX)
+      .withOffsetY(offsetY);
+  }
+  
   /// Attaches the overlay and subscribes to backdrop clicks if backdrop exists.
   Future _attachOverlay() async {
     if (_overlayRef == null) await _createOverlay();

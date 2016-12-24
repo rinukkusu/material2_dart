@@ -5,17 +5,23 @@ import "package:angular2/angular2.dart";
 import "viewport_ruler.dart";
 import "../../style/apply_transform.dart";
 import "connected_position.dart";
-import "../../rtl/dir.dart";
 
 /**
  * A strategy for positioning overlays. Using this strategy, an overlay is given an
- * implict position relative some origin element. The relative position is defined in terms of
+ * implicit position relative some origin element. The relative position is defined in terms of
  * a point on the origin element that is connected to a point on the overlay element. For example,
  * a basic dropdown is connecting the bottom-left corner of the origin to the top-left corner
  * of the overlay.
  */
 class ConnectedPositionStrategy implements PositionStrategy {
   String _dir = 'ltr';
+
+  /// The offset in pixels for the overlay connection point on the x-axis.
+  num _offsetX = 0;
+
+  /// The offset in pixels for the overlay connection point on the y-axis.
+  num _offsetY = 0;
+
   ElementRef connectedTo;
   OriginConnectionPosition _originPos;
   OverlayConnectionPosition _overlayPos;
@@ -81,10 +87,21 @@ class ConnectedPositionStrategy implements PositionStrategy {
   }
 
   /// Sets the layout direction so the overlay's position can be adjusted to match.
-  ConnectedPositionStrategy setDirection(Dir dir) {
-    if (dir.dir == 'ltr' || dir.dir == 'rtl') {
-      _dir = dir.dir;
-    }
+  ConnectedPositionStrategy withDirection(String dir) {
+    assert(['ltr', 'rtl'].contains(dir));
+    _dir = dir;
+    return this;
+  }
+
+  /// Sets an offset for the overlay's connection point on the x-axis.
+  ConnectedPositionStrategy withOffsetX(num offset) {
+    _offsetX = offset;
+    return this;
+  }
+
+  /// Sets an offset for the overlay's connection point on the y-axis.
+  ConnectedPositionStrategy withOffsetY(num offset) {
+    _offsetY = offset;
     return this;
   }
 
@@ -150,8 +167,8 @@ class ConnectedPositionStrategy implements PositionStrategy {
           ? 0
           : -overlayRectangle.height;
     }
-    return new Point(
-        originPoint.x + overlayStartX, originPoint.y + overlayStartY);
+    return new Point(originPoint.x + overlayStartX + _offsetX,
+        originPoint.y + overlayStartY + _offsetY);
   }
 
   /**
@@ -169,13 +186,10 @@ class ConnectedPositionStrategy implements PositionStrategy {
         overlayPoint.y + overlayRect.height <= viewportRect.bottom;
   }
 
-  /**
-   * Physically positions the overlay element to the given coordinate.
-   */
+  /// Physically positions the overlay element to the given coordinate.
   void _setElementPosition(Element element, Point overlayPoint) {
-    var scrollPos = _viewportRuler.getViewportScrollPosition();
-    var x = overlayPoint.x + scrollPos['left'];
-    var y = overlayPoint.y + scrollPos['top'];
+    var x = overlayPoint.x;
+    var y = overlayPoint.y;
     // TODO(jelbourn): we don't want to always overwrite the transform property here,
     // because it will need to be used for animations.
     applyCssTransform(element, 'translateX(${x}px) translateY(${y}px)');

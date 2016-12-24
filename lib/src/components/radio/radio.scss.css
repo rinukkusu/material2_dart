@@ -67,6 +67,7 @@ md-radio-button {
   right: -15px;
   bottom: -15px;
   border-radius: 50%;
-  z-index: 1; }
+  z-index: 1;
+  pointer-events: none; }
 
 /*# sourceMappingURL=radio.scss.css.map */
