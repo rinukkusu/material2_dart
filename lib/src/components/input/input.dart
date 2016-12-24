@@ -183,7 +183,7 @@ class MdInput
 
   @Input()
   set max(dynamic v) {
-    _max = intFieldValue(v);
+    _max = coerceNumberProperty(v);
   }
 
   int get max => _max;
@@ -191,7 +191,7 @@ class MdInput
 
   @Input()
   set min(dynamic v) {
-    _min = intFieldValue(v);
+    _min = coerceNumberProperty(v);
   }
 
   int get min => _min;
@@ -199,7 +199,7 @@ class MdInput
 
   @Input()
   set maxlength(dynamic v) {
-    _maxLength = intFieldValue(v);
+    _maxLength = coerceNumberProperty(v);
   }
 
   int get maxLength => _maxLength;

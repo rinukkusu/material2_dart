@@ -90,6 +90,7 @@ md-checkbox {
 .md-checkbox-layout {
   cursor: inherit;
   align-items: baseline;
+  vertical-align: middle;
   display: inline-flex; }
 
 .md-checkbox-inner-container {

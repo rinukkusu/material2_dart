@@ -35,7 +35,7 @@ export "errors/error.dart" show MdError;
 export "annotations/boolean_property.dart" show coerceBooleanProperty;
 export 'animation/animation.dart';
 
-export "dart_helper/num_field_value.dart";
+export "coersion/number_property.dart";
 
 const List CORE_DIRECTIVES = const <dynamic>[
   MdLine,
