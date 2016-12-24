@@ -189,6 +189,10 @@ class MdCheckbox implements ControlValueAccessor<dynamic> {
     }
   }
 
+  bool isRippleDisabled() {
+    return disableRipple || disabled;
+  }
+
   /// Implemented as part of ControlValueAccessor.
   @override
   void writeValue(dynamic value) {

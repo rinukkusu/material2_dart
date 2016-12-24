@@ -334,6 +334,10 @@ class MdRadioButton implements OnInit {
     change.emit(event);
   }
 
+  bool isRippleDisabled() {
+    return disableRipple || disabled;
+  }
+
   /// We use a hidden native input field to handle changes to focus state via keyboard navigation,
   ///  with visual rendering done separately. The native element is kept in sync with the overall
   ///  state of the component.

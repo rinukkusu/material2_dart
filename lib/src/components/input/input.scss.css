@@ -2,6 +2,7 @@ md-input, md-textarea {
   display: inline-block;
   position: relative;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  line-height: normal;
   text-align: left; }
   [dir='rtl'] md-input, [dir='rtl'] md-textarea {
     text-align: right; }
@@ -34,7 +35,7 @@ md-input, md-textarea {
       text-align: left; }
   .md-input-element:-moz-ui-invalid {
     box-shadow: none; }
-  .md-input-element:-webkit-autofill + .md-input-placeholder {
+  .md-input-element:-webkit-autofill + .md-input-placeholder.md-float {
     display: block;
     padding-bottom: 5px;
     transform: translateY(-100%) scale(0.75);

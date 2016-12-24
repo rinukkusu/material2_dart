@@ -22,6 +22,10 @@ class MdButtonToggleChange {
   dynamic value;
 }
 
+/**
+ * The method to be called in order to update ngModel.
+ * Now `ngModel` binding is not supported in multiple selection mode.
+*/
 typedef void _ControlValueAccessorChangeFn(dynamic value);
 
 /// Exclusive selection button toggle group that behaves like a radio-button group.
@@ -164,7 +168,7 @@ class MdButtonToggleGroup
   }
 }
 
-/// Multiple selection button-toggle group.
+/// Multiple selection button-toggle group. `ngModel` is not supported in this mode.
 @Directive(selector: "md-button-toggle-group[multiple]")
 class MdButtonToggleGroupMultiple {
   /// Disables all toggles in the group.
