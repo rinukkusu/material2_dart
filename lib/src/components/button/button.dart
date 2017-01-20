@@ -29,7 +29,7 @@ class MdButton {
 
   /// Whether the ripple effect on click should be disabled.
   bool _disableRipple = false;
-  bool _disabled = false;
+  dynamic _disabled;
 
   /// Whether the ripple effect on click should be disabled.
   @Input()
@@ -42,7 +42,7 @@ class MdButton {
   bool get disabled => _disabled;
   @Input()
   set disabled(bool value) {
-    _disabled = coerceBooleanProperty(value);
+    _disabled = coerceBooleanProperty(value) ? true : null;
   }
 
   ElementRef _elementRef;

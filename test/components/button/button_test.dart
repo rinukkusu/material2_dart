@@ -136,6 +136,28 @@ void main() {
         completer.done();
       });
     });
+
+    test('should not add aria-disabled attribute if disabled is false', () {
+      return inject([TestComponentBuilder, AsyncTestCompleter],
+          (TestComponentBuilder tcb, AsyncTestCompleter completer) async {
+        ComponentFixture fixture = await tcb.createAsync(TestApp);
+        TestApp testComponent = fixture.debugElement.componentInstance;
+        var buttonDebugElement = fixture.debugElement.query(By.css('a'));
+
+        fixture.detectChanges();
+        expect(buttonDebugElement.nativeElement.attributes['aria-disabled'],
+            equals('false'));
+        expect(buttonDebugElement.nativeElement.attributes['disabled'],
+            isNull);
+        testComponent.isDisabled = false;
+        fixture.detectChanges();
+        expect(buttonDebugElement.nativeElement.attributes['aria-disabled'],
+            equals('false'));
+        expect(buttonDebugElement.nativeElement.attributes['disabled'],
+            isNull);
+        completer.done();
+      });
+    });
   });
 
   // Ripple tests.
