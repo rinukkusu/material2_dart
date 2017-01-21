@@ -330,7 +330,7 @@ class MdTabBody implements OnInit, AfterViewInit {
 
   ElementRef _elementRef;
   Dir _dir;
-  MdTabBody(ElementRef _elementRef, @Optional() Dir _dir) {}
+  MdTabBody(this._elementRef, @Optional() this._dir) {}
 
   ngOnInit() {
     if (_position == MdTabBodyActiveState.CENTER && !_portalHost.hasAttached()) {
