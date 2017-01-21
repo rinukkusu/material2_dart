@@ -27,10 +27,12 @@ class MdSliderChange {
   host: const {
     '(blur)': 'onBlur()',
     '(click)': r'onClick($event)',
+    '(keydown)': r'_onKeydown($event)',
     '(mouseenter)': 'onMouseenter()',
     '(slide)': r'onSlide($event)',
     '(slideend)': 'onSlideEnd()',
     '(slidestart)': r'onSlideStart($event)',
+    'role': 'slider',
     'tabindex': '0',
     '[attr.aria-disabled]': 'disabled',
     '[attr.aria-valuemax]': 'max',
@@ -229,6 +231,48 @@ class MdSlider implements ControlValueAccessor<dynamic> {
   void onBlur() {
     isActive = false;
     onTouched();
+  }
+
+  void onKeydown(KeyboardEvent event) {
+    if (disabled) { return; }
+
+    switch (event.keyCode) {
+      case KeyCode.PAGE_UP:
+        _increment(10);
+        break;
+      case KeyCode.PAGE_DOWN:
+        _increment(-10);
+        break;
+      case KeyCode.END:
+        value = this.max;
+        break;
+      case KeyCode.HOME:
+        value = this.min;
+        break;
+      case KeyCode.LEFT:
+        _increment(-1);
+        break;
+      case KeyCode.UP:
+        _increment(1);
+        break;
+      case KeyCode.RIGHT:
+        _increment(1);
+        break;
+      case KeyCode.DOWN:
+        _increment(-1);
+        break;
+      default:
+        // Return if the key is not one that we explicitly handle to avoid calling preventDefault on
+        // it.
+        return;
+    }
+
+    event.preventDefault();
+  }
+
+  /** Increments the slider by the given number of steps (negative number decrements). */
+  void _increment(num numSteps) {
+    value = _clamp(value + step * numSteps, min, max);
   }
 
   /// Calculate the new value from the new physical location.
