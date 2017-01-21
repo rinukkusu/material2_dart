@@ -38,7 +38,9 @@ class PortalHostDirective extends BasePortalHost implements OnDestroy {
   Portal<dynamic> get portal => _portal;
 
   set portal(Portal<dynamic> p) {
-    _replaceAttachedPortal(p);
+    if (p != null) {
+      _replaceAttachedPortal(p);
+    }
   }
 
   @override

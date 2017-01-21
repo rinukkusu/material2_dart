@@ -72,11 +72,29 @@ class MdTabGroup implements AfterViewChecked {
   QueryList<MdTabLabelWrapper> labelWrappers;
   @ViewChildren(MdInkBar)
   QueryList<MdInkBar> inkBar;
+
+  @ViewChild('tabBodyWrapper')
+  ElementRef _tabBodyWrapper;
+
   bool _isInitialized = false;
+
+  /** Snapshot of the height of the tab body wrapper before another tab is activated. */
+  num _tabBodyWrapperHeight = 0;
+
+  /** Whether the tab group should grow to the size of the active tab */
+  bool _dynamicHeight = false;
+  @Input('md-dynamic-height')
+  set dynamicHeight(bool value) {
+    this._dynamicHeight = coerceBooleanProperty(value);
+  }
+
+  /** The index of the active tab. */
   int _selectedIndex = 0;
 
   @Input()
   set selectedIndex(int value) {
+    _tabBodyWrapperHeight = _tabBodyWrapper.nativeElement.clientHeight;
+
     if (value != _selectedIndex && isValidIndex(value)) {
       _selectedIndex = value;
       if (_isInitialized) {
@@ -184,6 +202,28 @@ class MdTabGroup implements AfterViewChecked {
   /// Returns a unique id for each tab content element.
   String getTabContentId(int i) => 'md-tab-content-$_groupId-$i';
 
+
+  /**
+   * Sets the height of the body wrapper to the height of the activating tab if dynamic
+   * height property is true.
+   */
+  void setTabBodyWrapperHeight(num tabHeight) {
+    if (!_dynamicHeight) { return; }
+
+    _tabBodyWrapper.nativeElement.style.height = '${_tabBodyWrapperHeight}px';
+
+    // This conditional forces the browser to paint the height so that
+    // the animation to the new height can have an origin.
+    if (_tabBodyWrapper.nativeElement.offsetHeight) {
+      _tabBodyWrapper.nativeElement.style.height = '${tabHeight}px';
+    }
+  }
+
+  /** Removes the height of the tab body wrapper. */
+  void removeTabBodyWrapperHeight() {
+    _tabBodyWrapper.nativeElement.style.height = '';
+  }
+
   void handleKeydown(KeyboardEvent event) {
     switch (event.keyCode) {
       case KeyCode.RIGHT:
@@ -225,10 +265,127 @@ class MdTabGroup implements AfterViewChecked {
   }
 }
 
+class MdTabBodyActiveState implements String {
+  static const String LEFT = 'left';
+  static const String CENTER = 'center';
+  static const String RIGHT = 'right';
+}
+
+@Component(
+  selector: 'md-tab-body',
+  templateUrl: 'tab-body.html',
+  /*animations: [
+    trigger('translateTab', [
+      state('left', style({transform: 'translate3d(-100%, 0, 0)'})),
+      state('center', style({transform: 'translate3d(0, 0, 0)'})),
+      state('right', style({transform: 'translate3d(100%, 0, 0)'})),
+      transition('* => *', animate('500ms cubic-bezier(0.35, 0, 0.25, 1)')),
+    ])
+  ]*/
+)
+class MdTabBody implements OnInit, AfterViewInit {
+  /** The portal host inside of this container into which the tab body content will be loaded. */
+  @ViewChild(PortalHostDirective)
+  PortalHostDirective _portalHost;
+
+  @ViewChild('bodyContainer')
+  ElementRef _bodyContainer;
+
+  /** Event emitted when the tab begins to animate towards the center as the active tab. */
+  @Output()
+  Stream<num> onTabBodyCentering = _onTabBodyCentering.stream;
+  StreamController<num> _onTabBodyCentering = new StreamController();
+
+  /** Event emitted when the tab completes its animation towards the center. */
+  @Output()
+  Stream<dynamic> onTabBodyCentered = _onTabBodyCentered.stream;
+  StreamController<num> _onTabBodyCentered = new StreamController();
+
+  /** The tab body content to display. */
+  @Input('md-tab-body-content')
+  TemplatePortal content;
+
+  /** The shifted index position of the tab body, where zero represents the active center tab. */
+  MdTabBodyActiveState _position;
+  @Input('md-tab-body-position')
+  set position(num v) {
+    MdTabBodyActiveState oldPosition = _position;
+    if (v < 0) {
+      _position = /*getLayoutDirection() == 'ltr' ?*/ MdTabBodyActiveState.LEFT /*: MdTabBodyActiveState.RIGHT*/;
+    } else if (v > 0) {
+      _position = /*getLayoutDirection() == 'ltr' ?*/ MdTabBodyActiveState.RIGHT /*: MdTabBodyActiveState.LEFT*/;
+    } else {
+      _position = MdTabBodyActiveState.CENTER;
+    }
+
+    MdTabBodyActiveState localPosition = _position;
+
+    if (_position == MdTabBodyActiveState.CENTER && !_portalHost.hasAttached() && content != null) {
+      _portalHost.attach(content);
+    }
+
+    // Emulate animations framework from Angular 2 TS
+    new Timer(new Duration(milliseconds: 1), () => onTranslateTabStarted(oldPosition, localPosition));
+    new Timer(new Duration(milliseconds: 500), () => onTranslateTabComplete(localPosition));
+  }
+
+  ElementRef _elementRef;
+  Dir _dir;
+  MdTabBody(ElementRef _elementRef, @Optional() Dir _dir) {}
+
+  ngOnInit() {
+    if (_position == MdTabBodyActiveState.CENTER && !_portalHost.hasAttached()) {
+      _portalHost.attach(content);
+    }
+  }
+
+  ngOnAfterViewInit() {
+    _bodyContainer.nativeElement.style.transition = '500ms cubic-bezier(0.35, 0, 0.25, 1)';
+  }
+
+  onTranslateTabStarted(MdTabBodyActiveState fromState, MdTabBodyActiveState toState) {
+    switch(toState) {
+      case MdTabBodyActiveState.LEFT:
+        _bodyContainer.nativeElement.style.transform = 'translate3d(-100%, 0, 0)';
+        break;
+      case MdTabBodyActiveState.CENTER:
+        _bodyContainer.nativeElement.style.transform = 'translate3d(0, 0, 0)';
+        break;
+      case MdTabBodyActiveState.RIGHT:
+        _bodyContainer.nativeElement.style.transform = 'translate3d(100%, 0, 0)';
+        break;
+    }
+
+    if (fromState != null && toState == MdTabBodyActiveState.CENTER) {
+      _onTabBodyCentering.add(_elementRef.nativeElement.clientHeight);
+    }
+  }
+
+  onTranslateTabComplete(MdTabBodyActiveState toState) {
+    if ((toState == MdTabBodyActiveState.LEFT || toState == MdTabBodyActiveState.RIGHT)
+        && _position != MdTabBodyActiveState.CENTER) {
+      // If the end state is that the tab is not centered, then detach the content.
+      _portalHost.detach();
+    }
+
+    if ((toState == MdTabBodyActiveState.CENTER) &&
+      _position == MdTabBodyActiveState.CENTER) {
+      _onTabBodyCentered.add(null);
+    }
+  }
+
+  /** The text direction of the containing app. */
+  /*LayoutDirection getLayoutDirection() {
+    return _dir && _dir.value === 'rtl' ? 'rtl' : 'ltr';
+  }*/
+}
+
 const List MD_TABS_DIRECTIVES = const [
   MdTabGroup,
   MdTabLabel,
   MdTab,
   MdTabNavBar,
   MdTabLink,
+  MdTabBody,
 ];
+
