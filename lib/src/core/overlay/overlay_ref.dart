@@ -79,7 +79,9 @@ class OverlayRef implements PortalHost {
 
     // Add class to fade-in the backdrop after one frame.
     window.animationFrame.then/*<num>*/((num _) {
-      _backdropElement.classes.add('md-overlay-backdrop-showing');
+      if (_backdropElement != null) {
+        _backdropElement.classes.add('md-overlay-backdrop-showing');
+      }
     });
   }
 
@@ -88,19 +90,29 @@ class OverlayRef implements PortalHost {
     var backdropToDetach = _backdropElement;
 
     if (backdropToDetach != null) {
+      var finishDetach = () {
+        // It may not be attached to anything in certain cases (e.g. unit tests).
+        if (backdropToDetach != null && backdropToDetach.parentNode != null) {
+          backdropToDetach.remove();
+        }
+
+        // It is possible that a new portal has been attached to this overlay since we started
+        // removing the backdrop. If that is the case, only clear the backdrop reference if it
+        // is still the same instance that we started to remove.
+        if (_backdropElement == backdropToDetach) {
+          _backdropElement = null;
+        }
+      };
+
       backdropToDetach
         ..classes
             .removeAll(['md-overlay-backdrop-showing', _state.backdropClass])
-        ..onTransitionEnd.listen((_) {
-          backdropToDetach.remove();
+        ..onTransitionEnd.listen((_) => finishDetach());
 
-          // It is possible that a new portal has been attached to this overlay since we started
-          // removing the backdrop. If that is the case, only clear the backdrop reference if it
-          // is still the same instance that we started to remove.
-          if (_backdropElement == backdropToDetach) {
-            _backdropElement = null;
-          }
-        });
+      // If the backdrop doesn't have a transition, the `transitionend` event won't fire.
+      // In this case we make it unclickable and we try to remove it after a delay.
+      backdropToDetach.style.pointerEvents = 'none';
+      new Timer(new Duration(milliseconds: 500), () => finishDetach());
     }
   }
 }
