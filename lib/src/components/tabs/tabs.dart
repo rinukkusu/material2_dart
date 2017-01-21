@@ -326,7 +326,6 @@ class MdTabBody implements OnInit, AfterViewInit {
 
     // Emulate animations framework from Angular 2 TS
     new Timer(new Duration(milliseconds: 1), () => onTranslateTabStarted(oldPosition, localPosition));
-    new Timer(new Duration(milliseconds: 500), () => onTranslateTabComplete(localPosition));
   }
 
   ElementRef _elementRef;
@@ -355,6 +354,8 @@ class MdTabBody implements OnInit, AfterViewInit {
         _bodyContainer.nativeElement.style.transform = 'translate3d(100%, 0, 0)';
         break;
     }
+
+    (_bodyContainer.nativeElement as DivElement).onTransitionEnd.listen((_) => onTranslateTabComplete(toState));
 
     if (fromState != null && toState == MdTabBodyActiveState.CENTER) {
       _onTabBodyCentering.add(_elementRef.nativeElement.clientHeight);
