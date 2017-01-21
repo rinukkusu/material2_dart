@@ -1,6 +1,7 @@
 import 'dart:html';
 import 'package:angular2/angular2.dart';
 import '../ink_bar.dart';
+import '../../../core/ripple/ripple.dart';
 
 /// Provides anchored navigation with animated ink bar.
 @Component(
@@ -38,4 +39,16 @@ class MdTabLink {
   }
 
   MdTabLink(this._mdTabNavBar, this._elementRef);
+}
+
+/**
+ * Simple directive that extends the ripple and matches the selector of the MdTabLink. This
+ * adds the ripple behavior to nav bar labels.
+ */
+@Directive(
+  selector: '[md-tab-link]',
+)
+class MdTabLinkRipple extends MdRipple {
+  MdTabLinkRipple(ElementRef _element)
+    : super(_element);
 }

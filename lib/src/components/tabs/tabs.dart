@@ -63,7 +63,8 @@ class MdTab implements OnInit {
     selector: "md-tab-group",
     templateUrl: "tab_group.html",
     styleUrls: const ["tab_group.scss.css"],
-    directives: const [PortalHostDirective, MdTabLabelWrapper, MdInkBar])
+    directives: const [PortalHostDirective, MdTabLabelWrapper, MdInkBar,
+      MdTabLinkRipple, MdTabBody])
 class MdTabGroup implements AfterViewChecked {
   NgZone _zone;
   @ContentChildren(MdTab)
