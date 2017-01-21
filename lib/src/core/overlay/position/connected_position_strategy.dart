@@ -36,6 +36,11 @@ class ConnectedPositionStrategy implements PositionStrategy {
   /** The origin element against which the overlay will be positioned. */
   Element _origin;
 
+  StreamController<ConnectedOverlayPositionChange> _onPositionChange =
+    new StreamController<ConnectedOverlayPositionChange>();
+  /** Emits an event when the connection point changes. */
+  Stream<ConnectedOverlayPositionChange> get onPositionChange => _onPositionChange.stream;
+
   ConnectedPositionStrategy(ElementRef _connectedTo, this._originPos,
       this._overlayPos, this._viewportRuler)
       : this.connectedTo = _connectedTo,
@@ -58,6 +63,7 @@ class ConnectedPositionStrategy implements PositionStrategy {
     // We use the viewport rect to determine whether a position would go off-screen.
     final viewportRect = _viewportRuler.getViewportRect();
     Point firstOverlayPoint;
+    bool isFirstPosition = true;
     // We want to place the overlay in the first of the preferred positions such that the
     // overlay fits on-screen.
     for (var pos in _preferredPositions) {
@@ -70,8 +76,12 @@ class ConnectedPositionStrategy implements PositionStrategy {
       if (_willOverlayFitWithinViewport(
           overlayPoint, overlayRect, viewportRect)) {
         this._setElementPosition(element, overlayPoint);
+        if (!isFirstPosition) {
+          _onPositionChange.add(new ConnectedOverlayPositionChange(pos));
+        }
         return new Future<Null>.value();
       }
+      isFirstPosition = false;
     }
     // TODO(jelbourn): fallback behavior for when none of the preferred positions fit on-screen.
     // For now, just stick it in the first position and let it go off-screen.

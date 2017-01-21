@@ -34,3 +34,9 @@ class ConnectionPositionPair {
         overlayX = overlay.overlayX,
         overlayY = overlay.overlayY;
 }
+
+/** The change event emitted by the strategy when a fallback position is used. */
+class ConnectedOverlayPositionChange {
+  ConnectionPositionPair connectionPair;
+  ConnectedOverlayPositionChange(this.connectionPair);
+}
